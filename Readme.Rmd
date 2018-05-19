@@ -16,8 +16,8 @@ Copy of https://github.com/ropensci/unconf18/issues to facilitate offline readin
 
 Downloaded from original site using: https://github.com/jlord/offline-issues
 
-```{r, echo=FALSE}
-knitr::kable(data.frame(issue = paste0("html/", dir("html", "*.html"))))
-
+```{r, echo=FALSE, results = 'asis'}
+issue <- dir("html", "*.html")
+knitr::kable(data.frame(issue = paste0("[", issue, "](html/", issue, ")<br>")))
 ```
 
