@@ -4,13 +4,7 @@ author: "Joyce Robbins"
 date: "5/19/2018"
 output:
   html_document: default
-  github_document: default
 ---
-
-```{r, echo=FALSE}
-# Don't edit .md version
-```
-
 
 # unconf18-issues
 
@@ -19,7 +13,7 @@ Copy of https://github.com/ropensci/unconf18/issues to facilitate offline readin
 Downloaded from original site using: https://github.com/jlord/offline-issues
 
 ```{r, echo=FALSE, results = 'asis'}
-issue <- dir("html", "*.html")
-knitr::kable(data.frame(issue = paste0("[", issue, "](html/", issue, ")<br>")))
+issues <- dir("html", "*.html")
+knitr::kable(data.frame(issue = paste0("[", issues, "](html/", issues, ")<br>")))
 ```
 
