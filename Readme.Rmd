@@ -1,0 +1,23 @@
+---
+title: "Readme"
+author: "Joyce Robbins"
+date: "5/19/2018"
+output: github_document
+---
+
+```{r, echo=FALSE}
+# Don't edit .md version
+```
+
+
+# unconf18-issues
+
+Copy of https://github.com/ropensci/unconf18/issues to facilitate offline reading
+
+Downloaded from original site using: https://github.com/jlord/offline-issues
+
+```{r, echo=FALSE}
+knitr::kable(data.frame(issue = paste0("html/", dir("html", "*.html"))))
+
+```
+
