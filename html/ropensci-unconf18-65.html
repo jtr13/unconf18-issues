@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Extensions to R / RStudio&#x27;s autocompletion system</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#65</span>
+        </p>
+        <h1>Extensions to R / RStudio&#x27;s autocompletion system</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jimhester">jimhester</a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body">
+            <p>This was proposed by @kevinushey for last year&#39;s unconf, but he unfortunately Kevin had to miss the event last year. (<a href="https://github.com/ropensci/unconf17/issues/52">https://github.com/ropensci/unconf17/issues/52</a>)</p>
+<p>In the meantime I have started a proof of concept package <a href="https://github.com/jimhester/completeme">https://github.com/jimhester/completeme</a>, that implements some of what he proposed, but it would be great to improve the RStudio IDE integration and discuss ways to make this more full featured and robust, both for terminal completions, things like <a href="https://github.com/REditorSupport/languageserver">https://github.com/REditorSupport/languageserver</a> and in the IDE.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jennybc">
+              jennybc
+            </a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body"><p>I&#39;d love to see this, as you well know @jimhester. readxl was an early target of your explorations (unmerged PR: <a href="https://github.com/tidyverse/readxl/pull/320)">https://github.com/tidyverse/readxl/pull/320)</a>.</p>
+<p>For context, this would be a nice way to expose, say, a set of example inputs in a package. In the world of readr and readxl, you could make it easy for users to get the possible filenames in front of their eyeballs and then pick one.</p>
+<p>While I&#39;m wishing ... it would be interesting to see if the developer interface could be more like <code>match.arg()</code>, i.e. your wishes about auto-completion are expressed in the target function itself vs. elsewhere in the package.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

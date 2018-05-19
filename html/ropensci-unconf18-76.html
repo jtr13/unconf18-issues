@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Incorporate word doc track changes back into R markdown</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#76</span>
+        </p>
+        <h1>Incorporate word doc track changes back into R markdown</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">goldingn</a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body">
+            <p>I know a lot of folks who are put off using R markdown for reports and scientific papers because they know it&#39;ll be hard to incorporate the inevitable Word doc tracked changes they&#39;ll get back from their collaborators/supervisors. </p>
+<p>I <em>think</em> pandoc could be used to convert both the original and edited doc back to markdown, and that could then be diffed to find the changes in text part of the markdown (if it&#39;s a word doc, only text will have changed). It may then be possible to detect how those bits of text correspond to the R markdown document, and apply the changes there. </p>
+<p>It would also be nice to automate rendering of the changes. That can be done for pdfs via latexdiff: <a href="http://timotheepoisot.fr/2014/07/10/markdown-track-changes/">http://timotheepoisot.fr/2014/07/10/markdown-track-changes/</a>
+HTML might be trickier.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>This is a whim and not something I&#39;ve thought much about. If someone says &quot;this has already been done&quot; or &quot;this is not possible&quot; then I&#39;ll be very happy to have my choice of project narrowed :) </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Somewhat related to #73</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>OK, so this definitely duplicates part of #42. In fact it probably serves as a half-decent summary of another project idea from that thread: automating @mmulvahill&#39;s workflow for dealing with track changes from word</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>It may then be possible to detect how those bits of text correspond to the R markdown document, and apply the changes there.</p>
+</blockquote>
+<p>I&#39;m thinking you could just <code>grep()</code> for text matching that which changed in the original document, grabbing some sentences on either side to disambiguate multiple matches.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>a stretch goal could be to incorporate word comments into the R markdown using <a href="https://github.com/ropensci/unconf18/issues/74#issuecomment-390337985">this handy little trick</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>I talk to myself in GitHub issues quite a lot.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

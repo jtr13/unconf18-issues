@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Meta-Redux: Shiny App to Help You Choose What to Work On</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#45</span>
+        </p>
+        <h1>Meta-Redux: Shiny App to Help You Choose What to Work On</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/seankross">seankross</a>
+            <time>4/27/2018</time>
+          </div>
+          <div class="body">
+            <p>Hello fellow Excel jockeys, metadata journalists, and SPSS licensees,</p>
+<p>Just like last year (<a href="https://github.com/ropensci/unconf17/issues/84">https://github.com/ropensci/unconf17/issues/84</a>) I set up a little app to help you browse proposed projects: <a href="https://jhubiostatistics.shinyapps.io/runconf18-app/">https://jhubiostatistics.shinyapps.io/runconf18-app/</a>. If there are other features you want to see in the app let me know on the <a href="https://github.com/seankross/runconf17-app">project repo</a> or better yet send me a pull request! </p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">
+              mpadge
+            </a>
+            <time>4/27/2018</time>
+          </div>
+          <div class="body"><p>I was waiting fur that reincarnation - thanks @seankross </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>@seankross we&#39;ve now added labels to issues and they come with emojis. 💃  @noamross made me notice the emojis are rendered as text, not emojis, in your app. Do you think this could be solved easily? No worry if not, of course.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/seankross">
+              seankross
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>@maelle Fixed: <a href="https://github.com/seankross/runconf17-app/pull/1">https://github.com/seankross/runconf17-app/pull/1</a> Thank you @noamross!</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,377 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Toward a general-purpose API response data tidier</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#24</span>
+        </p>
+        <h1>Toward a general-purpose API response data tidier</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/aedobbyn">aedobbyn</a>
+            <time>4/14/2018</time>
+          </div>
+          <div class="body">
+            <p>I think the goal for the unconf would be to lay the foundation for an eventual package that is meant to sit in a user’s pipeline directly after a <code>jsonlite::fromJSON()</code> call, in place of initial bespoke munging of the nested list. The package would:</p>
+<ul>
+<li>Tidy the nested list output into a tibble with one nested row per input<ul>
+<li>Will be a best guess at how the user wants data formatted; at worst it should be easier to work with than the raw output</li>
+</ul>
+</li>
+<li>Allow for recursively filling <code>.empty</code> values at each level of the list (i.e., convert empty elements and <code>NULL</code>s to <code>NA</code>s or a user-defined value) so the tibble can be easily unnested</li>
+<li>Include special handling for the most commonly used APIs so we know we’re getting these right (?)</li>
+</ul>
+<p>The first step here (which is the goal for the unconf -- many thanks to @jennybc for working through the initial idea with me) seems to me to be defining patters in 1) API requests and their resulting responses and 2) in the most common/successful strategies people use in their tidying process. I think it would be useful to query a few more-or-less representative RESTful APIs and note the commonalities in the solutions for tidying them. The idea would be to extract the intersection of these solutions into general-purpose verbs and also to identify where these approaches fail.</p>
+<p>I could see this package being useful not just for one-off data grabbing and tidying jobs but also for developing packages that interface with an arbitrary API. Could of course be used on any nested list, but I think it makes sense to keep the scope of the package focused to API data.</p>
+<p>For a name, I’m thinking <strong><code>roomba</code></strong>[^1] but definitely not married to it. </p>
+<p>[^1]: Provided that’s cool with the relevant trademark attorneys :satisfied:</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jimhester">
+              jimhester
+            </a>
+            <time>4/28/2018</time>
+          </div>
+          <div class="body"><p>The <a href="https://developer.github.com/v4">GitNub graphQL API</a> is one common source of these wonderfully nested lists, likely any graphQL based API would produce similar nested outputs. </p>
+<p>I have found the data pretty cumbersome to work with as nested lists, so definitely think this is an area where additional tooling or a different data representation like you describe would help.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/aedobbyn">
+              aedobbyn
+            </a>
+            <time>4/28/2018</time>
+          </div>
+          <div class="body"><p>Awesome thanks for pointing to that @jimhester!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>4/29/2018</time>
+          </div>
+          <div class="body"><p>This sounds fantastic, I&#39;m definitely interested in strategies for working with these deeply nested lists.  @sckott , @maelle and I have recently been playing with <code>jq</code> in this context; e.g. <a href="https://ropensci.org/blog/2018/04/26/rectangling-onboarding/">https://ropensci.org/blog/2018/04/26/rectangling-onboarding/</a>.  <code>jq</code> is cool and all but I think it would be great to have a more native R interface for doing these kind of queries (analogous to <code>dplyr</code> instead of SQL).  </p>
+<p>I&#39;m also curious about other query strategies for deeply nested JSON (i.e. other than jq).  I&#39;ve found some cool thinks can be done using the functions from @jeroen&#39;s <code>jsonld</code> package, and have also played around using SPARQL to do graph queries on JSON files (eg <a href="https://ropensci.github.io/rdflib/articles/rdf_intro.html)">https://ropensci.github.io/rdflib/articles/rdf_intro.html)</a>.  Again both of these approaches help do things that can be cumbersome with <code>purrr</code> alone but could use some nicer interfaces I think.  SPARQL queries can be tricky to write (at least for me, I struggle with pure SQL queries too), but the nice thing is the return type is essentially always a <code>data.frame</code>, so no additional rectangling needed once you know how to ask for what you want.</p>
+<p>I&#39;ve also been meaning to dive more into @hrbrmstr&#39;s excellent little book, <a href="https://github.com/hrbrmstr/drill-sergeant-rstats">https://github.com/hrbrmstr/drill-sergeant-rstats</a>,  on using Apache Drill from R to query large numbers of deeply nested JSON files.  </p>
+<p>Both the SPARQL and Drill approaches can optionally communicate over ODBC protocols, which should make some interesting potential for integration with <code>dplyr</code> / <code>dbplyr</code> and the great work folks at RStudio have been doing with database connections.  Not really sure what is possible in that regard but would love to explore more.  </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jimhester">
+              jimhester
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>Agreed, it would be great to have something you wouldn&#39;t need to learn a new DSL for, particularly because there doesn&#39;t seem to be one consensus standard DSL used to query JSON like there is for XML (XQuery).</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/sckott">
+              sckott
+            </a>
+            <time>5/11/2018</time>
+          </div>
+          <div class="body"><p>Its possible we could build something on top of <code>jqr</code> - since it is very fast, and jeroen is working on streaming, so it could be used for those large data problems as well.  I think we could build in operations like replacing empty/NULL values with NA, and similar nasty problems with nested data. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hrbrmstr">
+              hrbrmstr
+            </a>
+            <time>5/11/2018</time>
+          </div>
+          <div class="body"><p>I like the <code>jqr</code> suggestion (Drill, et. al. is a pretty heavyweight dep), esp if we build filters / filter helpers (I&#39;m not really a fan of the syntax b/c it messes with my own mental model of how it ought to work but that&#39;s not really a big issue and it&#39;s a great tool).</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/aedobbyn">
+              aedobbyn
+            </a>
+            <time>5/11/2018</time>
+          </div>
+          <div class="body"><p>Building something on top of <code>jqr</code> sounds useful, rather than doing all of the munging in an R object. Even if we only get so far as sniffing out and <code>NA</code>ifying <code>NULL</code>s and making it easier to flatten nested data in a way that usually makes sense, I think that&#39;s a win.</p>
+<p>+1 for abstracting away potentially multiple DSLs for querying JSON.</p>
+<p>@hrbrmstr I don&#39;t know anything about Drill but fwiw the Preface of your book is fantastic.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>5/12/2018</time>
+          </div>
+          <div class="body"><p>Agree with all of the above!  @sckott and @aedobbyn both identify the nuisance of <code>empty</code>, and I agree with @hrbrmstr &#39;s observation that the syntax isn&#39;t super intuitive.  Would be nice to have a more <code>dplyr</code>-esque DSL, e.g. something more like</p>
+<pre><code class="lang-r">jsonblob %&gt;% filter(repo.owner.name == &quot;hrbrmstr&quot;)
+</code></pre>
+<p>Maybe it&#39;s already obvious, but just wanted to note that I think this would provide a nice way to query R lists in general (since there&#39;s a pretty tight JSON&lt;-&gt;list mapping); such an interface isn&#39;t specific to just data already in JSON or just REST APIs.  </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/aedobbyn">
+              aedobbyn
+            </a>
+            <time>5/12/2018</time>
+          </div>
+          <div class="body"><p>Exactly!</p>
+<p>Originally I&#39;d been thinking of this at the level of something that&#39;s already an R object but riddled with empty vectors etc. so workflow would look like </p>
+<pre><code>jsonblob %&gt;% 
+  jsonlite::fromJSON() %&gt;% 
+  roomba::clean()
+</code></pre><p>or something to that effect. But if doing the <code>clean</code>ing or the <code>filter</code>ing or whtever it may be on the <code>jsonblob</code> itself makes more sense then I&#39;m all for that.</p>
+<p>I still think a useful first step will be in identifying common patterns and stumbling blocks in nested structures like API response objects and constructing techniques for cleaning them in ways that are safe make sense in the majority of cases.</p>
+<p>And totally agreed @cboettig I think we can tackle a lot of nasty nested list cases for free by addressing the API data specifically. (Maybe it&#39;s also worth identifying other common list annoyances that don&#39;t manifest in API response data, though.)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Just spitballing a bit further on this.  Not sure how common this case is for others, but often there&#39;s a JSON object/blob with some pattern I understand and want to extract without having to make explicit references to just how deep it is buried.  For instance, something like the example below:</p>
+<pre><code>{
+&quot;stuff&quot;: [{
+               &quot;buried&quot;: [
+                               &quot;deep&quot;: [
+                                             {
+                                              &quot;goodstuff&quot;: &quot;here&quot;,
+                                              &quot;name&quot;: &quot;Bob Rudis&quot;,
+                                              &quot;secret_power&quot;: ..., 
+                                             },
+                                             {
+                                              &quot;goodstuff&quot;: &quot;here&quot;,
+                                              &quot;name&quot;: &quot;Amanda Dobbyn&quot;,
+                                              &quot;secret_power&quot;: ..., 
+                                              &quot;more_nested_stuff&quot;: { ... }
+                                             },
+
+                                             ]
+                                ]
+              },
+              {
+               ...
+              }
+              ]
+
+}
+</code></pre><p>Maybe I just want the value of the <code>name</code>s of anything found in JSON objects that also contain the key-value pair <code>&quot;goodstuff&quot;: &quot;here&quot;</code>.  More generally, I&#39;d like to just jump to that point in the &quot;graph&quot; and navigate from there, e.g. maybe I want to go up to the parent object and get some additional property, etc.  </p>
+<p>Maybe this can be done in <code>JQ</code> already, but it&#39;s not intuitive to me how to express it.  (particularly if I want to start &quot;walking the graph&quot; from that point without specifying just how I descended down to that node... My ideal interface would let me have some notion of variables, and let me return all matches to the requested variables in columns  of a <code>data.frame</code>.</p>
+<p>(Not sure if the above is at all helpful as illustration, but will bring some real examples of highly nested json blobs I struggle with for fodder for an API design)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hrbrmstr">
+              hrbrmstr
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>that made me think of something fairly obscure: &quot;GraphGrep&quot; (<a href="https://cs.nyu.edu/shasha/papers/graphgrep/icpr2002.pdf">https://cs.nyu.edu/shasha/papers/graphgrep/icpr2002.pdf</a>) and a thing that kinda built on it &quot;Closure Trees&quot; (<a href="https://www.cs.ucsb.edu/~dbl/papers/he_icde_2006.pdf)">https://www.cs.ucsb.edu/~dbl/papers/he_icde_2006.pdf)</a>. It does require building a graph and index but for sufficiently large structures it might be worth it. For smaller ones that index build time might be small enough. @yonicd has been layering in some recursion on tidyverse bits but we cld also likely scaffold a query language on to <code>rapply()</code> if <code>jq</code> cannot do it.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/sckott">
+              sckott
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>just having a play @cboettig with your eg above cleaned up:</p>
+<pre><code class="lang-r">x &lt;- &#39;{
+&quot;stuff&quot;: {
+   &quot;buried&quot;: {
+      &quot;deep&quot;: [
+       {
+        &quot;goodstuff&quot;: &quot;here&quot;,
+        &quot;name&quot;: &quot;Bob Rudis&quot;,
+        &quot;secret_power&quot;: 5
+       },
+       {
+        &quot;goodstuff&quot;: &quot;here&quot;,
+        &quot;name&quot;: &quot;Amanda Dobbyn&quot;,
+        &quot;secret_power&quot;: 4, 
+        &quot;more_nested_stuff&quot;: 4
+        }
+      ],
+      &quot;alsodeep&quot;: 2342423234,
+      &quot;deeper&quot;: {
+        &quot;foo&quot;: [
+          {
+            &quot;goodstuff&quot;: 5,
+            &quot;name&quot;: &quot;barb&quot;
+          }
+        ]
+      }
+    }
+}}&#39;
+</code></pre>
+<pre><code class="lang-r">jqr::jq(x, &#39;recurse(.[]?) | objects | select(has(&quot;goodstuff&quot;))&#39;)
+[
+    {
+        &quot;goodstuff&quot;: &quot;here&quot;,
+        &quot;name&quot;: &quot;Bob Rudis&quot;,
+        &quot;secret_power&quot;: 5
+    },
+    {
+        &quot;goodstuff&quot;: &quot;here&quot;,
+        &quot;name&quot;: &quot;Amanda Dobbyn&quot;,
+        &quot;secret_power&quot;: 4,
+        &quot;more_nested_stuff&quot;: 4
+    },
+    {
+        &quot;goodstuff&quot;: 5,
+        &quot;name&quot;: &quot;barb&quot;
+    }
+]
+</code></pre>
+<p>the jq command <code>&#39;recurse(.[]?) | objects | select(has(&quot;goodstuff&quot;))&#39;</code> is clearly not something we&#39;d want a end user to have to deal with, but could be hidden under some nicer syntax 😼 </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Thanks @sckott , that&#39;s awesome ✨ .  And thanks for getting us to a reproducible example.  </p>
+<p>Minor question first: that matches all blobs with the property <code>goodstuff</code>, it would be nice to match conditionally, so we only get the blob if <code>&quot;goodstuff&quot;: &quot;here&quot;</code>, (i.e. <code>barb</code> should not be included).</p>
+<p>One thing that I struggle with in JQ is that it&#39;s not clear how to walk up and down the graph though -- imagine I want the number from the <code>alsodeep</code> field as an <code>id</code> for everything in that blob?  And maybe I also want to descend deeper from the <code>goodstuff</code> and pull out some other element, like <code>more_nested_stuff.b</code> (if <code>more_nested_stuff</code> actually had more nesting in it, as in  my <a href="https://gist.github.com/cboettig/e8a0947ced5224cd468af941dda002c6#file-ex-json">modified toy example</a>.  </p>
+<p>The syntax is super awkward, but it&#39;s possible to do this kind conditional filter and walking with SPARQL variables.  The query: </p>
+<pre><code class="lang-r">q &lt;- &#39;
+PREFIX x: &lt;x:&gt;
+SELECT ?name, ?power ?b ?id
+WHERE { 
+  ?object x:goodstuff &quot;here&quot; .
+  ?object x:name ?name .
+  OPTIONAL { ?object x:secret_power      ?power } .
+  OPTIONAL { ?object x:more_nested_stuff ?y .
+             ?y      x:b                 ?b} .
+  OPTIONAL {
+             ?parent x:deep ?object .
+             ?parent x:alsodeep ?id
+  }
+}&#39;
+rdf_query(blob, q)
+</code></pre>
+<p>Returns a nice compact <code>tibble</code> containing only the columns named in <code>SELECT</code>.   (note that anything proceeded by a <code>?</code> is a variable, and we can call it wahtever we want.  Note that variables can be used to indicate the object (<code>?object</code>, <code>?parent</code>, the key (not shown), or the value <code>?power</code>, <code>?id</code>, <code>?y</code>)</p>
+<pre><code># A tibble: 3 x 4
+  name          power     b          id
+  &lt;chr&gt;         &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;
+1 scott            NA    NA         NA 
+2 Amanda Dobbyn     4     2 2342423234.
+3 Bob Rudis         5    NA 2342423234.
+</code></pre><p>Note that <code>barb</code> is absent (because she doesn&#39;t have <code>&quot;goodstuff&quot;: &quot;here&quot;</code>, and <code>scott</code> is included.  Dropping the <code>OPTIONAL</code> bits would cause rows missing those elements to be omitted.  </p>
+<p>I know the SPARQL syntax is basically 💩 (particularly with the ugly prefix stuff), but it is perhaps amenable to being broken down into a <code>dplyr</code> like syntax in much the way <code>dplyr</code> already does for SQL?  I&#39;m not sure that we really want to use <code>rdflib</code>, but I am intrigued by the ability to walk the graph with variables and select and filter with SQL like statements...</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>(p.s. meant to include reproducible code link as <a href="https://gist.github.com/cboettig/e8a0947ced5224cd468af941dda002c6">gist</a>)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jimhester">
+              jimhester
+            </a>
+            <time>5/19/2018</time>
+          </div>
+          <div class="body"><p>Alternatively we could just use R to walk the list, in <a href="https://github.com/jimhester/tidyversedashboard/blob/5e22668d80d7ab15efe237a2dfd961472ec06141/R/issue_progress.R#L10-L27">tidyversedashboard</a> I wrote a simple function to do a depth first search of a nested list returning the index of the first location that matched a predicate function. Extending this to return indexes of all the matches rather than only the first would solve this problem, here is the example with the current implementation which returns only the first match.</p>
+<pre><code class="lang-r">dfs_idx &lt;- function(x, f) {
+  res &lt;- integer()
+  walk &lt;- function(x, depth) {
+    for (i in seq_along(x)) {
+      if (isTRUE(tryCatch(f(x[[i]]), error = function(e) FALSE))) {
+        res[[depth]] &lt;&lt;- i
+        return(TRUE)
+      } else {
+        if (is.list(x[[i]]) &amp;&amp; isTRUE(walk(x[[i]], depth + 1))) {
+          res[[depth]] &lt;&lt;- i
+          return(TRUE)
+        }
+      }
+    }
+  }
+  walk(x, 1)
+  res
+}
+
+x &lt;- jsonlite::fromJSON(&#39;{
+&quot;stuff&quot;: {
+   &quot;buried&quot;: {
+      &quot;deep&quot;: [
+       {
+        &quot;goodstuff&quot;: &quot;here&quot;,
+        &quot;name&quot;: &quot;Bob Rudis&quot;,
+        &quot;secret_power&quot;: 5
+       },
+       {
+        &quot;goodstuff&quot;: &quot;here&quot;,
+        &quot;name&quot;: &quot;Amanda Dobbyn&quot;,
+        &quot;secret_power&quot;: 4, 
+        &quot;more_nested_stuff&quot;: 4
+        }
+      ],
+      &quot;alsodeep&quot;: 2342423234,
+      &quot;deeper&quot;: {
+        &quot;foo&quot;: [
+          {
+            &quot;goodstuff&quot;: 5,
+            &quot;name&quot;: &quot;barb&quot;
+          }
+        ]
+      }
+    }
+  }
+}&#39;, simplifyVector = FALSE)
+
+x[[dfs_idx(x, function(x) { x$goodstuff == &quot;here&quot; })]]$name
+#&gt; [1] &quot;Bob Rudis&quot;
+</code></pre>
+<p>Created on 2018-05-19 by the <a href="http://reprex.tidyverse.org">reprex package</a> (v0.2.0).</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

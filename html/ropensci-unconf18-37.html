@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Discussion: Expanding peer review of code</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#37</span>
+        </p>
+        <h1>Discussion: Expanding peer review of code</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">noamross</a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body">
+            <p>rOpenSci has long been interested in incubating projects that adopt our approach to open peer review of code in areas outside our <a href="https://github.com/ropensci/onboarding/blob/master/policies.md#aims-and-scope">scope</a>, such as in other languages or, especially for implementations of statistical algorithms.  A few unconf attendees (inc. @mmulvahill, @dynamicwebpaige, @jenniferthompson) have expressed interest in this, so it would be good to set aside time to discuss prospects for new code review projects. I suggest this would be a second-day 60-90 minute lunch discussion rather than a full two-day project, but depending on people&#39;s interest some of us could run with it!</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>🙋 I also am very interested in this, for software review at Methods in Ecology and Evolution and other domain-specific journals publishing software descriptors. The main problem I&#39;ve faced handling these papers at MEE is that the pool of potential reviewers has very little experience reviewing code and usability. </p>
+<p>Lunch discussion sounds like a great idea! </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jenniferthompson">
+              jenniferthompson
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>Sounds like a plan! 🎉 </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mmulvahill">
+              mmulvahill
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>A colleague and I have been looking into ways to improve the availability/quality/dissemination of new biostats tools &amp; methods.  We started with a series of 30+ interviews ~2 yrs ago with biostatisticians and others with related experience (including @karthik).  The overall outcome was that there&#39;s room for biostats-trained software devs within departments with some forethought (if funding is included in grants), and that rOpenSci had already made great progress on the curation and quality issues we also came across.  </p>
+<p>We&#39;ve been working on the software dev side but not the curation/quality, so hearing you&#39;re interested in incubating other domains made my ears perk up.</p>
+<p>Our focus has been on methods developed within <a href="https://ncats.nih.gov/ctsa">CTSA&#39;s</a> and the Biostats, Epi, &amp; Research Design (BERD) arms of these institutional grants, for no other reason that&#39;s been our funding source.  Combining forces with others from other domains would be 👍 👍 👍</p>
+<p>Look forward to talking more -- lunch would be great!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/seaaan">
+              seaaan
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>I would be interested in this too. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/lauracion">
+              lauracion
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>I am also interested in this discussion - mostly as a listener I believe.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jhollist">
+              jhollist
+            </a>
+            <time>4/27/2018</time>
+          </div>
+          <div class="body"><p>While I won&#39;t be in Seattle, I am very interested in the outcome of this discussion.  </p>
+<p>We are currently working on implementing some level of code review in our internal EPA review process.  My plan was to borrow heavily from rOpenSci onboarding.  Will anxiously watch this issue over the next few weeks!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>4/28/2018</time>
+          </div>
+          <div class="body"><p>Count me in. I would love to learn more about the current review process and its potential for expansion.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/boshek">
+              boshek
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>@goldingn: I think this is quite a good problem statement. </p>
+<blockquote>
+<p>The main problem I&#39;ve faced handling these papers at MEE is that the pool of potential reviewers has very little experience reviewing code and usability.</p>
+</blockquote>
+<p>I get the feeling that this is a bigger task that I realize but I wonder about the feasibility of a suite of code review tools. Off the top of my head I can think of the following packages that would be useful when evaluating code:</p>
+<ul>
+<li>lobstr</li>
+<li>usethis</li>
+<li>goodpractice</li>
+<li>codetools</li>
+<li>profvis</li>
+<li>lintr</li>
+<li>styler</li>
+</ul>
+<p>I wonder if it would be possible to develop a sort of devtools for reviewers (<code>revtools</code>?) whereby someone approaching a potential review project could expand on the tools available in <a href="https://github.com/ropenscilabs/pkgreviewr">pkgreviewr</a>. If one could develop a clear API, it could help a possible reviewer. The idea here is that it would give a possible reviewer the flexibility to ask some questions of the code itself. For example <code>lobstr::cst()</code> comes to mind as a useful function to provide a reviewer when you have function call upon function call. The idea here would be to provide flexible, rather than prescriptive, tools. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>@stephlocke started working on sthg similar in <a href="https://github.com/lockedata/PackageReviewR">https://github.com/lockedata/PackageReviewR</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/stefaniebutland">
+              stefaniebutland
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>@annakrystalli <code>pkgreviewr</code> mentioned 👆</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>@boshek +1 for the name <code>revtools</code>!</p>
+<p>Yeah, something like that would be super helpful (though even just a written guide/rubric to get people started would help people in our case).</p>
+<p>I had checking out <code>pkgreviewer</code> on my to do list, but <code>PackageReviewR</code> looks awesome too! </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>Just bookmarking this: we had a conversation a bit ago with an organization interested in our review process.  It wasn&#39;t public, but they asked good questions about initiating the process, so I just (very roughly) edited the notes down to our one-sided responses: <a href="https://docs.google.com/document/d/14m1Rkp4WKPpGn585r21g3xcb0mVDHy3Ov9N2qUdqetA/edit">https://docs.google.com/document/d/14m1Rkp4WKPpGn585r21g3xcb0mVDHy3Ov9N2qUdqetA/edit</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>And, many might have already seen these, but some relevant posts:</p>
+<ul>
+<li><a href="https://ropensci.org/blog/2016/03/28/software-review/">https://ropensci.org/blog/2016/03/28/software-review/</a></li>
+<li><a href="https://ropensci.org/blog/2017/09/01/nf-softwarereview/">https://ropensci.org/blog/2017/09/01/nf-softwarereview/</a></li>
+</ul>
+<p>@goldingn we feel you, building and maintaining the reviewer base is one of the biggest challenges, one I&#39;m happy to chat more about.  From the second post:</p>
+<blockquote>
+<p>One of the core challenges and rewards of our work has been developing a community of reviewers. Reviewing is a high-skill activity. Reviewers need expertise in the programming methods used in a software package and also the scientific field of its application. (“Find me someone who knows sensory ecology and sparse data structures!”) They need good communications skills and the time and willingness to volunteer. Thankfully, the open-science and open-source worlds are filled with generous, expert people. We have been able to expand our reviewer pool as the pace of submissions and the domains of their applications have grown.</p>
+<p>Developing the reviewer pool requires constant recruitment. Our editors actively and broadly engage with developer and research communities to find new reviewers. We recruit from authors of previous submissions, co-workers and colleagues, at conferences, through our other collaborative work and on social media. In the open-source software ecosystem, one can often identify people with particular expertise by looking at their published software or contribution to other projects, and we often will cold-email potential reviewers whose published work suggests they would be a good match for a submission.</p>
+<p>We cultivate our reviewer pool as well as expand it. We bring back reviewers so that they may develop reviewing as a skill, but not so often as to overburden them. We provide guidance and feedback to new recruits. When assigning reviewers to a submission, we aim to pair experienced reviewers with new ones, or reviewers with expertise on a package’s programming methods with those experienced in its field of application. These reviewers learn from each other, and diversity in perspectives is an advantage; less experienced developers often provide insight that more experienced ones do not on software usability, API design, and documentation. More experienced developers will more often identify inefficiencies in code, pitfalls due to edge-cases, or suggest alternate implementation approaches.</p>
+</blockquote>
+<p>I remember when JOSS launched we both wanted to help and were worried about cannibalizing our own reviewer pool, but it&#39;s grown organically, and I think we could definitely use our own reviewer pool to help incubate a new organization again.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>Expanding <code>pkgreviewer</code> and<code>PackageReviewR</code>, and perhaps integrating them, might be a full-blown unconf project if folks want to take it up.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/stephlocke">
+              stephlocke
+            </a>
+            <time>5/1/2018</time>
+          </div>
+          <div class="body"><p>I&#39;m happy for PackageReviewR to be cannibalised into ropensci or worked on standalone. I&#39;m not at the unconf this year but can facilitate/assist/mentor remotely.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/annakrystalli">
+              annakrystalli
+            </a>
+            <time>5/4/2018</time>
+          </div>
+          <div class="body"><p>Sorry to arrive late to this party. Very happy for <code>pkgreviewr</code> to be integrated into a more comprehensive suite of tools. And absolutely love <code>revtools</code> as a name! 💜💯</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>5/9/2018</time>
+          </div>
+          <div class="body"><p>I&#39;ve been working on a tool to create a package diagnostic report.  I had originally thought of it as giving a quick scan for us rOpenSci editors to use, and also provide a standardized build environment, but I&#39;ve expanded its scope to try to cover numerous things that reviewers could use.  Working on this <a href="https://github.com/noamross/launchboat">here</a> (draft report <a href="https://noamross.github.io/launchboat/pkg-report.html">here</a>, but 100% intend to fold it into <code>pkgreviewr</code> or its successors.   The thing I&#39;ve gotten into recently is trying to provide a report about package functions, their <a href="">relative complexity and relationships amongst each other using static code analysis</a>.</p>
+<p>Anyway, it sounds like we have two potential ideas here:</p>
+<ul>
+<li>A Day 2 conversation about review from a social/institutional/planning perspective</li>
+<li>A unconf _project -to expand package review tools specific to R and rOpenSci.  To this idea I would throw in the idea of adding some <a href="https://github.com/MangoTheCat/goodpractice/issues">new goodpractice checks</a>.</li>
+</ul>
+<p>I&#39;ll open a new issue for the 2nd bullet.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/laderast">
+              laderast
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>I did mention the rOpenSci reviewing guidelines to the software working group in our center for data to health (CD2H) project. This is a group that is encouraging software best practices in CTSA (Clinical &amp; Translational Sciences Award) centers, and they are looking for a similar kind of review process.</p>
+<p>They seemed very interested, and I&#39;m happy to facilitate any conversations rOpenSci people might want to have with them.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>parallel progress bars</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#23</span>
+        </p>
+        <h1>parallel progress bars</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">goldingn</a>
+            <time>4/13/2018</time>
+          </div>
+          <div class="body">
+            <p>Getting progress bars and other information in the console for big jobs running in parallel is something I&#39;ve wanted for a <em>looong</em> time. It is possible to get <a href="http://blog.revolutionanalytics.com/2015/03/creating-progress-bar-with-foreach-parallel-processing.html">GUI progress bars on windows</a> (using TK), but this method apparently doesn&#39;t work on mac/linux, and doesn&#39;t print to the console.</p>
+<p>It would be awesome if this functionality could be integrated with the <a href="https://github.com/HenrikBengtsson/future">future</a> package, so that it can be used on any parallel backed the future API supports. It would be super awesome if we could enable export of the widely used progress bars in <a href="https://rdrr.io/r/utils/txtProgressBar.html"><code>utils</code></a>, and the swanky progress bars in <a href="https://github.com/r-lib/progress"><code>progress</code></a>.</p>
+<p>There are technical hurdles around with communication between processes and differences between operating systems, but it&#39;s definitely achievable. I&#39;ve put together a gist&lt;sup&gt;1&lt;/sup&gt; with a prototype that does this the dumb (but generalisable) way; writing progress information to tempfiles which are read by the main process:</p>
+<pre><code class="lang-r">library (future)
+source(&quot;https://gist.githubusercontent.com/goldingn/d5a3aebfbc63eaadd92f0ff5ca811a5d/raw/12b552722020626e3f7014e1d9314266287acee0/parallel_progress.R&quot;)
+
+foo &lt;- function (n) {
+  for (i in seq_len(n)) {
+    update_parallel_progress(i, n)
+    Sys.sleep(runif(1))
+  }
+  &quot;success!&quot;
+}
+
+plan(multiprocess)
+future_replicate(4, foo(30))
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/4450731/38763057-68d44cf2-3fd7-11e8-8f2e-a30d22e06669.gif" alt="parallel_progress"></p>
+<p>There are various ways this could be improved:</p>
+<ul>
+<li>Printing progress bars rather than just a percentage process (preferably just embedding bars from the utils and progress packages).</li>
+<li>Sending progress information from processes running on another file system (e.g. remote servers&lt;sup&gt;2&lt;/sup&gt;)</li>
+<li>Handling more processes than threads</li>
+<li>Handling sequential execution</li>
+<li>Proper integration with the future package</li>
+</ul>
+<p>Related discussions:</p>
+<p><a href="https://github.com/HenrikBengtsson/future/issues/141">Re. progress information in <code>future</code></a> in which @HenrikBengtsson says he&#39;d rather it were a separate package, and suggests using <a href="https://github.com/r-lib/processx"><code>processx</code></a>.</p>
+<p><a href="https://github.com/r-lib/progress/issues/26">Re. multiple progress bars in progress</a> - having progress bars on separate lines isn&#39;t trivial since not all consoles allow overwriting of more than one line of output.</p>
+<p>Heads up to @HenrikBengtsson and @gaborcsardi, in case they know of progress on this topic that I&#39;m not aware of!</p>
+<hr>
+<p>&lt;sup&gt;1&lt;/sup&gt; <a href="https://gist.github.com/goldingn/d5a3aebfbc63eaadd92f0ff5ca811a5d">https://gist.github.com/goldingn/d5a3aebfbc63eaadd92f0ff5ca811a5d</a> 
+&lt;sup&gt;2&lt;/sup&gt; my main motivation for this is getting live console progress bars for <a href="https://greta-dev.github.io/greta">greta</a> jobs running on Google CloudML</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>4/15/2018</time>
+          </div>
+          <div class="body"><p>See also the <code>future</code> progress bar in <code>furrr</code> <a href="https://twitter.com/dvaughan32/status/985471691852742656">https://twitter.com/dvaughan32/status/985471691852742656</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">
+              mpadge
+            </a>
+            <time>4/15/2018</time>
+          </div>
+          <div class="body"><p>This is a really important issue for me as well, and I&#39;ve implemented the basis of the <code>RcppParallel</code> necessities too. This is also by &quot;dumb&quot; file dump, after spending  several days poring through loads of TBB code and finding no better idea. A merge of both R and C++ approaches would likely be really helpful. An <strong>R</strong> function for C++ code injection should also be possible because it&#39;s just appended to the end of an <code>RcppParallel::worker::operator</code> call.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>4/15/2018</time>
+          </div>
+          <div class="body"><p>Awesome! Yeah, it would be great if we could handle both R &amp; C++ in the same package.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>The <code>greta.live</code> reference above relates to producing live-streaming plots of an ongoing analysis (MCMC in this case, but it could be anything). That would require very similar functionality, in having a master process providing information to the users, from log files written by the subprocesses.</p>
+<p>Writing this parallel progress bar code in a general way would make similar problems like that easily achievable.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Also, we could think about supporting progress bars for jobs running on remote machines (e.g. using <code>future</code>&#39;s <code>plan(remote)</code>) with the awesome looking rOpenSci <a href="https://github.com/ropensci/ssh"><code>ssh</code> package</a></p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

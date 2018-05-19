@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>packrat: ease the use of external libraries</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#67</span>
+        </p>
+        <h1>packrat: ease the use of external libraries</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/czeildi">czeildi</a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body">
+            <p>First case: a team collaborates on a project w <code>packrat</code> and one of the team members would like to use a package not closely related to the project like <code>colorout</code>. Afaik you can add this package as external package but then it would be required as external package for all project members. You can work around this by manipulating .Rprofile files but it is quite cumbersome.</p>
+<p>Second case: There are some &quot;meta&quot; packages which do not necessarily have place as project dependencies like <code>usethis</code>, <code>lintr</code>, <code>goodpractice</code>, <code>covr</code>, <code>pkgdown</code> etc. I take advantage of these packages in almost all of my project but I do not necessarily want to add them as dependencies. I can use <code>packrat::with_extlib</code> but I run into the issue that it is not enough to specify the main package like <code>pkgdown</code> but also all their dependencies not present in my project which varies and makes it somewhat cumbersome to use. I think we could automate this.</p>
+<pre><code class="lang-r">packrat::with_extlib(c(&quot;pkgdown&quot;, &quot;rstudioapi&quot;, &quot;highlight&quot;, &quot;debugme&quot;, &quot;callr&quot;, &quot;rematch&quot;), build_site())
+</code></pre>
+<p>tagging @kevinushey as the developer of <code>packrat</code> - what do you think? Is there already solution I missed? </p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/kevinushey">
+              kevinushey
+            </a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body"><p>I&#39;d be open to discussing a better solution here. I think <code>packrat::with_extlib()</code> is not really the best solution here; there is likely something a little more ergonomic we could do.</p>
+<p>I wonder if the simplest solution might be the right solution -- just provide some simple mechanism for putting the user library on the library search path, so that <code>library(pkgdown)</code> can find <code>pkgdown</code> in the user library even if not installed in the Packrat private library.</p>
+<p>There&#39;s also <code>packrat::opts$external.packages()</code>, which is a &#39;smarter&#39; version of the above where we attempt to symlink user packages into <code>packrat/lib-ext</code>, which we do always put on the library search path.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

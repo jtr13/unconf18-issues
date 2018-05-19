@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Connecting R educators &quot;in the wild&quot;</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#63</span>
+        </p>
+        <h1>Connecting R educators &quot;in the wild&quot;</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/apreshill">apreshill</a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body">
+            <p>I know it is late to propose a new project, so consider this an invite to talk with me more about this idea at unconf if it resonates with you!</p>
+<p><strong>Problem:</strong> 
+People who teach R create awesome R markdown, blogdown, and bookdown materials for teaching, most of which are stored on GitHub. But, they can be hard to find (everyone knows @STAT545-UBC, but discoverability of even these materials is low for people not fully steeped in #rstats). The <a href="https://www.tidyverse.org/learn/">tidyverse site</a> has some links to courses, but the materials are variable: some are PDF syllabi, some are full repos, some are formal university course listings. </p>
+<p><strong>Idea:</strong> 
+Inspired by @batpigandme&#39;s idea (#48), I&#39;ve been thinking of a website to aggregate existing educational materials from GitHub. Ideally, one could search GitHub for repos that include words in the title/tag/README like &quot;curriculum&quot;, &quot;course&quot;, &quot;workshop&quot;, &quot;bootcamp&quot;, and tag them as such (I want to catch repos like @hadley&#39;s Data Challenge Labs: <a href="https://github.com/dcl-2017-04/curriculum)">https://github.com/dcl-2017-04/curriculum)</a>. Other items on my &quot;would be nice&quot; list:</p>
+<ul>
+<li>Tag with blogdown, bookdown, or R markdown site</li>
+<li>Tag with type of license, if there is one, re: reuse/attribution/etc.</li>
+<li>Provide a &quot;tidyverse&quot; percentage: something like, of the packages loaded in the repo, what percent are in the tidyverse ecosystem?</li>
+<li>Provide way to see &quot;last updated&quot; easily, and perhaps in navigable interface allow users to sort by this</li>
+<li>Some kind of topic tagging: like statistics, machine learning, data science, data visualization, natural language processing, etc.</li>
+<li>Perhaps a level tag, like undergrad, grad, K-12, etc.</li>
+</ul>
+<p>Selfishly, I would find this type of resource very useful! But past-me would have found it invaluable. I frequently see professors in my own computer science group using Matlab for example because they don&#39;t know how to start teaching material they know using a language they don&#39;t know. It would be great to be able to forward them to <a href="https://github.com/m-clark/introduction-to-machine-learning">courses on machine learning using R</a>, for example. Just overheard yesterday a student lamenting that all course materials for ML are in Matlab, the TA only knows python, and she wants to use R, so I think this could also help students. </p>
+<p>More broadly, I would love to establish an <em>educator&#39;s collaborative</em> around teaching R or with R. My university created <a href="https://www.ohsu.edu/xd/education/schools/school-of-medicine/education/educators-collaborative/">one</a>, and they worded it so nicely I&#39;m just going to plagiarize:</p>
+<blockquote>
+<p>&quot;The Educators&#39; Collaborative (EC) is a community of practice for people who are interested in education, including direct teaching, innovation, scholarship, curriculum design and mentoring. A community of practice is a group of skilled practitioners who interact regularly to learn from and with one another for the purpose of professional and personal development. Through in-person or online engagement, they create a shared understanding of purpose and develop communal resources to enhance their respective practices. (Lave &amp; Wenger, 1991; Wenger, 1998).&quot;</p>
+</blockquote>
+<p>I have increasingly been working on team-taught courses and see real value in collaborating on curricula with other R educators. But not everyone has this luxury- it would be great to provide an organization to support innovative R education efforts.</p>
+<p>Tagging folks that @stefaniebutland tagged on the Slack channel for interest/involvement in education:
+@jennybc @laderast @hadley @jtr13 @czeildi @elinw @seankross @aurielfournier (I can&#39;t find Jenny Draper on GitHub, so I&#39;m sorry for not tagging here!)</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>I think this is a brilliant idea.  </p>
+<ul>
+<li><p>I currently think of <a href="https://community.rstudio.com/c/teaching">https://community.rstudio.com/c/teaching</a> as my go-to place for an R-based teaching community, would have obvious synergy with such an EC, but doesn&#39;t meet the goal of an place to find course material.</p>
+</li>
+<li><p>A possible venue for collating course material might be new <a href="https://jose.theoj.org/about">https://jose.theoj.org/about</a> ? (following the JOSS model around content on GitHub).  Not sure if that fits the bill or would be too constrained.  </p>
+</li>
+<li><p>Another related effort is maybe the R4DS community <a href="https://medium.com/@kierisi/r4ds-the-next-iteration-d51e0a1b0b82">https://medium.com/@kierisi/r4ds-the-next-iteration-d51e0a1b0b82</a>, with a very active slack community, but again more forum that catalog of resources. </p>
+</li>
+<li><p>The Carpentries lessons are well-recognized but more narrow example of community + curated workshop material, e.g. <a href="http://www.datacarpentry.org/workshops/">http://www.datacarpentry.org/workshops/</a>.    </p>
+</li>
+</ul>
+<p>I do think the whole issue of cataloging resources is really hard though.  As you point out, there&#39;s such a mix of content, even on a very short and curated collection:</p>
+<blockquote>
+<p>The tidyverse site has some links to courses, but the materials are variable: some are PDF syllabi, some are full repos, some are formal university course listings.</p>
+</blockquote>
+<p>Personally, I&#39;ve found examples for whole-semester material, like @jennybc &#39;s 545 and @hadley&#39;s data challenge labs, immensely influential to my own approach, because it is nice to see how the parts fit together, in what order, and guided by what philosophy (@hadley&#39;s analogies with learning baseball still stick with me).  But then I&#39;m also trying to teach a semester-length course, so that&#39;s my bias as well (my blogdown-based site is <a href="https://espm-157.carlboettiger.info/">https://espm-157.carlboettiger.info/</a>  )</p>
+<p>I know @lwasser and @coatless have both thought a lot about the issue of cataloging resources in this space, so tagging them here.  </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/laderast">
+              laderast
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>Neato. Another project I am on (CTSA data to health, CD2H) is trying to do this in terms of data science competencies and finding paths through different courses, as well as assessing any possible gaps. As @cboettig mentioned, it&#39;s a very difficult process, and the question is how to make it dynamic, since compentencies change. I&#39;d love to talk to everyone. </p>
+<p>(edit: I&#39;d like to talk with everyone - but I removed the description of the project. don&#39;t want to dominate this conversation)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/apreshill">
+              apreshill
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>@cboettig Thank you, yes- my main motivation is to collate long-form materials, of which your ESPM course is currently living in my unwieldy bookmarks folder of inspiring courses! And I agree- seeing others&#39; whole semester material has shaped so much of how and what I teach. I think having community discussion forums like R4DS and <a href="https://community.rstudio.com/c/teaching">https://community.rstudio.com/c/teaching</a> are also invaluable, but there is a gap to fill. The Carpentries have great content resources, but they tend to be short-form. I do think what is lacking is field-tested quarter/semester-long materials with integrative syllabi, labs, homeworks, grading rubrics, datasets, good in class activities, project ideas, etc. (@jennybc&#39;s @STAT545-UBC being probably the main exception). As you know, a lot of blood/sweat/tears goes into designing curricula, especially the flow and sequencing for whole courses, with important differences compared to short-form tutorials or code-throughs (which I find really helpful as a learner and teacher, and @batpigandme&#39;s #48 may improve discoverability of those materials). </p>
+<p>So you got me thinking more about the elements of a <a href="http://wenger-trayner.com/introduction-to-communities-of-practice/">community of practice</a>:</p>
+<ul>
+<li><strong>The domain:</strong><ul>
+<li>R</li>
+</ul>
+</li>
+<li><strong>The community</strong>:<ul>
+<li>Definition: <em>In pursuing their interest in their domain, members engage in joint activities and discussions, help each other, and share information. They build relationships that enable them to learn from each other; they care about their standing with each other.</em></li>
+<li>Current communities: <ul>
+<li>R4DS </li>
+<li><a href="https://community.rstudio.com/c/teaching">https://community.rstudio.com/c/teaching</a></li>
+<li>&quot;birds of a feather&quot; groups at @Rstudio conf for example</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>The practice:</strong> <ul>
+<li>Definition: <em>Members of a community of practice are practitioners. They develop a shared repertoire of resources: experiences, stories, tools, ways of addressing recurring problems—in short a shared practice.</em><ul>
+<li>Current education + R-based practices: </li>
+<li>Carpentries instructors perhaps? But this is for workshop formats; need one for &quot;whole course&quot; practitioners.<ul>
+<li>Some university departments may have this, but you need a quorum. There are lots of faculty who are little R islands in their department/university (this is me!).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>So, I think we have the first two, but the third element of practice specific to education is the missing piece. In the short-term, having some kind of navigable course repository would allow members to reuse assets- which would be a great start 🎆 </p>
+<p>In the long-term, an educational collaborative could aim to:</p>
+<ul>
+<li>Problem solve best practices for teaching certain topics/domains/tools</li>
+<li>Seek experience from people who have already thought about this</li>
+<li>Help other educators build an argument for funding to develop and teach new courses at their institution </li>
+<li>Grow confidence for new educators </li>
+<li>Map knowledge and identify gaps (this seems in line with @laderast&#39;s C2DH project, although probably a higher order goal once a community of practice is in full swing)</li>
+</ul>
+<p>I have not heard about The Journal of Open Source Education, thank you for the link!</p>
+<p>Also tagging my R education partners in crime: @ismayc @andrewpbray @rudeboybert @DJAnderson07, plus @kierisi and @jthomasmock to join in convo</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/coatless">
+              coatless
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>@cboettig thanks for the ping. I&#39;m more than happy to join a collective like this. </p>
+<p>On Friday, May 18th, 2018, we&#39;ll start to open source some of the drawings used in STAT 385 @ UIUC this term in:</p>
+<p><a href="https://github.com/coatless/draw-r">https://github.com/coatless/draw-r</a>. </p>
+<p><strong>Note:</strong> The drawings have largely been done in <em>Omnigraffle</em> or <em>Keynote</em> ( cc&#39;ing my inspiration / person I blame for my fascination in diagramming @hrbrmstr ). We&#39;re looking into the ability to generate drawings of _R_ objects dynamically via base or ggplot2 graphics.</p>
+<p>Outside of that, we&#39;ll be working this summer on releasing an _R_ textbook covering &quot;Statistical Programming Methods&quot; or &quot;Data Science Programming Methods&quot; depending on the zeitgeist spirit:</p>
+<p><a href="https://github.com/coatless/spm">https://github.com/coatless/spm</a></p>
+<p>In the interim, consider some of the other education tech that we&#39;ve built:</p>
+<ul>
+<li><a href="https://github.com/coatless/assignr"><code>assignr</code></a>:  Tools for Educators Writing Assignments in RMarkdown (joint w/ @daviddalpiaz)</li>
+<li><a href="https://github.com/coatless/errorist"><code>errorist</code></a>:  Automatic Error and Warning Search</li>
+<li><a href="https://github.com/coatless/dropcli"><code>dropcli</code></a>: Dropbox CLI for working on a Linux environment within R.<ul>
+<li>Allows for the live distribution of code via RStudio Server based on <a href="https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Teaching-R-to-200-people-in-a-week#time=07m20s">Michael Levy&#39;s Dropbox Idea at UseR 2016!</a>.</li>
+<li>We&#39;ll likely move over to an embedded code environment in lecture slides in Spring 2019.</li>
+</ul>
+</li>
+<li><a href="https://github.com/coatless/rcpp-api"><code>rcpp-api</code></a>: Unofficial Rcpp API Documentation (Lots of Examples!)</li>
+<li><code>coursetools</code>: Administrative Tools to Manage Online Courses (GitHub + Blackboard)</li>
+<li><code>autograder</code>: Automatically Grade Models (<a href="https://twitter.com/axiomsofxyz/status/979775789192437761">screenshot</a>)</li>
+</ul>
+<p>The later two are somewhat restricted to UIUC personnel at the moment.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/datalorax">
+              datalorax
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>I love this idea! (and thanks for including me in the convo!) Just a few thoughts:</p>
+<p>Part of what I think can be difficult, both as a learner and as an instructor, is just the sometimes overwhelming amount of stuff out there. There are lots of good resources, but navigating what to teach (or learn) and when can be difficult. I would imagine a collaborative like this sort of serving as a curator of open-source teaching materials, and the wisdom of the community could help inform the topic sequence.</p>
+<p>In terms of the content itself, I wonder if it might make sense to have people/organizations actually submit their materials to a repo for inclusion, rather than actively gathering existing materials (although gathering known materials of high quality would be a great starting point). Then, they could potentially even go through some sort of peer review process, which would (potentially) not only help the community (through the addition of the new content) but also the instructor (by getting feedback on their materials).</p>
+<p>I also tend to think a lot about the match between the learner and the content. This may be a few steps down the line, but I wonder if, after the content was curated, it might be worth thinking about developing some sort of survey or even pre-tests that would ultimately recommend where to start, i.e., - what level of programming background do you/your students have? How much experience do you/your students have with statistics? This could potentially help align learner needs with content that is not too easy/difficult.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/kierisi">
+              kierisi
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>hey y&#39;all, I&#39;m a former high school science teacher with a lot of opinions about how we can integrate best practices from K-12 education as a means of equipping learners with the skills and confidence needed to teach themselves, with the ultimate goal being the (further) democratization of data science education (with R). </p>
+<p>always happy to chat - this is an area I&#39;m currently researching and actively beginning to develop resources in, many which will begin to find their way back into the R4DS online learning community (which I&#39;m also always happy to talk about!)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jthomasmock">
+              jthomasmock
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>Honored and many thanks for including me in this conversation! </p>
+<p>I think as @DJAnderson07 mentioned, it is hard as a learner to sift through the blogs, Quora posts, SO answers, various package vignettes and figure out an efficient learning path. A curated, organized list of proper coursework would be huge for self-directed learners, many of whom may not have access to Data Science at the college level or even MOOCs such as Coursera, DataCamp, Udacity, etc.</p>
+<p>All that being said, I lack the teaching expertise of likely everyone in this group, but am happy to contribute by reviewing or gathering material, and generally acting as a student advocate.  Excited to see what comes of this!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/lwasser">
+              lwasser
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>A few of us started this effort a few years back including tracy teal and matt jones!! We started a prototype site but nothing ever came of it. Happy to be involved in the discussion and to share what we learned from it as well! Il post our beta website here when I&#39;m back to my computer!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jthomasmock">
+              jthomasmock
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Found some great content from UC Berkeley&#39;s Data Science Program, unfortunately appears to be exclusively Python, but some great frameworks. </p>
+<p><a href="https://data.berkeley.edu/undergraduate-ds-pedagogy">https://data.berkeley.edu/undergraduate-ds-pedagogy</a>
+<a href="http://data8.org/">http://data8.org/</a>
+<a href="http://data8.org/sp18/">http://data8.org/sp18/</a></p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

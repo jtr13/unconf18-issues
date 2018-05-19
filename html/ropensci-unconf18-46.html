@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Help researchers track results in manuscript back to source code.</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#46</span>
+        </p>
+        <h1>Help researchers track results in manuscript back to source code.</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">maurolepore</a>
+            <time>4/29/2018</time>
+          </div>
+          <div class="body">
+            <p>How do you link a result in your manuscript back to its source code? This is fundamental to reproducible research. It seems basic and straight forward but, in the wild world I live, it is not. Research gets messy quickly: After a few weeks out of touch with a project, wish me luck finding my own stuff; and forget about finding code in a project managed by someone else. </p>
+<p>My inelegant solution is this:</p>
+<ul>
+<li>I tag each analysis with a random label and a description.</li>
+</ul>
+<pre><code class="lang-R">ab12 &lt;- &quot;Code which result proves that Earth is not flat.&quot;
+result &lt;- code
+</code></pre>
+<ul>
+<li>I keep the tag associated with that analysis throughout the lifecycle of the manuscript.</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/5856545/39407455-559397a6-4b94-11e8-84f1-e442606b59e9.png" alt="image"></p>
+<ul>
+<li>Whenever I need to go back to the source code, I use RStudio&#39;s <em>Go to File/Function</em>.</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/5856545/39407535-637b8e68-4b95-11e8-878a-2a7906db1164.png" alt="image"></p>
+<p>Is there a tool or better approach? What general recommendations do you have for researchers across a range of willingness to use version control and RStudio projects?</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/29/2018</time>
+          </div>
+          <div class="body"><p>This is a great approach.  It is of course related to #42, but potentially applies very different workflows.   For projects where I&#39;m not compiling the final output I like to have an <code>outputs</code> folder which has not only images and tables but an Rmd or text file output with all the essential quantitative values that make their way into the manuscript.  Usually things can be traced back from the filenames there.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>4/29/2018</time>
+          </div>
+          <div class="body"><p><a href="https://github.com/ropensci/drake"><code>drake</code></a> + literate programming may help a bit. <a href="https://ropensci.github.io/drake/articles/drake.html"><code>Drake</code>&#39;s main example</a>&#39;s has a data analysis workflow with <a href="https://github.com/ropensci/drake/blob/master/inst/examples/main/report.Rmd">this R Markdown report</a> at the very end. The active code chunk has calls to <code>loadd(fit)</code> and <code>readd(hist)</code>, which serve to </p>
+<ol>
+<li>Fetch targets from the cache when the report compiles, and</li>
+<li>Tell <a href="https://github.com/ropensci/drake"><code>drake</code></a> to treat <code>fit</code> and <code>hist</code> as formal dependencies (so <code>drake::make()</code> rebuilds the <code>report.html</code> if there is a change to <code>fit</code> or <code>hist</code>.) Even if you don&#39;t care about Make-like build management, you can still see where these data objects fit into the pipeline.</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/1580860/39411322-e80d42ee-4bd5-11e8-8f3a-a56caa5b5203.png" alt="screenshot_20180429_175059"></p>
+<p>In that sense, using and annotating an artifact are one in the same.</p>
+<p>I am curious to know the views of @gmbecker and @duncantl on the original issue. As I understand it, provenance is a major focus of <a href="https://github.com/gmbecker/trackr"><code>trackr</code></a>, <a href="https://github.com/gmbecker/RCacheSuite"><code>RCacheSuite</code></a>, and <a href="https://github.com/duncantl/CodeDepends"><code>CodeDepends</code></a>.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>4/29/2018</time>
+          </div>
+          <div class="body"><p>Edit: as for linking data objects back to the source code, the dependency graph shows the functions that generated <code>fit</code> and <code>hist</code>. That&#39;s an important point I forgot to add. The previous graph excluded functions. See below for the full graph.</p>
+<p><img src="https://user-images.githubusercontent.com/1580860/39411437-ebbe9080-4bd7-11e8-9843-d1870798f37f.png" alt="screenshot_20180429_180514"></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>4/29/2018</time>
+          </div>
+          <div class="body"><p>Awesome! I&#39;m learning so much and the unconference hasn&#39;t even started! Thank you!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>4/29/2018</time>
+          </div>
+          <div class="body"><p>It&#39;s such a fantastic crowd! I wish I could be at unconf to soak up more knowledge in person.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Summary: </p>
+<ul>
+<li>Relates to #58, <strong>drake</strong> (@wlandau),  <strong>trackr</strong>, <strong>RCacheSuite</strong>, and <strong>CodeDepends</strong> (linked above; @gmbecker and @duncantl). </li>
+<li><strong>drake</strong> comes up very often. Should we discuss to become more familiar with it?</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

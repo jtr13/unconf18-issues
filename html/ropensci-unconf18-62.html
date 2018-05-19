@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Test project / package after hypothetical package update</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#62</span>
+        </p>
+        <h1>Test project / package after hypothetical package update</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/czeildi">czeildi</a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body">
+            <p>Related to #31 and also the following comment of @noamross in #35 </p>
+<blockquote>
+<p>If you want to do live testing of a package, like seeing what system files/folders it modifies, I&#39;m working on a Dockerized setup for our standard package tests: <a href="https://github.com/noamross/launchboat">https://github.com/noamross/launchboat</a>, so one could run tests in an isolated environment before installing.</p>
+</blockquote>
+<p>Before updating a dependency to the newest version see which tests would break.</p>
+<p>I can imagine this as a service (or maybe Rhub can already do this??) or a local version with Docker ensuring a separate environment. </p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

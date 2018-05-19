@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>&quot;Safety Profiler&quot; for User package libraries</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#34</span>
+        </p>
+        <h1>&quot;Safety Profiler&quot; for User package libraries</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hrbrmstr">hrbrmstr</a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body">
+            <p>We embark on unconf 2018 at an appro time: R 3.5.0 launches and lots of folks are feeling the x.y package upgrade/sidegrade process.</p>
+<p>However, we could build a profiler/auditor — much like the emergent <code>node audit</code> — which would let folks know just how lagging they are and what potential safety issues they may be facing as a result.</p>
+<p>This could take a bit of work and would also require delving into packages that include C[++] libraries with them.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>One possibility is to build this as a wrapper/plugin for <a href="https://github.com/MangoTheCat/goodpractice"><strong>goodpractice</strong></a>.  At last year&#39;s unconference Gabor created a plug-in structure and Hannah Frick has been working on extending and <a href="https://mangothecat.github.io/goodpractice/articles/goodpractice.html">documenting</a> it recently.  We&#39;re likely going to have several plug-in checks specific for rOpenSci.  A set of security-specific would be a great addition to those.  </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>I think it&#39;s also good to just articulate what kinds of things this can focus on. For example what kinds of user inputs are being taken and are they being sanitized, when does that matter and when does that not matter.
+Somewhere the deidentification issue should come in too.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

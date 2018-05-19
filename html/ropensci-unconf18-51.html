@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>low-friction private data share &amp; data publication</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#51</span>
+        </p>
+        <h1>low-friction private data share &amp; data publication</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">cboettig</a>
+            <time>5/7/2018</time>
+          </div>
+          <div class="body">
+            <p>I&#39;d love to have a robust and simple way to deal with data associated with a project.  </p>
+<p>For individual data files &lt; 50 Mb, I have bliss.  I can commit these files to a private GitHub repo with ease; they are automatically available to Travis for any checks (no encoding private credentials); I can <a href="https://guides.github.com/activities/citable-code/">flip a switch</a> and get a DOI for every new release once I make my data public.  </p>
+<p>Or as another concrete example: my students are all asking me how to get there ~ 200MB spatial data files onto the private Travis builds we use in class.  </p>
+<p>For larger data files, life is not so sweet.  The alternatives and their pitfalls, as I see them:</p>
+<ul>
+<li><p>Amazon S3.  Setup is far less trivial. Can be expensive if lots of people download my large files (maybe not an issue if it&#39;s only for private data).  Working on travis requires encrypting keys.  No convenient button to press to make this public with DOI when ready. (though could manually upload to Zenodo).  Ability to directly access individual files (by URL).</p>
+</li>
+<li><p><a href="https://github.com/ropenscilabs/datastorr">datastorrr</a>.  Nearly perfect for data &lt; 2 GB; (adds data as &quot;attachments&quot; to GitHub releases, which aren&#39;t version controlled.  Would love to see the branch that supports private authentication merged and a preliminary CRAN release.  Maybe good fodder for Unconf?</p>
+</li>
+<li><p>Git LFS: Closest to my workflow for small data, but GitHub&#39;s pricing model basically renders this unworkable.  (also no idea if Zenodo import captures LFS files).  @jimhester posted a brilliant work-around for this at <a href="https://github.com/jimhester/test-glfs">https://github.com/jimhester/test-glfs</a> using GitLab for the LFS side to store the large data files of a repo on GitHub (up to 10 GB), but I could never get this working myself. (Would love to get unstuck).</p>
+</li>
+</ul>
+<p>Other scientific repositories with less ideal solutions:</p>
+<ul>
+<li><p><code>zenodo</code>.  Zenodo supports direct uploads with up to 50 GB of data, making it a great option for easy public data sharing.  No private option, no ability to download directly from DOI address.  </p>
+</li>
+<li><p><code>figshare</code> allows for private sharing and public sharing, DOIs for public data. Not sure file limits.  <code>rfigshare</code> package not actively maintained... No ability to download directly from DOI address</p>
+</li>
+<li><p><code>DataONE</code> Allows private and public sharing, supports ORCID auth, rich metadata model (burdensome to enter at first but could be useful with better tooling).  Requires re-authenticating with time-expiring token.  provides DOIs and other identifiers. No ability to download directly from DOI address, but does support ability to access individual files without downloading entire archive...</p>
+</li>
+</ul>
+<ul>
+<li>... more / other related strategies? </li>
+</ul>
+<p>Things that might be strategies but somehow never work well for me in this context:</p>
+<ul>
+<li>Box / Dropbox</li>
+<li>Google Drive</li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/amoeba">
+              amoeba
+            </a>
+            <time>5/7/2018</time>
+          </div>
+          <div class="body"><p>Great idea! What about encrypted Dat?</p>
+<p>This would mean that CI systems would download data from peers rather than fast CDNs like with S3/GitHub/etc which would mean slow builds for some proportion of users.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/Pakillo">
+              Pakillo
+            </a>
+            <time>5/7/2018</time>
+          </div>
+          <div class="body"><p>Apart from <a href="https://blog.datproject.org/2018/04/24/data-sharing-at-institutions-and-beyond-with-dat/">Dat</a>, another option could be OSF: <a href="http://journals.sagepub.com/doi/full/10.1177/2515245918757689">http://journals.sagepub.com/doi/full/10.1177/2515245918757689</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/khondula">
+              khondula
+            </a>
+            <time>5/9/2018</time>
+          </div>
+          <div class="body"><p>Another option to be aware of - I think that <a href="https://dataverse.org/">Dataverse</a> repositories can accept individual files up to 2.5 GB and datasets up to 10 GB (according to <a href="https://www.nature.com/sdata/policies/repositories#general">Nature</a> but also the <a href="http://guides.dataverse.org/en/4.6/user/dataset-management.html">docs</a> say &quot;file upload limit size varies by installation&quot;). Anyone can submit to the flagship <a href="https://dataverse.harvard.edu/">Harvard Dataverse</a> or <a href="https://dataverse.org/institutions">institutions</a> can set up their own repositories. There is some discussion of setting dataset and file level permissions <a href="http://guides.dataverse.org/en/4.6/user/dataset-management.html">here</a>.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/sckott">
+              sckott
+            </a>
+            <time>5/9/2018</time>
+          </div>
+          <div class="body"><p>I like the idea of dat, though It&#39;s not clear what the status is of the project (seems all the main people have left?). Are there any similar projects?</p>
+<p>I&#39;d think we should steer away from figshare as they haven&#39;t really been supporting their API</p>
+<p>One thing that came to mind was <a href="http://academictorrents.com/">http://academictorrents.com/</a> - though seems very tenuous, and login doesn&#39;t have https, scary. There was also biotorrents, but even the domain name is gone now. Anyway, in general, perhaps a torrent solution could help in this space. Though I imagine many universities would by default block any torrent use from IP addresses coming from their members</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>5/9/2018</time>
+          </div>
+          <div class="body"><p>It seems to me that the way to go with these is as common a front-facing API as possible with back-ends across multiple repositories which would handle DOI--&gt;file navigation.  Back-end repositories have their pros and cons in terms of private/public, file size, whether they have institutional archival arrangements, need for local software installation, DOI availability and reservation, etc.  It would be a good start to tabulate these so that people can know about them, and then prioritize those to focus back-end development on.  I think OSF checks most of the boxes, but people will differ.  This could work for even some more stringent/specialized archives like KNB/DataONE.</p>
+<p>The front-end might be <strong>datastorr</strong> like in functionality and maybe API, but not be tied to GitHub.  You stash your API key or even your preferred back-end as environment variables, and then <code>data_release()</code>, <code>data_update()</code>, <code>dataset(ID,...),</code>set_public()<code>,</code>set_private()`, etc.</p>
+<p>I&#39;m not sure why the fact that they&#39;re enterprise-focused is a reason to avoid figshare.  If lots of institutions use them that&#39;s good.  Amazon is sure enterprise focused! If I recall development for rfigshare halted a bit because their API was unstable at one point, but they cover a lot of the bases.</p>
+<p>Re: Dataverse, which also seems good, I note that Thomas Leeper is looking for a new maintainer for the <a href="https://github.com/IQSS/dataverse-client-r">dataverse R package</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>5/9/2018</time>
+          </div>
+          <div class="body"><p>Another good thing to assess for all the back-ends usage of common metadata standards - both for ease of development and long-term sustainability and compatibility across services.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">
+              mpadge
+            </a>
+            <time>5/14/2018</time>
+          </div>
+          <div class="body"><p>So I&#39;ve been talking to some sociologist friends about this, and they share a major concern that is not unique:</p>
+<ol>
+<li>Data sets are (often, and for them, almost always) very expensive to collect.</li>
+<li>Many funding agencies and/or journals now require data sets to be openly published.</li>
+<li>This mean that they in effect get one go and a good paper from their data before it&#39;s released for general plundering and pillage, ultimately negatively impacting their research</li>
+</ol>
+<p>A solution we discussed is a means of tracking and thereby always reliably ascribing data provenance, in effect ensuring that people otherwise suffering such effects would automatically be listed as authors of any papers using their data. And so...</p>
+<h3 id="a-solution">A solution</h3>
+<p>A <a href="https://iota.org">tangle</a> (see whitepaper <a href="https://www.iota.org/research/academic-papers">here</a>) potentially offers a perfect system for tracking data provenance.</p>
+<h3 id="an-unconf-proposal">An unconf proposal</h3>
+<p>Software to constuct/modify tangle technology specifically for the sharing of data to ensure maintenance and attribution of provenance. Sharing/accessing a data set simply becomes a tangle transaction. Advantages:</p>
+<ol>
+<li>Obviates any need for most of the above discussions because data access is P2P</li>
+<li>Meta-data on provenance always maintained</li>
+<li>Generators of data can always inquire about copies of their data, and/or standards can readily be set through ensuring citation refers to a tangle transaction.</li>
+<li>The whole system is a graph, so (not too far down the track), the whole tangle of data meta-data will be able to be searched with <code>graphql</code>, offering a big boost to #26.</li>
+</ol>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>All great ideas here.  I really like the approach @noamross outlines of identifying some core functionality that could be expressed in a generic front-end package, that could allow the user to swap in there preferred &#39;back-end&#39; storage choice, whether it&#39;s a DOI-providing registry like Zenodo, a paid service like S3, or Blockchains-take-over-the-world thing.  </p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

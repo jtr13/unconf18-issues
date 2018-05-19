@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Tools for discovering new packages (again)</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#25</span>
+        </p>
+        <h1>Tools for discovering new packages (again)</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">mpadge</a>
+            <time>4/15/2018</time>
+          </div>
+          <div class="body">
+            <p>Direct follow-on from last year&#39;s <a href="https://github.com/ropensci/unconf17/issues/78">two</a> related <a href="https://github.com/ropensci/unconf17/issues/49">issues</a> issues thanks to @sfirke. The <a href="https://github.com/ropenscilabs/flipper"><code>flipper</code> package</a> is kinda developed, kinda stalled, but I personally would love to get that a bit more developed. It currently does full heavyweight text analysis  of <code>DESCRIPTION</code> files of all CRAN packages and produces a document similarity matrix that is used to connect one package to another.</p>
+<p>The original vision of @njtierney was a standard swipe interface which we re-branded &quot;flip&quot; to enable quick and easy package browsing. In current state, one can simply:</p>
+<pre><code>flipper::flip (&quot;package about a bunch of interesting stuff&quot;)
+</code></pre><p>And it&#39;ll find a starting point in the matrix and then traverse strongest connections. We think that alone is kinda nifty, so please try! Required/desired refinements include:</p>
+<ol>
+<li>Refining methods of traversing the matrix, including incorporating user stats with all associated concerns raised in <a href="https://github.com/ropensci/unconf17/issues/49">previous issue</a>. Extension to an ML framework would be very straightforward, because the whole thing works on fixed-sized binary vectors (like/dislike next jump along vector).</li>
+<li>As @jimhester pointed out in <a href="https://github.com/ropensci/unconf17/issues/78">original issue</a>, trawling <code>man</code> files is likely to be even more informative. The infrastructure for this is all there, but it might push the limits of text similarity matrix processing?</li>
+<li>Extension to all non-CRAN packages on github (I know there&#39;s a list somewhere, and @maelle has her excellent <a href="https://github.com/ropenscilabs/ghrecipes/blob/master/R/is_package.R"><code>is_package</code> function</a> for repo enquiry.)</li>
+<li>Slick flippable interface</li>
+</ol>
+<p>That&#39;s all it would take to have most of the infrastructure there for one to type some text and start flipping through R packages until one discovered something desirable, interesting, or at least unexpected.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>What about incorporating something like <a href="https://github.com/ropenscilabs/packagemetrics">https://github.com/ropenscilabs/packagemetrics</a> to the information returned, so that when searching for a package you get not only a description, but indicators of popularity and quality?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">
+              mpadge
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>That&#39;s actually a great example. Incorporating new data means either a new network weighting matrix (for edges, or relationships between packages), or a new vector of nodal properties. I&#39;ve been mostly concentrating on the former, but <code>packagemetrics</code> is a great example of the latter. These are computationally much cheaper, and equally important. Nodal vectors then need to be translated into edge matrices to guide traversal algorithms, and I also haven&#39;t explored that translation yet at all. <code>packagemetrics</code> would provide a fine opportunity to develop that too.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">
+              batpigandme
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>Possibly a project of its own, but one of the ways in which I discover packages is through use cases, often in the form of blog posts. I have yet to come up with an idea that wouldn&#39;t be &quot;hackable&quot; in some capacity (i.e. there&#39;d be nothing to stop someone to load a bunch of packages just for the pings, or whatever), but I&#39;d be curious to think about a way of somehow highlighting package (or even function) usage in a way that ties back to the package itself- package usage in the wild, if you will. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>Ah I love this @batpigandme! I&#39;ve thought about adding this to the guidelines for rOpenSci packages <a href="https://github.com/ropensci/onboarding-meta/issues/39">https://github.com/ropensci/onboarding-meta/issues/39</a> , in practice it&#39;d be a list inside README which is maybe not optimal since the README is often .Rbuildignored. But the README lives in the pkgdown website.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>obviously I&#39;m open to suggestions of better ways to save this information in the package docs!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>5/2/2018</time>
+          </div>
+          <div class="body"><p>It occurs to me that some of this work would be applicable to the editorial need of finding <em>authors</em>.  For instance, given a package submission, could we identify packages with similar uses, dependencies, or even code patterns? If so, that package&#39;s author might make a good reviewer for the submission, and the same analysis could also alert us to overlap between the submission and another package.</p>
+<p>That said, I&#39;m painfully aware that journals have such systems for finding potential reviewers for manuscripts and the results are rarely really helpful.  Not sure if they are just based on keyword matching or something like that, though.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

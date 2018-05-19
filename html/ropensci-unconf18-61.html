@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Color coded errors/warnings/messages/printed text</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#61</span>
+        </p>
+        <h1>Color coded errors/warnings/messages/printed text</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/czeildi">czeildi</a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body">
+            <p>By default errors, warnings and messages are all printed red in R which can be confusing as red usually means something wrong but a message can be just informative. I think it would be nice to provide an easy way to create colored messages, like by default red for error, yellow for warning, blue for friendly information etc. With the <strong>crayon</strong> package this should not be too difficult.</p>
+<p>I am thinking about a way that maybe the end-user should be able to control this, or the creator of the package. We could distinguish style further based on the class of the condition.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/boshek">
+              boshek
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>Fun idea.</p>
+<p>Packages like <code>usethis</code> have implemented this for many of their printed outputs:</p>
+<p><a href="https://github.com/r-lib/usethis/blob/bb191e95ef1b0e3aa304e7267d1d968975414450/R/style.R#L11-L13">https://github.com/r-lib/usethis/blob/bb191e95ef1b0e3aa304e7267d1d968975414450/R/style.R#L11-L13</a></p>
+<p>Off the top of my head I can&#39;t quite think of a way that you could modify errors, warnings and message other than <code>tryCatch</code> which seems a little awkward. Probably a better way though.</p>
+<p>I do really love coloured output though and I do think it is worth the effort. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">
+              mpadge
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>It&#39;s all just standard ANSI colour codes. Even <code>crayon</code> is nothing other than simple pre- and post-pending the appropriate codes:</p>
+<pre><code>&gt; col_green &lt;- &quot;\033[32m\033[47m&quot; # 32m = yellow; 47m = white background
+&gt; col_blue &lt;- &quot;\033[34m\033[1m\033[43m&quot; # 34m = blue; 1m = bold; 43m = Yellow BG
+&gt; col0 &lt;- &quot;\033[22m\033[39m\033[49m&quot; # 22m = normal weight; 49m = normal BG
+&gt; message (col_green, &quot;blah&quot;, col0)
+&gt; warning (col_blue, &quot;blah&quot;, col0)
+</code></pre><p>Probably best not to mess with <code>message</code> and <code>warning</code>, but <code>col_message(&quot;my message&quot;, &quot;blue&quot;)</code> would do it.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/czeildi">
+              czeildi
+            </a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body"><p>@boshek thanks for the usethis reference. I can imagine a bright future for a package focusing solely on formatting messages and maybe use that in <code>usethis</code> as well. @jennybc what do you think? Especially since the style guide for error messages in the [tidyverse style guide].(<a href="http://style.tidyverse.org/error-messages.html">http://style.tidyverse.org/error-messages.html</a>)</p>
+<p>@mpadge yes, maybe this would be a tiny package but I see value in tiny single purpose packages. And I can imagine that even if you have one core function like <code>col_message</code> we could create shortcuts for errors, warnings etc to encourage a unified formatting</p>
+<p>From a development perspective I can see a way to do the formatting when creating the error/warning etc. But if possible I would welcome an option for maybe globally setting style on the user side like <code>option(warning_color = &quot;yellow&quot;)</code> that could effect even errors thrown by base R code. Again, I do not know whether this is technically possible.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jennybc">
+              jennybc
+            </a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>@jennybc what do you think? Especially since the style guide for error messages in the <a href="http://style.tidyverse.org/error-messages.html">tidyverse style guide</a></p>
+</blockquote>
+<p>Yes we do have a &quot;todo&quot; to extract the whole <a href="https://github.com/r-lib/usethis/blob/master/R/style.R">style.R</a> file from usethis and, probably, put it in a package to facilitate making consistent user interfaces that meet the style guide. There have been multiple requests to export those functions from usethis, but we&#39;ve declined, because we don&#39;t want packages to depend on usethis for that functionality.</p>
+<p>Something I&#39;ve been meaning to write down but have not is a map between, say, a function in <a href="https://github.com/r-lib/usethis/blob/master/R/style.R">style.R</a> and identifiable concepts. As in, &quot;always apply this style to a path and that style when referring to an argument name and this other style for a string ...&quot;. I think, right now, you have to use common sense or look around at usage elsewhere in the package, which is slow and inconsistent.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jimhester">
+              jimhester
+            </a>
+            <time>5/17/2018</time>
+          </div>
+          <div class="body"><p>The long term plans for color styling in the tidyverse is to use <a href="https://github.com/r-lib/cli">cli</a> to style the outputs, which would allow us to define a default style, but would also allow users to define a custom style that would automatically be used throughout our packages.</p>
+<p>Also there are a few RStudio IDE issues related to automatically coloring messages / warnings / errors in red <a href="https://github.com/rstudio/rstudio/issues/2733">https://github.com/rstudio/rstudio/issues/2733</a>, <a href="https://github.com/rstudio/rstudio/issues/2574">https://github.com/rstudio/rstudio/issues/2574</a>, so at least there this behavior will likely change in the future.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/lcolladotor">
+              lcolladotor
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Hi. I&#39;m just curious if you&#39;ve checked <a href="https://github.com/jalvesaq/colorout">https://github.com/jalvesaq/colorout</a> and if whether this solves part of the problem you describe. </p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

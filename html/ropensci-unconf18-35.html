@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Security/Safety &quot;Best Practices&quot; for rOpenSci Package Developers/Reviewers</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#35</span>
+        </p>
+        <h1>Security/Safety &quot;Best Practices&quot; for rOpenSci Package Developers/Reviewers</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hrbrmstr">hrbrmstr</a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body">
+            <p>We&#39;ve done <em>a bit</em> of this ad-hoc, but we <em>could</em> spend some dedicated cycles ensuring that rOpenSci not only has the best technical and maintenance standards — which it <em>most certainly</em> does — but is also the de-facto standard to replicate when considering safety/security.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>How are you thinking about safety/security?  I think this is a great concept.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/karthik">
+              karthik
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>We discuss this regularly in our staff channels and would be super grateful for your advice/help on this! cc @maelle </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>We&#39;d like to link to  <a href="https://ropenscilabs.github.io/r-security-practices/">https://ropenscilabs.github.io/r-security-practices/</a>  whenever it&#39;s ready. Just sayin&#39; 👼 </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mmulvahill">
+              mmulvahill
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>@hrbrmstr I&#39;m interested in learning more about how to think about security/safety w.r.t. R.  That&#39;s all I have to add for now 😉 </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hrbrmstr">
+              hrbrmstr
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>I somehow missed the comment 20d ago @elinw (apologies). <a href="https://github.com/hrbrmstr/rpwnd">https://github.com/hrbrmstr/rpwnd</a> provides some context for the evil one can do with R and <a href="https://ropenscilabs.github.io/r-security-practices/">https://ropenscilabs.github.io/r-security-practices/</a> (which  @stephlocke penned and @maelle noted) has a great start for that and other topics.</p>
+<p>Packages with embedded other-lang libraries need care &amp; feeding and some way to inform users they are in need of an update. Package authors may be putting vulnerable researchers (some who may not even know they fit that classification) and users in harms way without even knowing it depending on what type of internet calls they make or system traces they leave around. </p>
+<p>We also started work last year on a way to help ensure package download safety (<a href="https://ropensci.org/blog/2017/07/25/notary/">https://ropensci.org/blog/2017/07/25/notary/</a>) but all of us who worked on it have been super busy and even if we weren&#39;t, it&#39;s somewhat moot b/c there&#39;s no backing infrastructure for it nor support in R itself for it (which is where it&#39;d need to be).</p>
+<p>One thing from the <code>notary</code> work that&#39;d be an interesting &quot;mandate&quot; from rOpenSci is the requirement that all contributors use PGP and sign all commits and no GH merges or releases happen w/o that. Since R has no way for us to have &quot;developer certs&quot; like Apple or Android have for their apps, and since the package ecosystem is more collaborative in nature, the &quot;everybody PGPs&quot; approach at least provides a better guarantee that we can truly trace commits back to the person and not just the GH account.</p>
+<p>In the context of ^^ perhaps one &quot;fun&quot; (I have weird ideas of what constitute that) wld be to get everyone on Keybase at the unconf. I 💙💙💙 what @stephlocke is doing with that in her personal and professional R work and perhaps finishing <a href="https://github.com/hrbrmstr/keybase">https://github.com/hrbrmstr/keybase</a> wld be a possible unconf project.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>In general, we try to make sure that mandates for RO packages go through a
+process that includes internal use, recommendation, good tooling that
+reduces effort and good docs/tutorials (not necessarily in that order)
+before requiring them. So work that advances any of those would make a
+mandate more likely.</p>
+<blockquote>
+</blockquote>
+<p>I&#39;d be interested in starting with tooling that could add this check (using
+<strong>git2r</strong>?)  to both our onboarding checks and our nightly builds, along
+with other security best practices (goodpractices 😉).</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>I’ve been on small projects that tried to mandate PGP and it was really painful and hard to enforce.</p>
+<p>It does worry me how much trust a lot of packages put into API calls to download data, both assuming the source must be safe and assuming nothing happens in the space between requestor and requested (e.g. a redirect to a site distributing malware).  I don’t see a lot of validation or sanitizing. </p>
+<blockquote>
+<p>On May 15, 2018, at 8:57 AM, Noam Ross <a href="mailto:&#x6e;&#x6f;&#x74;&#x69;&#x66;&#x69;&#x63;&#97;&#116;&#x69;&#x6f;&#x6e;&#115;&#64;&#x67;&#x69;&#x74;&#104;&#117;&#98;&#x2e;&#99;&#111;&#x6d;">&#x6e;&#x6f;&#x74;&#x69;&#x66;&#x69;&#x63;&#97;&#116;&#x69;&#x6f;&#x6e;&#115;&#64;&#x67;&#x69;&#x74;&#104;&#117;&#98;&#x2e;&#99;&#111;&#x6d;</a> wrote:</p>
+<p>In general, we try to make sure that mandates for RO packages go through a
+process that includes internal use, recommendation, good tooling that
+reduces effort and good docs/tutorials (not necessarily in that order)
+before requiring them. So work that advances any of those would make a
+mandate more likely.</p>
+<blockquote>
+</blockquote>
+<p>I&#39;d be interested in starting with tooling that could add this check (using
+<strong>git2r</strong>?) to both our onboarding checks and our nightly builds, along
+with other security best practices (goodpractices 😉).
+—
+You are receiving this because you were mentioned.
+Reply to this email directly, view it on GitHub <a href="https://github.com/ropensci/unconf18/issues/35#issuecomment-389156795">https://github.com/ropensci/unconf18/issues/35#issuecomment-389156795</a>, or mute the thread <a href="https://github.com/notifications/unsubscribe-auth/AAuEfQY8iFu7G90SooS6wmryJqRTCdN1ks5tytDCgaJpZM4TijcH">https://github.com/notifications/unsubscribe-auth/AAuEfQY8iFu7G90SooS6wmryJqRTCdN1ks5tytDCgaJpZM4TijcH</a>.</p>
+</blockquote>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hrbrmstr">
+              hrbrmstr
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>Aye. And there&#39;s &quot;guidance&quot; that might be useful to note in some API packages. For instance, I wrote <code>epidata</code> to access the economic policy institute data and use the data from it for various classes. Each call out to that API I do from home is logged (Federal requirement and also a side-$-business) by Comcast and searchable by authorities or interested third-parties. They use that data to classify me as a left-leaning activist (when, in fact, I&#39;m really just a non-affiliated anti-authority anarchist :-) I&#39;ve seen evidence of that in various mailings, adverts on sites that manage to get through my ad-blocking infrastructure, etc. And, due to a job stint at one of the world&#39;s largest network providers, I&#39;ve also maybe even seen said databases. It&#39;s worse in other countries/regions and many at-risk researchers (again, who don&#39;t even realize they&#39;re &#39;at-risk&#39;) do not realize they shld be using, say, a VPN for some API calls or using DNS-over-HTTPS or DNSCrypt since DNS leaks where you&#39;re going.</p>
+<p>I&#39;m not suggesting rOpenSci can solve or provide guidance on all the issues, but we (I say &quot;we&quot; despite working in a rly strange proto-science vs a real one like y&#39;all) cld definitely up the safety game for those using R.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hrbrmstr">
+              hrbrmstr
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>@elinw (re: PGP) aye, is is no panacea and unless you&#39;re a die heard infosec geek or have a die hard infosec hobby, being religious about PGP configs and use is a pain, especially when setting up new systems. Keybase definitely helps alot and perhaps we (like @noamross was alluding to) cld develop a &quot;safety/security check&quot; package/function similar to <code>devtools::dr_devtools()</code> or <code>goodpractice</code> as part of this to help both identify gaps and provide helpers or at least friendly tips on fixing things.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>If you want to do live testing of a package, like seeing what system files/folders it modifies, I&#39;m working on a Dockerized setup for our standard package tests: <a href="https://github.com/noamross/launchboat">https://github.com/noamross/launchboat</a>, so one could run tests in an isolated environment before installing.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/boshek">
+              boshek
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>Oh this is all <em>so</em> interesting. After reading about <code>notary</code> last year and some linked horror stories I try to sign all my commits now. So thanks @hrbrmstr !</p>
+<p>It occurs to me that this is related to this <a href="https://github.com/ropensci/unconf18/issues/54">possible project</a> and in fact may be a key component. It is so easy to build packages/scripts and miss significant security considerations (at least for me) that this area likely has many spaces that could be improved upon. Providing means for reviewers to identify and even just consider that as part of a reviewer suite of tools would likely be useful.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hrbrmstr">
+              hrbrmstr
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>@noamross aye. been keeping an 👀 on <code>launchboat</code> and am also keen to also be watching the network calls pkgs make.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jennybc">
+              jennybc
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>I&#39;d appreciate knowing what the most realistic threat model is for the R package ecosystem and how that aligns against various measures to tighten things up.</p>
+<p>Example: I am dimly aware of malicious packages in some other language&#39;s repository that had names very close to the &quot;real&quot; packages. And the Bad People exploited mis-spellings to get users to install and run them. That&#39;s a really different threat from, say, someone impersonating me and making commits to packages I maintain.</p>
+<p>Which threats should we be most worried about and who has to do something to mitigate it?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">
+              batpigandme
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>+1 to all of this…
+Also, and maybe this is limited audience (or just unrelated), but basic file threat-assessment. Sometimes you&#39;ve gotta deal with someone else&#39;s data, and (e.g. with readxl) they have to get it to you some way…</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hrbrmstr">
+              hrbrmstr
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>That&#39;s a 👍 point @batpigandme. &quot;Thankfully?&quot; malicious XML and JSON docs are usually targeting browsers and wld have some serious impediments trying to account for various R interpreter environs. Similarly, malicious PDFs are usually targeting Acrobat or Preview or third-party Windows PDF readers. However, the pkgs in the R ecosystem are all using the same core, [vulnerable] libraries so there is room for caution. And, we all get Word docs, Excel docs, PDFs, etc which all have threat vectors.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hrbrmstr">
+              hrbrmstr
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>@jennybc that&#39;s definitely a good unconf working-group mind-meld/group convo (since I&#39;m likely far from the typical R user and cld use some examples of daily use patterns to help with said threat modeling :-)</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

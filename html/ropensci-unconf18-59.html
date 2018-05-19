@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Building meta-packages (e.g. tidyverse) to centralize multiple packages</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#59</span>
+        </p>
+        <h1>Building meta-packages (e.g. tidyverse) to centralize multiple packages</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">maurolepore</a>
+            <time>5/14/2018</time>
+          </div>
+          <div class="body">
+            <p>Do you find yourself repeatedly installing or loading the same packages? How about building a meta-package? </p>
+<p>The main goal of a meta-package is to install and load other packages (a famous example is the <strong>tidyverse</strong> package). But also you may use the pkgdown website of a meta-package as a kind of meeting point for all the packages it gathers (e.g. <a href="https://www.tidyverse.org/">tidyverse</a>; <a href="https://forestgeo.github.io/fgeo/">fgeo</a>).</p>
+<p>It turns out that building a meta-package is surprisingly simple. The source code of the <strong>tidyverse</strong> is an excellent template. You could use it to build your own meta-package, or we could generalize it to create a package that creates a meta-package. Is this getting too meta?
+:)</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Summary: Building a package to create a meta-package, such as the <strong>tidyverse</strong>.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

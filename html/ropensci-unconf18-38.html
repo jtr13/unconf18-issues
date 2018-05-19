@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Understanding CRAN Incoming</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#38</span>
+        </p>
+        <h1>Understanding CRAN Incoming</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">elinw</a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body">
+            <p>Recently in the Slack channel I semi jokingly suggested creating an app to run a cron job to scrape the incoming folder at CRAN in order to better understand empirically how long packages stay in each state and where they move to and potentially what the bottlenecks are and what the most common kinds of problems are (for example what kinds of Notes are most common and what operating system environments have the most failures and why).  Maybe the CRAN managers already know this, but maintainers don&#39;t seem to.  Ideally if we had the data we could use it to make suggestions about how to deal with bottle necks or to improve documentation to help people avoid problems or (my pet issue) improve the understandability of notes. </p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>I non-jokingly think it&#39;s a cool idea. It&#39;d also be cool to have a dashboard because currently to find where your package is you need to click in the subfolders right?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>Yes, that&#39;s right, it&#39;s kind of annoying that you have to keep trying different folders.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">
+              batpigandme
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>Possibly related(ish) package: François Michonneau&#39;s foghorn:
+<a href="https://github.com/fmichonneau/foghorn">https://github.com/fmichonneau/foghorn</a> .
+The aim is different (it reports CRAN Check results), but I think it would be interesting information to integrate…</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hadley">
+              hadley
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>This is such a good idea that we have already been doing it 😉 </p>
+<p>@edgararuiz did all the hard work, and he&#39;s going to look into sharing our scripts and the data we&#39;ve collected sofar</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>@batpigandme Yes! I saw foghorn and it would be great to integrate some parts,
+@hadley @edgararuiz that would be amazing!  I should have suspected you&#39;d have thought about this.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/boshek">
+              boshek
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>Great idea. </p>
+<p>I&#39;ll ask, what is probably, a naive question. Is this something that we can work on <em>with</em> the folks at CRAN? This amounts to some sort of oversight of CRAN particularly if this took the form of a package. I fully understand the need for this. But I wonder if some communication with the folks at CRAN about this may useful in the long run. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>When we have something to show them I definitely would do so.  If we find some solve-able bottlenecks I think that could help everyone.</p>
+<blockquote>
+<p>On Apr 26, 2018, at 1:04 PM, Sam Albers <a href="mailto:&#110;&#x6f;&#116;&#x69;&#102;&#x69;&#99;&#97;&#116;&#x69;&#x6f;&#110;&#115;&#64;&#103;&#105;&#116;&#x68;&#117;&#98;&#x2e;&#99;&#111;&#x6d;">&#110;&#x6f;&#116;&#x69;&#102;&#x69;&#99;&#97;&#116;&#x69;&#x6f;&#110;&#115;&#64;&#103;&#105;&#116;&#x68;&#117;&#98;&#x2e;&#99;&#111;&#x6d;</a> wrote:</p>
+<p>Great idea.</p>
+<p>I&#39;ll ask, what is probably, a naive question. Is this something that we can work on with the folks at CRAN? This amounts to some sort of oversight of CRAN particularly if this took the form of a package. I fully understand the need for this. But I wonder if some communication with the folks at CRAN about this may useful in the long run.</p>
+<p>—
+You are receiving this because you authored the thread.
+Reply to this email directly, view it on GitHub <a href="https://github.com/ropensci/unconf18/issues/38#issuecomment-384716264">https://github.com/ropensci/unconf18/issues/38#issuecomment-384716264</a>, or mute the thread <a href="https://github.com/notifications/unsubscribe-auth/AAuEfXLID3ZW8_pPHLxo8Df-tX810-DNks5tsf4sgaJpZM4TiqcA">https://github.com/notifications/unsubscribe-auth/AAuEfXLID3ZW8_pPHLxo8Df-tX810-DNks5tsf4sgaJpZM4TiqcA</a>.</p>
+</blockquote>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hadley">
+              hadley
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>@boshek I think that&#39;s a question best answered in person</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/boshek">
+              boshek
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>@hadley I&#39;ll look forward to it.</p>
+<p>@elinw:</p>
+<blockquote>
+<p>If we find some solve-able bottlenecks I think that could help everyone</p>
+</blockquote>
+<p>Such a great point.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/edgararuiz">
+              edgararuiz
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>Hi all, I cleaned up and move what I have to this repo: <a href="https://github.com/edgararuiz/cran-stages">https://github.com/edgararuiz/cran-stages</a></p>
+<p>It includes @hadley &#39;s diagram that contains our conclusions about the flow.  It also has the data we gathered from the snapshots of the CRAN Incoming folder, scripts you can use to recreate the analysis, and a quick analysis of the data. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>That&#39;s fantastic! Lots to think about. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>5/11/2018</time>
+          </div>
+          <div class="body"><p>Shouldn&#39;t it also be possible to scrape the errors and notes packages generate? One of my things is that sometimes making the notes more understandable would make the whole thing less painful.  Or just to have a list of common problems would be helpful.  </p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

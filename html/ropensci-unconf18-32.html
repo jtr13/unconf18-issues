@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>teach clean code principles with examples in R</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#32</span>
+        </p>
+        <h1>teach clean code principles with examples in R</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/czeildi">czeildi</a>
+            <time>4/19/2018</time>
+          </div>
+          <div class="body">
+            <p>Writing clean code is important for efficient work in every programming language. However, most of the resources available (at least what I encountered so far) contain examples in primarily object oriented languages making it less accessible for R programmers who are not software engineers.</p>
+<p>Clean code makes it easier to collaborate, to avoid bugs and write working code faster. It also helps with understanding code written by others.</p>
+<p>I envision a blog post series / bookdown with the relevant principles adopted from the Clean Code book with examples in R, focusing on every day R users and not necessarily those writing production R code. (i.e. do not mention error classes or R6 classes but focus on the most common use cases) </p>
+<p>See:</p>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/cleanr/index.html">https://cran.r-project.org/web/packages/cleanr/index.html</a> </li>
+<li><a href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Robert C Martin: Clean Code</a></li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">
+              batpigandme
+            </a>
+            <time>5/10/2018</time>
+          </div>
+          <div class="body"><p>Is there an online version of this book anywhere? I&#39;d be curious to see what it&#39;s all about!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/czeildi">
+              czeildi
+            </a>
+            <time>5/12/2018</time>
+          </div>
+          <div class="body"><p>@batpigandme afaik the book is not available for free but there&#39;s ebook version.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/czeildi">
+              czeildi
+            </a>
+            <time>5/14/2018</time>
+          </div>
+          <div class="body"><p>We just held a workshop on this topic with @paljenczy at <a href="http://2018.erum.io/#talk-2-303">eRum 2018</a> and we created a <a href="https://github.com/czeildi/erum-2018-clean-r-code/blob/infra/clean_r_code_cheatsheet_2018-05-08.pdf">cheatsheet</a> which could be a starting point for a more in-depth material.</p>
+<p>@hadley I also thought about differences and similarities with your styleguide book <a href="http://style.tidyverse.org">http://style.tidyverse.org</a> For one part the styleguide seems to be a subset of the clean code topic. I think style as a more local thing and clean code (like organizing functions) as a more global topic which makes sense at a somewhat larger scale. But you also touch these topics, like in the section on function design <a href="http://style.tidyverse.org/functions.html#design">here</a>.</p>
+<p>Actually I think that at the unconf I&#39;d like to work on a project more about actual coding but outside the unconf I&#39;d love to think more and possibly collaborate around this topic. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/hadley">
+              hadley
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>@czeildi I think your cheatsheet is a little too prescriptive; we should chat about it in person.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

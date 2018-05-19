@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Datasets search</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#26</span>
+        </p>
+        <h1>Datasets search</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">elinw</a>
+            <time>4/16/2018</time>
+          </div>
+          <div class="body">
+            <p>When I&#39;m writing tutorials or documentation or when I&#39;m teaching I often fall back on the same sample data sets over and over. At the same time, when I need something specific such as an ordered factor I have to search around to find one.  I try to stick to the base datasets.  I was thinking that it would be neat to have something (a package or a shiny app or a combination) that would let you search for a specific class of data structure (data frame, matrix, ts, dist, cube etc (there are a lot))  an also for specific variable types for those types that support multiple types. Maybe also experimental versus observational?  <a href="https://vincentarelbundock.github.io/Rdatasets/datasets.html">https://vincentarelbundock.github.io/Rdatasets/datasets.html</a>  has a list of the data sets, but the purpose of that archive is more to put them all into csv format in a consistent manner.</p>
+<p>An added bonus would be to be able to make the api generic enough to search other packages but my initial goal would be the ones in datasets.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/boshek">
+              boshek
+            </a>
+            <time>4/17/2018</time>
+          </div>
+          <div class="body"><p>Cool idea! Trying to figure if I understand correctly. Do you mean something like:</p>
+<pre><code>check_dataset(package = &quot;datasets&quot;)
+# A tibble: 8 x 6
+  Package  Item          Title                                                        Rows  Cols Class     
+  &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;                                                       &lt;int&gt; &lt;int&gt; &lt;chr&gt;     
+1 datasets ability.cov   Ability and Intelligence Tests                                  6     8 list      
+2 datasets airmiles      Passenger Miles on Commercial US Airlines, 1937-1960           24     2 ts        
+3 datasets AirPassengers Monthly Airline Passenger Numbers 1949-1960                   144     2 ts        
+4 datasets airquality    New York Air Quality Measurements                             153     6 data.frame
+5 datasets anscombe      Anscombe&#39;s Quartet of &#39;Identical&#39; Simple Linear Regressions    11     8 data.frame
+6 datasets attenu        The Joyner-Boore Attenuation Data                             182     5 data.frame
+7 datasets attitude      The Chatterjee-Price Attitude Data                             30     7 data.frame
+8 datasets austres       Quarterly Time Series of the Number of Australian Residents    89     2 ts   
+</code></pre><p>Then you narrow down if you are look for data.frame, list etc?. So a function that a) returns a tibble and b) accepts a package(s) as an argument?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">
+              mpadge
+            </a>
+            <time>4/18/2018</time>
+          </div>
+          <div class="body"><p>Concur here too: cool idea! It would also be pretty straightforward to integrate that within <a href="https://github.com/ropenscilabs/flipper"><code>flipper</code></a>. The <a href="https://github.com/ropensci/unconf18/issues/25">mooted extension</a> to <a href="https://github.com/ropensci/unconf17/issues/78">trawling all <code>/man</code> directories</a> is technically straightforward, and could very easily include functionality to trawl any <code>@docType data</code> to enables those to be text-searched, and to group by return type (<code>@format</code>).</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>4/19/2018</time>
+          </div>
+          <div class="body"><p>Cool, yes something similar to what @boshek has,  I started playing a bit just to see what the complications would be.  My basic idea would be to be able to </p>
+<ol>
+<li>Search for a data set of a particular type (e.g. data frame, ts, mts, matrix etc)</li>
+<li>Be able to search (within data frames I guess) for presence of variables with specific classes.
+So if you take a package name as an argument get all the information about the data into a tibble and then you&#39;d be able to say give me all the data frames with a factor.</li>
+</ol>
+<p>So this is just a quick script for making a data frame from the core data. I wanted to see what some of the complications would be and they are having spaces + extra words in the Item field and having multiple classes. </p>
+<pre><code>dataset_list &lt;- data(package=&quot;datasets&quot;)
+datasets_df &lt;- as.data.frame(dataset_list[[&quot;results&quot;]], stringsAsFactors = FALSE)
+datasets_df$short &lt;- gsub( &quot; .*$&quot;, &quot;&quot;, datasets_df$Item )
+
+for (i in 1:nrow(datasets_df)){
+  dataset_name &lt;- get(datasets_df$short[i])
+  # Get the first class name when there is more than one. 
+  class_name &lt;- class(dataset_name)
+  datasets_df$class[i] &lt;- class(dataset_name)[1]
+  datasets_df$n_classes[i] &lt;- length(class(dataset_name))
+}
+</code></pre><p>And then something like the below to get the classes but the question would be how to organize the information to make it most useful.
+For example maybe something like a set of logical variables: has_numeric, has_factor, has_logical, has_integer, has_character etc. </p>
+<pre><code># Figure out what would work best for people in terms of searching
+unlist(lapply(get(datasets_df$Item[i]), class))
+</code></pre></div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jtr13">
+              jtr13
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>Love this idea.  Beyond class, it would be helpful to have information about the data types. Often I need several categorical variables, and while I do love the Titanic dataset, some more diversity would be a good thing.  When writing exams I searched through <a href="https://cran.r-project.org/web/packages/Sleuth3/Sleuth3.pdf">the Sleuth3 manual</a> for particular criteria but it was very time-consuming.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>A helpful starting point might be last year&#39;s project examining data packages on CRAN: <a href="https://github.com/ropenscilabs/data-packages">https://github.com/ropenscilabs/data-packages</a>.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>@jtr13  That&#39;s what I mean by class. There are so few ordered factors! So actually it would be good to know the number of each type. E.g. 3 factors, 2 ordered factors,5 numeric.  I agree that it&#39;s the combinations that get really frustrating.  When you want a simple example  having  to convert types can be a distraction from the main lesson. </p>
+<p>@noamross If packages documented like that it would be cool and we could definitely include in a dashboard.   We could at least provide a url for the description (although we can also try to scrape them).The other thing is packages that wrap APIs for accessing data. The main thing is to make it automated. </p>
+<p>Then maybe if we have a sense of what is there that let&#39;s us think about what&#39;s missing. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jtr13">
+              jtr13
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>@elinw Got it. When do you use ordered factors? I never do! (This probably isn&#39;t the right place to discuss this...)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>All those “too much, too little, about right” questions for one …  </p>
+<p>Which leads to a whole other set of things.</p>
+<p>One of the big issues for me in the base categorical data is that they have it formatted into table classes but I want my students to see them like they are a data frame meaning a more realistic s setting where there are variables of at least two types.</p>
+<blockquote>
+<p>On Apr 24, 2018, at 8:51 PM, Joyce Robbins <a href="mailto:&#110;&#x6f;&#116;&#x69;&#x66;&#x69;&#x63;&#x61;&#x74;&#x69;&#111;&#x6e;&#x73;&#64;&#103;&#105;&#x74;&#x68;&#117;&#98;&#46;&#x63;&#111;&#109;">&#110;&#x6f;&#116;&#x69;&#x66;&#x69;&#x63;&#x61;&#x74;&#x69;&#111;&#x6e;&#x73;&#64;&#103;&#105;&#x74;&#x68;&#117;&#98;&#46;&#x63;&#111;&#109;</a> wrote:</p>
+<p>@elinw <a href="https://github.com/elinw">https://github.com/elinw</a> Got it. When do you use ordered factors? I never do! (This probably isn&#39;t the right place to discuss this...)</p>
+<p>—
+You are receiving this because you were mentioned.
+Reply to this email directly, view it on GitHub <a href="https://github.com/ropensci/unconf18/issues/26#issuecomment-384125492">https://github.com/ropensci/unconf18/issues/26#issuecomment-384125492</a>, or mute the thread <a href="https://github.com/notifications/unsubscribe-auth/AAuEfUTazsvs9GTAV4Z87zrR3YKNzUbQks5tr8iegaJpZM4TXcvS">https://github.com/notifications/unsubscribe-auth/AAuEfUTazsvs9GTAV4Z87zrR3YKNzUbQks5tr8iegaJpZM4TXcvS</a>.</p>
+</blockquote>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jtr13">
+              jtr13
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>I&#39;ve never had to use ordered factors for that kind of data for my purposes (usually visualization). I just order the levels of regular factors. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/laderast">
+              laderast
+            </a>
+            <time>5/9/2018</time>
+          </div>
+          <div class="body"><p>Cool idea! One thought might be that oftentimes, when I&#39;m looking for a teaching dataset, I&#39;m looking for the presence of variable relationships in the data, such as smoking status (categorical) vs. BMI (continuous). So could this be another way of classifying the datasets?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/elinw">
+              elinw
+            </a>
+            <time>5/11/2018</time>
+          </div>
+          <div class="body"><p>Yes so that&#39;s what I was trying to say about getting the classes of the variables for the data frames.
+<a href="https://github.com/elinw/dataestsearch/blob/master/R/datasetsearch.R">https://github.com/elinw/dataestsearch/blob/master/R/datasetsearch.R</a></p>
+<p>Is a concept but not that well coded (loops!! ) ... and it doesn&#39;t handle getting the variable types for tibbles but it does work for data frames.  I mean this is just a concept but if we have a bunch of people we could make it really nice and figure out what is useful.  </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/laderast">
+              laderast
+            </a>
+            <time>5/12/2018</time>
+          </div>
+          <div class="body"><p>Ah, ok, that makes sense. I did something similar with a shiny workshop in identifying variables from a <code>data.frame</code> so that factor, character, and continuous variables would populate the right dropdowns for any dataset that was loaded into an app. It&#39;s the same idea as your code: <a href="https://github.com/laderast/gradual_shiny/blob/master/03_observe_update/helper.R">https://github.com/laderast/gradual_shiny/blob/master/03_observe_update/helper.R</a></p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

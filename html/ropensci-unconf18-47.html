@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Batch File Processing Workflow</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#47</span>
+        </p>
+        <h1>Batch File Processing Workflow</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/laderast">laderast</a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body">
+            <p>Hi Everyone,</p>
+<p>I&#39;ve been kicking this idea around for a little bit. Our group does a lot of batch processing of input files when we run our pipeline for flow cytometry data. Sometimes the output of a step will fail, and we have to flag the files that fail so they aren&#39;t passed through further steps in the pipeline.</p>
+<p>When I do this currently, I basically build file manifests (location of files with relevant metadata) and run some sort of processing in R. I was thinking maybe by incorporating data assertions (like with assertr), we can have a workflow that shows when files pass a step, and flags those files that fail a processing step. In the end, we can display to users of the pipeline which files passed and which files didn&#39;t, and which steps.</p>
+<p>Maybe there&#39;s a little germ of an idea here that might work for the unconf. I&#39;m not sure, so I&#39;m putting it out there.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/karthik">
+              karthik
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>Drake can do a lot of what you are asking for (cc @wlandau-lilly). <code>vis_drake_graph</code> on your Drake plan should show you steps that failed (in red). Fixing those should only re-run those steps and not everything from scratch. You might take a look at <a href="https://github.com/ropensci/drake">https://github.com/ropensci/drake</a> and see if it&#39;s something that matches your needs.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>+1 to that! Suppose we&#39;re working with <a href="https://ropensci.github.io/drake/articles/drake.html">this data analysis workflow</a> and one of our functions does not work.</p>
+<pre><code class="lang-r">create_plot &lt;- function(data) {
+  ggplot(data, aes(x = Petal.Width, fill = Species)) +
+    geom_histogram(binwidth = 0.25) +
+    theme_gray(20) +
+    BAD_LAYER
+}
+</code></pre>
+<p>We run our workflow and see.</p>
+<pre><code class="lang-r">&gt; make(plan)
+target raw_data
+target data
+target fit
+target hist
+fail hist
+Error: Target `hist`` failed. Call `diagnose(hist)` for details. Error message:
+  object &#39;BAD_LAYER&#39; not found
+</code></pre>
+<p>Diagnostics include warnings, errors, messages, and other context.</p>
+<pre><code class="lang-r">&gt; diagnose(hist)
+&gt; diagnose(hist)
+$target
+[1] &quot;hist&quot;
+
+$messages
+NULL
+
+$error
+&lt;simpleError in create_plot(data): object &#39;BAD_LAYER&#39; not found&gt;
+</code></pre>
+<p>You can list the failed targets programatically.</p>
+<pre><code class="lang-r">&gt; failed()
+[1] &quot;hist&quot;
+</code></pre>
+<p>As Karthik mentioned, these failures are shown in the dependency graph.</p>
+<pre><code class="lang-r">config &lt;- drake_config(plan)
+vis_drake_graph(config, targets_only = TRUE, full_legend = FALSE)
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/1580860/39442170-60113bee-4c7e-11e8-808d-b863b9d81e2a.PNG" alt="capture"></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/laderast">
+              laderast
+            </a>
+            <time>4/30/2018</time>
+          </div>
+          <div class="body"><p>Ah, very cool. I didn&#39;t know about Drake!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>5/13/2018</time>
+          </div>
+          <div class="body"><p>@laderast, would <code>purrr::safely()</code> and <code>purrr::possibly()</code> help you?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/laderast">
+              laderast
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>Thanks @maurolepore - <code>purrr::safely()</code> is a nice approach</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

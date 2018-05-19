@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Running minimal code with changed inputs</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#53</span>
+        </p>
+        <h1>Running minimal code with changed inputs</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/OmaymaS">OmaymaS</a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body">
+            <p>I am not sure if this topic was tackled from all sides but thought about sharing.</p>
+<p><strong>Problem</strong>
+When one runs a script, there could be a computationally heavy parts, but not all these parts require re-running. The inputs to these parts could be the same, the imported data might not have changed since the last time, etc.</p>
+<p>In Rmarkdown, one can use caching in chunks to save some data importing. And in scripts one could write some conditions to control running some code.</p>
+<p><strong>It would be more efficient if there&#39;s a simple way to detect changes and decide which parts to be re-run automatically</strong></p>
+<p>So if there are available solutions for this, let me know. If not we might think about certain functions or settings to help with this.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>I think <a href="https://github.com/ropensci/drake">https://github.com/ropensci/drake</a> could help with this?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>Yes, I designed <a href="https://github.com/ropensci/drake"><code>drake</code></a> explicitly for this purpose. See <code>drake</code>&#39;s <a href="https://ropensci.github.io/drake/articles/drake.html">main example</a> for a proof of both concept and implementation.</p>
+<p>It is so gratifying to see people independently discover the need for such a tool.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">
+              batpigandme
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>In lieu of the unconf, we&#39;ll be having a two-day drake intensive! 😂
+Seriously though, @wlandau, you should just post a list of all the things people have suggested for which drake provides a solution!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>Thanks! It&#39;s exciting how many of them are in this issue tracker alone.</p>
+<p>I cannot physically be in Seattle on May 21-22, but I will do my absolute best to be present online.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>As much as I like <strong>drake</strong>, I see a space for a solution here is a little more lightweight.  Almost all R build systems force users to refactor their code away from scripts to functions.  There are good reasons for this but it adds a lot of overhead for people who are working with scripts. </p>
+<p>I think there could be a useful solution here wherein one does cacheing on an R script with a function like <code>source_cached()</code>.  In this solution, one would treat every line of code in the script like a <strong>knitr</strong> chunk.  Then one could either</p>
+<ul>
+<li>Hash and save the script&#39;s environment after every line (high storage), or</li>
+<li>Hash every and save every object in the environment after every line (more overhead, less storage)</li>
+</ul>
+<p>One could probably use <code>storr::driver_envionment()</code> for fast in-session storage, or a regular on-disk storr.</p>
+<p>This wouldn&#39;t be the most efficient solution but it would probably work very well for the case of a script that has gotten a bit unwieldy which someone is developing through interactive use.</p>
+<p>Since this is meant to be a convenience tool, one would probably throw in an RStudio add-in, so one could run <code>source_cached()</code> on the current script with a hotkey.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>@noamross I think <code>source_cached()</code> is absolutely possible, maybe even straightforward, with <a href="https://github.com/r-lib/memoise"><code>memoise</code></a> + <a href="https://github.com/duncantl/codedepends"><code>CodeDepends</code></a>. And I agree, its bare simplicity would fill a niche.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>At one point, I thought maybe there could be an automatic way to turn an arbitrary R script into a <code>drake_plan()</code>, but this turns out to be extremely difficult to even think about.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

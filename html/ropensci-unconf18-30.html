@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Caching for drake</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#30</span>
+        </p>
+        <h1>Caching for drake</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/ldecicco-USGS">ldecicco-USGS</a>
+            <time>4/18/2018</time>
+          </div>
+          <div class="body">
+            <p>Data scientists are expert at mining large volumes of data to produce insights, predict outcomes, and/or create visuals quickly and methodically.  <code>drake</code> (<a href="https://github.com/ropensci/drake">https://github.com/ropensci/drake</a>) has solved a lot of problems in the data-science-pipeline, but one thing we still struggle with is how to effectively collaborate on a large-scale project, without each contributor needing to run all of the workflow, or separating the workflows into many dis-jointed smaller workflows. In some large-scale projects, this is just not feasible.</p>
+<p>It would be awesome if a wide community of R developers could come together and try to create a way for <code>drake</code> to have a collaborative caching feature. </p>
+<p>My group had set up a wrapper package for <code>remake</code> (<code>drake</code>&#39;s predecessor) that allows tiny indicator files to be pushed up to github. These indicator files let the user know that the target was complete and the data was pushed up to some common caching location.  The next user would do an upstream pull request from Github, pull down the indicator file. The new user would not need to re-run a target that some other collaborator had already run, but instead pull the data down (if it&#39;s needed) rather create it from the workflow. It got a bit awkward because we needed 2-3 remake targets to accomplish this, and that tripped up our &quot;non-power-user&quot; collaborators.</p>
+<p>I&#39;d propose the first step would be to develop caching workflow to Google Drive (using the <code>googledrive</code> package). Once the process was flushed out with using Google Drive, it could be more easily expanded to other data storage options (AWS using the <code>aws.s3</code> package for example). </p>
+<p>My gut says this might need to be a wrapper or companion package to <code>drake</code> (to keep the dependent packages minimized), but not sure. @wlandau and other <code>drake</code> experts: I would looove to hear any feedback you have on this idea. If in fact this issues is not-an-issue (ie...<code>drake</code> can already handle caching and I just missed it...totally possible...), then we could morph this issues into a group that helps create more content for a <code>drake</code> blogdown/bookdown book! </p>
+<p>The wrapper package for <code>remake</code> is here:
+<a href="https://github.com/USGS-R/scipiper">https://github.com/USGS-R/scipiper</a></p>
+<p>#12 is another <code>drake</code>-based project. </p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>4/18/2018</time>
+          </div>
+          <div class="body"><p>I would be really stoked to have help on this! Remote/collaborative storage has been a major sticking point (see <a href="https://github.com/ropensci/drake/issues/198">https://github.com/ropensci/drake/issues/198</a>,  <a href="https://github.com/richfitz/storr/issues/55">https://github.com/richfitz/storr/issues/55</a>, and especially <a href="https://github.com/richfitz/storr/issues/61)">https://github.com/richfitz/storr/issues/61)</a>. I looked at <a href="https://github.com/USGS-R/scipiper"><code>scipiper</code></a>, and I think a package like that could work for <code>drake</code>. I also think we might consider options that do not require changing the workflow plan. Ideally, we should be able to collaborate on Google Drive without adding targets or changing their commands.</p>
+<p>A bit of background: <code>drake</code> uses @richfitz&#39;s <a href="https://github.com/richfitz/storr"><code>storr</code></a> package for caching, usually in the local file system. By default, <code>make()</code> creates a <a href="http://richfitz.github.io/storr/reference/storr_rds.html"><code>storr_rds()</code></a> cache in a hidden <code>.drake/</code> directory to store the targets. You can use other <code>storr</code> caches such as <code>storr_environment()</code> and <code>storr_dbi()</code>, but these are not thread safe (e.g. for <code>make(jobs = 8)</code>), and the <code>DBI</code> option requires a database connection that does not carry over to remote jobs (e.g. <code>make(parallelism = &quot;future&quot;)</code> on HPC clusters). The <a href="https://ropensci.github.io/drake/articles/storage.html">guide to customized storage</a> has more details.</p>
+<p>As I understand it, the current practice for sharing results is to upload everything and hope that files in the <code>.drake/</code> cache does not get corrupted along the way. Services like Dropbox create disruptive backup files like the ones @kendonB <a href="https://github.com/ropensci/drake/issues/198#issuecomment-362185998">mentioned here</a>. For <code>drake</code>&#39;s default cache (<code>storr_rds(mangle_key = TRUE)</code>), it should be straightforward to clear out those extra files (<a href="https://github.com/richfitz/storr/issues/55#issuecomment-374230112)">https://github.com/richfitz/storr/issues/55#issuecomment-374230112)</a>. I just have not gotten around to building this into <a href="https://ropensci.github.io/drake/reference/rescue_cache.html"><code>rescue_cache()</code></a>. @richfitz mentioned that <code>storr</code> might take care of some of the cleaning too (<a href="https://github.com/richfitz/storr/issues/55#issuecomment-367837646)">https://github.com/richfitz/storr/issues/55#issuecomment-367837646)</a>.</p>
+<p>At this point, I think I should touch on some similar ideas / features that might help.</p>
+<h2 id="drake-hooks">drake hooks</h2>
+<p>The <code>make()</code> function has a <code>hook</code> argument, and you can use it to wrap things around the code that actually processes the target.</p>
+<pre><code class="lang-r">custom_hook &lt;- function(code){
+  force(code) # Build and store the target.
+  sync_with_google_drive()
+}
+make(your_plan, hook = custom_hook)
+</code></pre>
+<p>But I have not actually used this feature very much. To be honest, I designed it as a way to silence/redirect output, so we would need to do some internal refactoring on <code>drake</code> itself.</p>
+<h2 id="a-googledrive-driver-for-storr-">A googledrive driver for storr?</h2>
+<p>I think it would be fantastic if <code>storr</code> supported an <a href="http://richfitz.github.io/storr/reference/storr_rds.html">RDS-like</a> driver powered by <code>googledrive</code>.</p>
+<pre><code class="lang-r">library(drake)
+library(storr)
+plan &lt;- drake_plan(...)
+cache &lt;- storr_googledrive(&quot;https://drive.google.com/drive/my-drive/stuff/.drake&quot;)
+make(plan, cache = cache)
+</code></pre>
+<p>But from <a href="https://github.com/richfitz/storr/issues/61">https://github.com/richfitz/storr/issues/61</a>, that may be asking too much.</p>
+<h2 id="target-logs-fingerprinting-your-pipeline">Target logs: fingerprinting your pipeline</h2>
+<p>As for communication, @noamross had the bright idea of writing a log file to fingerprint the cache. If you commit it to GitHub, the changelog will show the targets that changed on each commit.</p>
+<pre><code class="lang-r">library(drake)
+load_basic_example()
+make(my_plan, cache_log_file = &quot;log.txt&quot;, verbose = FALSE)
+head(read.table(&quot;log.txt&quot;, header = TRUE))
+#&gt;               hash   type                   name
+#&gt; 1 de0922cd962af6e2 target coef_regression1_large
+#&gt; 2 331afc4b2b42b57f target coef_regression1_small
+#&gt; 3 def5102800992696 target coef_regression2_large
+#&gt; 4 2e52655d4d9ddb47 target coef_regression2_small
+#&gt; 5 478684feec29a859 import             data.frame
+#&gt; 6 e3bf796806094874 import                   knit
+</code></pre>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>4/19/2018</time>
+          </div>
+          <div class="body"><p>Update: if non-custom <code>drake</code> caches get corrupted when you upload them to Google Drive or Dropbox or the like, you can try to fix the problem with <code>drake_gc()</code> (development <code>drake</code> only). Related:</p>
+<ul>
+<li><a href="https://github.com/ropensci/drake/blob/master/vignettes/caution.Rmd#projects-hosted-on-dropbox-and-similar-platforms">The issue explained</a></li>
+<li><a href="https://github.com/ropensci/drake/issues/198">https://github.com/ropensci/drake/issues/198</a></li>
+<li><a href="https://github.com/ropensci/drake/issues/322">https://github.com/ropensci/drake/issues/322</a></li>
+<li><a href="https://github.com/richfitz/storr/issues/55">https://github.com/richfitz/storr/issues/55</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

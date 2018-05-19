@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Taking some pain out of finding/linking to unique IDs?</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#52</span>
+        </p>
+        <h1>Taking some pain out of finding/linking to unique IDs?</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/magpiedin">magpiedin</a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body">
+            <p>A wish/need/dread for data standards came up in <a href="https://github.com/ropensci/unconf18/issues/41">issue 41</a>, and brought a few ideas to mind:</p>
+<ul>
+<li>For cleaning Darwin Core/biodiversity data, there are some good tools (e.g., <a href="http://wiki.datakurator.org/wiki/Kurator">Kurator</a>, which looks like it&#39;s getting <a href="https://github.com/rstats-gsoc/gsoc2018/wiki/Darwinazing-biodiversity-data-in-R">some translation to R</a>). </li>
+<li>For finding IDs for publications, people, specimens, taxa, etc, there are lots of great resources (<code>fulltext</code>, <code>rorcid</code>, <code>spocc</code>, <code>taxize</code>...)</li>
+<li>But for actually finding &amp; linking the pieces (specifically, the unique IDs for publications, specimens, people, etc), projects often run out of energy/time/awareness</li>
+</ul>
+<p>Any thoughts on a helper/gentle-reminder app or lesson for suggesting linkable values contained within datasets or papers -- for instance, by indexing what types of fields/records exist in a given dataset, and suggesting relevant packages from CRAN or ropensci that could retrieve identifiers? </p>
+<p>I realize I&#39;m glossing over some major obstacles to actually linking data (e.g., cleaning free text values &amp; resolving entities is enough of a mountain; plan-ahead is better than fix-it-in-post when possible), so I&#39;m all ears if this could use more [or a different] focus. 
+Or if something magical already exists along these lines.
+...Or if there&#39;s a good/sustainable alternative to developing tools/packages that rely on multiple API wrappers?...</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>This is a hard problem! I have an as-yet unfunded proposal to develop a system that tries to use text-recognition ML identify fields in a dataset and link them to appropriate ontologies - for instance, recognizing which columns are species, which are publications, and such.  I believe that @amoeba has worked something similar for DataONE. </p>
+<p>Ease of use is definitely one of the big challenges - I could see something like a function like <code>find_ids()</code> that you could run on a document and it would return items that might have IDs (author names, species names, publications) using a text-recognition model (or maybe some pre-trained services like <strong>monkeylearn</strong>.), perhaps with boilerplate code for searching them via those packages?  </p>
+<p>Running on CSVs or similar datasets is would probably be a bit harder because the off-the-shelf tools aren&#39;t as developed, DataONE has a set of curated, annotated <a href="https://github.com/DataONEorg/semantic-query/tree/master/lib">data sets for training models</a>, and was working on it, but I&#39;m not sure the status of that.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>Great suggestion.  Advice and simple, performant tools just to find the identifiers would be really cool -- too often most tools assume the user already has a pretty good grasp of the landscape and knows what they want.  </p>
+<p>An important piece of this puzzle I think are things that can deliver immediate value to the researcher implementing them; or at least a clear value proposition for why to use identifiers.  The lesson idea sounds like an interesting way to go; it could illustrate both how to do a task like adding taxa ids, and demonstrate how that makes your life easier (say, in merging two datasets with differing taxonomy)?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>(On darwin core, @sckott also has WIP <a href="https://github.com/ropenscilabs/taxadc">https://github.com/ropenscilabs/taxadc</a>)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/sckott">
+              sckott
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>thanks @cboettig - i was just reading this issue. </p>
+<p>wrt <code>taxadc</code>, that&#39;s just for taxonomy, to try to make it easy for users to convert <a href="https://github.com/ropensci/taxa">https://github.com/ropensci/taxa</a> classes to DWC compliant, and then serialize those objects to XML/JSON/JSON-LD/etc. </p>
+<p>I agree some kind of tool that scans text for entities that might have unique IDs would be great. On the taxonomy front, there&#39;s i think a global names project tool that goes through and can identify taxonomic names in text. But I don&#39;t know of tools for other entities that may have identifiers. </p>
+<p>We have at least some tools for identifiers for taxonomy and publications. Are there any major missing things that have identifiers that we don&#39;t yet have tools for?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/magpiedin">
+              magpiedin
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>Thanks for brains!  I will keep fingers crossed for ML proposals, and all for something along the lines of a &quot;how to add/merge taxon id&#39;s&quot; lesson if it can help elucidate some steps in the meantime (+ compliment other things in the works here/locally/globally). </p>
+<p>@sckott -- two things with id&#39;s but not tools of their own are (as far as I know?):
+1 - Institutional identifiers - <a href="http://grbio.org/content/data-download-grbio">GRBio/GRSciColl</a> has a registry of &#39;Cool&#39; HTTP URIs
+2 - Multimedia identifiers - &quot;dcterms:identifier&quot; in a few different standards including Audubon Core</p>
+<p>That said, both of those might be a little shaky to develop anything around currently:</p>
+<ul>
+<li>For Institutions, GRBio itself might be too in-flux currently &amp; without an API, but they do have daily-updated dataset-downloads [which are a little oddly-structured and seem to be suspiciously missing the cool-URIs themselves...?].  But they&#39;re supposedly getting a makeover/takeover from GBIF in the near future...</li>
+<li>For Multimedia, the current GBIF API can return media type, but I don&#39;t think it can return media identifiers [yet] -- either directly or in association with an occurrence record.
+-- Outside of GBIF, MorphoSource.org is one place that&#39;s starting to serve up Audubon Core datasets <a href="https://www.morphosource.org/About/report">here</a> 
+-- &amp; Outside of biodiversity data, <a href="http://iiif.io">IIIF</a> might have some good directions to keep an eye on...</li>
+</ul>
+<p>...I think I&#39;m forgetting something, but I&#39;ll stop there...!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/sckott">
+              sckott
+            </a>
+            <time>5/11/2018</time>
+          </div>
+          <div class="body"><p>related to institutional identifiers, is the Organizational Identifiers group relevant ? <a href="https://orcid.org/content/organization-identifier-working-group">https://orcid.org/content/organization-identifier-working-group</a> and <a href="https://www.crossref.org/blog/organization-identifier-working-group-update/">https://www.crossref.org/blog/organization-identifier-working-group-update/</a></p>
+<blockquote>
+<p>For Institutions, GRBio ... supposedly getting a makeover/takeover from GBIF in the near future...</p>
+</blockquote>
+<p>interesting, would like to learn more about this</p>
+<p>Right, i&#39;ve heard about IIIF, seems great. </p>
+<blockquote>
+<p>the current GBIF API can return media type, but I don&#39;t think it can return media identifiers </p>
+</blockquote>
+<p>here&#39;s some GBIF media data, what would the media identifiers be?</p>
+<pre><code>➜  ~ curl &#39;http://api.gbif.org/v1/occurrence/search?taxonKey=1&#39; | jq &#39;.results[].media&#39;
+</code></pre><pre><code>[
+  {
+    &quot;type&quot;: &quot;StillImage&quot;,
+    &quot;format&quot;: &quot;image/jpeg&quot;,
+    &quot;identifier&quot;: &quot;https://static.inaturalist.org/photos/12648072/original.jpg?1514760468&quot;,
+    &quot;references&quot;: &quot;https://www.inaturalist.org/photos/12648072&quot;,
+    &quot;created&quot;: &quot;2017-12-31T22:46:43.000+0000&quot;,
+    &quot;creator&quot;: &quot;John Flower&quot;,
+    &quot;publisher&quot;: &quot;iNaturalist&quot;,
+    &quot;license&quot;: &quot;http://creativecommons.org/publicdomain/zero/1.0/&quot;,
+    &quot;rightsHolder&quot;: &quot;John Flower&quot;
+  },
+  {
+    &quot;type&quot;: &quot;StillImage&quot;,
+    &quot;format&quot;: &quot;image/jpeg&quot;,
+    &quot;identifier&quot;: &quot;https://static.inaturalist.org/photos/12648077/original.jpg?1514760475&quot;,
+    &quot;references&quot;: &quot;https://www.inaturalist.org/photos/12648077&quot;,
+    &quot;created&quot;: &quot;2017-12-31T22:46:43.000+0000&quot;,
+    &quot;creator&quot;: &quot;John Flower&quot;,
+    &quot;publisher&quot;: &quot;iNaturalist&quot;,
+    &quot;license&quot;: &quot;http://creativecommons.org/publicdomain/zero/1.0/&quot;,
+    &quot;rightsHolder&quot;: &quot;John Flower&quot;
+  }
+]
+</code></pre></div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>5/11/2018</time>
+          </div>
+          <div class="body"><p>Media identifier... i.e., a URI corresponding to the format (mime type?)  Maybe the wikidata identifier is a reasonable choice? <a href="https://www.wikidata.org/wiki/Q2195">https://www.wikidata.org/wiki/Q2195</a></p>
+<p>Funder ids from FundRef are another obvious one.  e.g. <a href="https://github.com/ropensci/codemetar/blob/master/inst/extdata/funderNames.csv">https://github.com/ropensci/codemetar/blob/master/inst/extdata/funderNames.csv</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/magpiedin">
+              magpiedin
+            </a>
+            <time>5/13/2018</time>
+          </div>
+          <div class="body"><p>Nice!  Looks like those are indeed multimedia identifiers in the GBIF data -- staring us in the face at the &quot;identifier&quot; key  :) </p>
+<p><code>&quot;identifier&quot;: &quot;https://static.inaturalist.org/photos/12648077/original.jpg?1514760475&quot;,</code></p>
+<p>(And my understanding is those media identifiers are supposed to be unique/follow a URI structure, but aren&#39;t always a resolvable URL -- at least on GBIF and generally in the Audubon Core <code>dcterms:identifier</code> field)</p>
+<p>I hadn&#39;t been thinking of media format type, but cheers to Wikidata as a reasonable choice, especially as a starting point for less common media formats or things without a main/direct repository to pull from.  (&quot;<a href="http://jhove.openpreservation.org/">JHOVE</a>&quot; &amp; &quot;<a href="http://www.nationalarchives.gov.uk/aboutapps/PRONOM/tools.htm">PRONOM</a>&quot; might relate here, but I&#39;m out of my depth with those)</p>
+<p>Good thinking on FundRef, too.  It sounds like ORCID Organization IDs might overlap with FundRef and GRBio/SciColl, but the record data that could be pulled from each might be useful in different situations?  (If that&#39;s not inviting disambiguation-problems -- &amp; I don&#39;t think it would?)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/amoeba">
+              amoeba
+            </a>
+            <time>5/17/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>I believe that @amoeba has worked something similar for DataONE.</p>
+</blockquote>
+<p>More or less, yeah! I&#39;ve been generally working in this area for a few years along with many other collaborators. I feel like there are two issues that come up a lot:</p>
+<ol>
+<li>Scientists don&#39;t know/want to make use of identifiers in their work</li>
+<li>Scientists who (magically) do want to use identifiers might not be able to find an appropriate one / can&#39;t easily expand the existing identifier space for their needs</li>
+</ol>
+<p>I think (1) is a much larger attack surface at this point and I&#39;d love to brainstorm ideas. This feels somewhat related to <a href="https://github.com/ropensci/unconf18/issues/64">https://github.com/ropensci/unconf18/issues/64</a> in that part of the research compendia review process might involve annotating code and data with appropriate identifiers (Hey, you might want to put your ORCID over here / annotate this column of this data file with this identifier).</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

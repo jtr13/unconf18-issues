@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>A single interface to navigate the documentation of multiple packages</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#58</span>
+        </p>
+        <h1>A single interface to navigate the documentation of multiple packages</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">maurolepore</a>
+            <time>5/14/2018</time>
+          </div>
+          <div class="body">
+            <p>(Relates to #48, #25.)</p>
+<p>How can you search all funcions, datasets and help files across multiple packages within a GitHub organization (e.g. tidyverse, rOpenSci)?</p>
+<p>You may use <a href="https://www.rdocumentation.org/">https://www.rdocumentation.org/</a> or the search field of a GitHub organization; but I think those tools are too general. I propose to build a small package to create a searchable and clickable table of all functions or datasets by package -- including any number of packages within a GitHub organization. A good place to host such a table is on the website of the relevant GitHub organization. </p>
+<p><a href="https://forestgeo.github.io/fgeo/articles/fgeo.html#functions">Here is an example</a>, which I built to solve my problem at the time. We could make the code more general and package it up.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Summary: Build a small package to create a searchable and clickable table of all functions or datasets by package -- including any number of packages within a GitHub organization.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">
+              mpadge
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Cross link to #25, which is a call for effectively the same thing. The <a href="https://github.com/ropenscilabs/flipper"><code>flipper</code> package</a> has a lot of the necessary infrastructure for this.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Summary: This issue seems to be largely nested in #25. @mpadge, maybe we should discuss the overlap in person? Feel free to close.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

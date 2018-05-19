@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Compiling R logic to the browser</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#36</span>
+        </p>
+        <h1>Compiling R logic to the browser</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">noamross</a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body">
+            <p><em>(A rambling post that might converge into an actual unconf project)</em></p>
+<p>I&#39;ve become intrigued lately with the applications of WebAssembly, the latest approach to running compiled code in the browser.  I wrote up a <a href="https://noamross.github.io/wassa/inst/doc/adventures-in-webassembly.html">proof-of-concept</a> of how one could run the same C++ code via Rcpp or in an htmlwidget.  I think some exploration of use cases and design patterns of shared R/browser implementations of algorithms in this way could make a good unconf project. </p>
+<p>It&#39;s a huge project to try to port R runtime to the browser this way, but there are a number of R packages that generate C(++) code for fast model execution that could then be compiled to WebAssembly in the browser:</p>
+<ul>
+<li><a href="https://r-nimble.org/">NIMBLE</a> compiles a sub-set of R code into C++ code that uses the Eigen library.</li>
+<li><a href="https://github.com/mrc-ide/odin">odin</a> by @richfitz generates C++ code from ODE systems defined in R</li>
+<li><a href="http://mc-stan.org/">Stan</a> models are compiled to C++ before being compiled to binary. </li>
+<li><a href="https://kingaa.github.io/pomp/">pomp</a> models use C templates with snippets provided by the model-builder.</li>
+</ul>
+<p>For any of these, one could imagine fitting and optimizing models in R, then porting them to the browser to power pages/apps built on simulation or prediction from those models.  For instance, I could use <strong>odin</strong> to fit a set of ODEs to data, and then port the fit odin model to an htmlwidget that lets the user simulate and visualize those ODE systems, with the option of changing some parameters or initial conditions.  Getting a Stan model to run in the browser in an htmlwidget seems super interesting, too - it would be like <strong>shinystan</strong> without Shiny.  (One of the Stan devs has said they would be interested in helping with this.)</p>
+<p>Alternatively, keeping the concept of <em>compiling to the browser</em> but in a very different way, we could compile <strong>dplyr</strong> code to the browser by using <strong>dbplyr</strong> to create SQL from R expressions, then sending this SQL to be executed by the browser via a JavaScript SQL implementation such as <a href="http://alasql.org/">alasql</a>.  One could create &quot;live&quot; htmlwidgets this way: they could query a remote data source, transform the data, and then feed it to an output like a plot.ly graph or a DataTable, all in the browser with no server back-end. </p>
+<p>Finally, a totally different idea suggested to me recently was using this for distributed computing.  Could one create htmlwidgets that run some code in the user&#39;s browser and send results back home? (For instance, running one MCMC chain of a Stan model?)</p>
+<p>Thoughts?</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>Just wanted to add that greta can compile a large subset of R code (even if it doesn&#39;t have stochastic elements) to a tensorflow graph, which could be run in-browser with <a href="https://js.tensorflow.org/">tensorflow.js</a> (or <a href="https://github.com/rstudio/cloudml">remotely/on GPUs</a> or <a href="https://www.tensorflow.org/mobile/tflite/">on a smartphone/tablet</a>)</p>
+<p>I&#39;ve also considered breaking that functionality out into a separate package that doesn&#39;t do statistical modelling, and/or providing other backends than tensorflow (even C++?) </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>Indeed, I sort of left out tensorflow (and keras) because there&#39;s already so much going on with them in this paradigm via tensorflow.js (and keras.js).  But a neat idea might be something like a <strong>greta</strong>-specific widget that executes via tensorflow.js, sort of like <strong>shinystan</strong>.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>Yeah, that would be ace! If we go down that route, it might be worth checking in with JJ, in case he&#39;s planning tensorflow js integration as part of the RStudio tensorflow suite.</p>
+<p>@michaelquinn32 might be interested in something tensorflowy like this? </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/michaelquinn32">
+              michaelquinn32
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>Add it to the list!</p>
+<p>Sorry, but I don&#39;t have a sense of priority yet, and I REALLY need to read the greta internals to see where additions will be reasonable.</p>
+<p>From the apps side, there&#39;s also all of the tensorflow serving work to think about. @javierluraschi has been doing a bunch of awesome work on that too.
+<a href="https://github.com/rstudio/tfdeploy">https://github.com/rstudio/tfdeploy</a></p>
+<p>I&#39;m not sure about evaluating the tradeoff between doing all of it in app vs treating the app as a client. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>4/27/2018</time>
+          </div>
+          <div class="body"><p>This list might be handy: <a href="https://github.com/terrytangyuan/ctv-model-deployment">https://github.com/terrytangyuan/ctv-model-deployment</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/29/2018</time>
+          </div>
+          <div class="body"><p>Despite the potential of tensorflow.js, I&#39;m still pretty interested in the other pipelines I describe above, (WebAssembly and alasql), especially from the perspective of leveraging C/SQL infrastructure already developed for R so as to make it available browser-side.  I suggest we discuss ideas for both here, and we might split these out into different options during the issue-consolidation phase closer to the unconf.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>4/29/2018</time>
+          </div>
+          <div class="body"><p>Yep, good idea! </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>5/9/2018</time>
+          </div>
+          <div class="body"><p>Not a lot of other conversations here, but I basically see three current projects described:</p>
+<ul>
+<li><strong>An htmlwidget that does fetching ETL and display from remote data sources using dplyr SQL translation and <code>alasql</code></strong>:  This seems very doable and quite practical.</li>
+<li><strong>Compiling a Stan model to WebAssembly</strong>:  Seems like a good proof-of-concept that could be done if someone knows their way around Stan C++, but potentially a bear otherwise.</li>
+<li><strong>Deploying a greta model via tensorflow.js</strong>:  Obviously we have the people for it :), if this is what Nick and Mike end up interested in.</li>
+</ul>
+<p>I&#39;m still sort of interested in other out-of-the-box WebAssembly ideas.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

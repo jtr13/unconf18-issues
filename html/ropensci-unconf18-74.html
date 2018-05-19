@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Providing documentation for the &#x60;asis&#x60; engine</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#74</span>
+        </p>
+        <h1>Providing documentation for the &#x60;asis&#x60; engine</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/lauracion">lauracion</a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body">
+            <h2 id="another-of-the-projects-that-came-up-while-discussing-42">Another of the projects that came up while discussing #42</h2>
+<p>@jtr13 wrote: &quot;there&#39;s one small piece of the puzzle that I doubt would be hard to implement and would make a big difference. That is, having an <code>echo=FALSE</code> option for text, to provide the same flexibility for text in progress as we have with code in progress. I can think of so many uses: the ability for example to create assignments with and without solutions (... there are workarounds using comments in code chunks but that&#39;s not the same).&quot;</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/zachary-foster">
+              zachary-foster
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Good idea! </p>
+<p>I recently got something like this to work using another kind of workaround. I was using knitr hooks to hide the results of a chunk until a button is pressed:</p>
+<pre><code class="lang-r">knitr::knit_hooks$set(
+  hide_button = function(before, options, envir) {
+    if (is.character(options$hide_button)) {
+      button_text = options$hide_button
+    } else {
+      button_text = &quot;Show solution&quot;
+    }
+    block_label &lt;- paste0(&quot;hide_button&quot;, options$label)
+    if (before) {
+      return(paste0(sep = &quot;\n&quot;,
+                   &#39;&lt;button class=&quot;btn btn-danger&quot; data-toggle=&quot;collapse&quot; data-target=&quot;#&#39;, block_label, &#39;&quot;&gt; &#39;, button_text, &#39; &lt;/button&gt;\n&#39;,
+                   &#39;&lt;div id=&quot;&#39;, block_label, &#39;&quot; class=&quot;collapse&quot;&gt;\n&#39;))
+    } else {
+      return(&quot;&lt;/div&gt;&lt;br /&gt;\n&quot;)
+    }
+  }
+}
+</code></pre>
+<p>Then you can add something like this to the Rmd: </p>
+<pre><code>```{r hide_button = &quot;Show Answer&quot;, results = &#39;asis&#39;, echo = FALSE}
+cat(
+  &quot;The answer.&quot;
+)
+``&#39;
+</code></pre><p>It would be great if I did not have to use <code>cat</code> and <code>results = &#39;asis&#39;, echo = FALSE</code>. Perhaps there is / could be a &quot;plain text&quot; chunk type. Perhaps something like:</p>
+<pre><code>```{text  echo = FALSE}
+## Something entirely not thought out
+
+I really would rather people not see this yet.
+``&#39;
+</code></pre><p>This would also allow for varaibles to determine which parts of the rmd are shown, like:</p>
+<pre><code>```{r  include = FALSE}
+show_in_progress = TRUE
+``&#39;
+
+bla bla 
+
+```{text  echo = show_in_progress}
+## Something entirely not thought out
+
+I really would rather people not see this yet.
+``&#39;
+
+</code></pre></div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/zachary-foster">
+              zachary-foster
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Adding a knitr engine might work:</p>
+<p><a href="https://yihui.name/knitr/demo/engines/">https://yihui.name/knitr/demo/engines/</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/zachary-foster">
+              zachary-foster
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Oh wait, it already exists, you can use the <code>asis</code> chunk type to put markdown in chunks and use <code>echo = FALSE</code> to not include them. I just tried it and it works.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/lauracion">
+              lauracion
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>That was a fast resolution! Thank you!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/zachary-foster">
+              zachary-foster
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>No problem!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jtr13">
+              jtr13
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Thanks... The problem though with <code>asis</code> is that you still need <code>cat()</code> which is a pain. In addition, with math equations you have to double escape the tex stuff, which is difficult. (See here:  <a href="https://community.rstudio.com/t/echo-false-type-option-for-rmarkdown-text/2384">https://community.rstudio.com/t/echo-false-type-option-for-rmarkdown-text/2384</a> -- this has been on my mind for a while!)</p>
+<p>I have in mind being able to write markdown paragraphs that are included or not, without having to wrap each line in r code.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/zachary-foster">
+              zachary-foster
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>I dont think you need <code>cat</code>. I meant the chunk engine <code>asis</code>, not  the chunk option <code>results = &quot;asis&quot;</code>. Like so:</p>
+<pre><code>
+# Show
+
+```{asis  echo = FALSE}
+## Something entirely not thought out
+
+I really would rather people not see this yet.
+``&#39; # (&#39; instead of ` is for github markdown formatting)
+
+# Dont show
+
+```{asis  echo = FALSE}
+## Something entirely not thought out
+
+I really would rather people not see this yet.
+``&#39;
+</code></pre></div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jtr13">
+              jtr13
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Aha... brilliant! Where can I apply to get back the time I lost on workarounds??? :-) Also, is that documented anywhere? Not here: <a href="https://yihui.name/knitr/demo/engines/">https://yihui.name/knitr/demo/engines/</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/zachary-foster">
+              zachary-foster
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>Where can I apply to get back the time I lost on workarounds???</p>
+</blockquote>
+<p>Haha, there is probably a form you can fill out somewhere. </p>
+<blockquote>
+<p>Also, is that documented anywhere?</p>
+</blockquote>
+<p>Not that I saw. I had to look through the source code to find it: </p>
+<p><a href="https://github.com/yihui/knitr/blob/dc028f4c9698f84999b53edc5f6f255b29d7e5a2/R/engine.R#L390-L392">https://github.com/yihui/knitr/blob/dc028f4c9698f84999b53edc5f6f255b29d7e5a2/R/engine.R#L390-L392</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jtr13">
+              jtr13
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Ok, so I hereby change this issue to providing documentation for the <code>asis</code> engine! </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/apreshill">
+              apreshill
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>A related tool I was just made aware of from issue #63 is <code>assignr</code>: <a href="https://github.com/coatless/assignr">https://github.com/coatless/assignr</a></p>
+<p>I have not used, but looks promising @jtr13!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/lauracion">
+              lauracion
+            </a>
+            <time>5/19/2018</time>
+          </div>
+          <div class="body"><p>Summary: engine <code>asis</code> in <code>knitr</code> can be used to easily exclude from the final report chunks of text that are still in progress. <code>asis</code> needs to be documented.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

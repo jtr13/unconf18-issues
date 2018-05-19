@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Testing and reporting performance regressions / tracking performance over time</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#66</span>
+        </p>
+        <h1>Testing and reporting performance regressions / tracking performance over time</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jimhester">jimhester</a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body">
+            <p>There were two issues last year <a href="https://github.com/ropensci/unconf17/issues/90">https://github.com/ropensci/unconf17/issues/90</a>, <a href="https://github.com/ropensci/unconf17/issues/56">https://github.com/ropensci/unconf17/issues/56</a> devoted to a service which would allow package authors to track performance of their package over time.</p>
+<p>I think this is still an unmet need, maybe it would not be too much work to create a web service to do the storage and reporting for this with <a href="https://www.rplumber.io/">plumber</a>?</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Yes, I have this need! </p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

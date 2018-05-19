@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Percentiles and z scores in maternal child health</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#49</span>
+        </p>
+        <h1>Percentiles and z scores in maternal child health</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/monicagerber">monicagerber</a>
+            <time>5/7/2018</time>
+          </div>
+          <div class="body">
+            <p>I often need to calculate percentiles, z scores, and other measures of growth in maternal &amp; child health research. There are some SAS macros out there and a couple of R packages. The 2 R packages I found don&#39;t have all of the measures I need and are a bit clunky to use with tidyverse packages. There are other measures that don&#39;t have a SAS macro or R package, just a data table of LMS parameters in a manuscript (PDF). Ideally these methods would be available all in one place in an R package!</p>
+<p>Here some things the package could calculate:</p>
+<ol>
+<li><p>Percentiles and z scores for BMI using the CDC reference charts (SAS program: <a href="https://www.cdc.gov/nccdphp/dnpao/growthcharts/resources/sas.htm)">https://www.cdc.gov/nccdphp/dnpao/growthcharts/resources/sas.htm)</a>. I&#39;ve found 1 package (childsds) that does this, but does not have all of the options as the SAS macro. Importantly, it doesn&#39;t calculate %BMIp95 (percent of the 95th percentile of BMI), which is being used more in obesity research. The zscorer package only uses WHO growth charts. The CDC charts are standard in US pediatric obesity research. I have been in contact with the author of the SAS macro and he is very nice and fully supportive of turning this into an R package!</p>
+</li>
+<li><p>Birth weight for gestational age z-score. I haven&#39;t seen a publicly available program for this. I use a SAS program copied from another analyst. (Ref: Oken, E., Kleinman, K. P., Rich-Edwards, J., &amp; Gillman, M. W. (2003). A nearly continuous measure of birth weight for gestational age using a United States national reference. BMC pediatrics, 3(1), 6.) </p>
+</li>
+<li><p>Child blood pressure percentiles.  (<a href="https://sites.google.com/a/channing.harvard.edu/bernardrosner/pediatric-blood-press/childhood-blood-pressure/childhoodbppctsas">https://sites.google.com/a/channing.harvard.edu/bernardrosner/pediatric-blood-press/childhood-blood-pressure/childhoodbppctsas</a>)</p>
+</li>
+</ol>
+<p>Eventually this could also include measures of maternal gestational weight gain.</p>
+<p>After speaking with Stefanie about this, it seems like this could be a good project for someone who hasn&#39;t made an R package (myself included). The calculations aren&#39;t too difficult.   </p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

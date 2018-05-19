@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>GitHubBerries: get notified of new release of r package not on CRAN</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#77</span>
+        </p>
+        <h1>GitHubBerries: get notified of new release of r package not on CRAN</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/czeildi">czeildi</a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body">
+            <p>Inspired by CranBerries and new ropensci pkgs I am imagining a way to get notified about new releases of r packages on GitHub ( not yet on cran or never will be on cran.) there is a growing number of such packages. </p>
+<ul>
+<li>get notified of selected packages</li>
+<li>Twitter not for new release of &quot;significant&quot; packages (based on stars/forks/ commits) ??</li>
+</ul>
+<p>I imagine this is easiest if package has Travis CI but should be possible otherwise with GitHub API</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>5/19/2018</time>
+          </div>
+          <div class="body"><p>There used to be a service called Sibbel sending you notifications of releases of repos one had starred but it shut down. Maybe there are equivalents out there? </p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

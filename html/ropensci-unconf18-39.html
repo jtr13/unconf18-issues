@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Review of literature for API mocking and testing</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#39</span>
+        </p>
+        <h1>Review of literature for API mocking and testing</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">noamross</a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body">
+            <p>A pretty frequent topic of conversation in rOpenSci circle is approaches to <a href="https://discuss.ropensci.org/t/best-practices-for-testing-api-packages/460">testing packages that call Web APIs</a>.  I think this topic could use a &quot;review of literature&quot; - a systematic look at the different packages for this in the ecosystem, how their interfaces differ, the advantages and disadvantages of each, missing functionalities to be developed, and best practices/design patterns for testing packages.</p>
+<p>Outputs for this might just be a blog post or vignette, or a series of issues and PRs across the package ecosystem.</p>
+<p>Notably @sckott is nearing release of <a href="https://github.com/ropensci/vcr"><strong>vcr</strong></a>, it could host the vignette and this review might be good for making sure it covers the use-cases that we explore.</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/sckott">
+              sckott
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>&amp; just started book <a href="https://github.com/ropensci/http-testing-book">https://github.com/ropensci/http-testing-book</a> (not to be published, just a book form pile of words)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>not to be published</p>
+</blockquote>
+<p>hey, who knows</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/michaelquinn32">
+              michaelquinn32
+            </a>
+            <time>5/1/2018</time>
+          </div>
+          <div class="body"><p>This is for C++, but covers some of the broad issues.
+<a href="https://github.com/google/googletest/blob/master/googlemock/docs/ForDummies.md">https://github.com/google/googletest/blob/master/googlemock/docs/ForDummies.md</a></p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

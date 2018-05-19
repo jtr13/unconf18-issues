@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>ROpenSci storage for package caching</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#29</span>
+        </p>
+        <h1>ROpenSci storage for package caching</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">mpadge</a>
+            <time>4/18/2018</time>
+          </div>
+          <div class="body">
+            <p>Lots of packages need caching. When things get complicated enough, packages may need to access their own eternal data to do their internal stuff. This means caching somewhere, somehow, in a form that is reliable and available. This costs money.</p>
+<blockquote>
+<p>Oh, I don&#39;t have any of that; okay, I can&#39;t do that package.</p>
+</blockquote>
+<p>And there it ends. How about considering applications to ROpenSci to (financially) support caching via some suitable provider? The <a href="https://github.com/ropenscilabs/flipper"><code>flipper</code> package</a> is a case in point. This works at the moment because it only trawls the <code>CRAN_package_db</code>. We would like to extend this to all <a href="https://github.com/ropensci/unconf18/issues/26#issuecomment-382140279"><code>man/</code> directories</a>, all non-CRAN packages on github, and <a href="https://github.com/ropenscilabs/flipper/issues/6">many potential other places</a>. This is impossible without some sorta cloudy caching scheme.</p>
+<p>Any chance of ROpenSci having an application scheme whereby those with existing ROpenSci packages apply for access to a wee chunk of server space?</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/ldecicco-USGS">
+              ldecicco-USGS
+            </a>
+            <time>4/18/2018</time>
+          </div>
+          <div class="body"><p>I was literally just crafting a proposal for a caching process for <code>drake</code>! I think it&#39;s a slightly different use-case than what you are proposing here, but maybe we can combine forces and think of all the caching use-cases and needs.  (See #30 )</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>4/18/2018</time>
+          </div>
+          <div class="body"><p>When it comes to caching, I am a huge fan of @richfitz&#39;s <a href="https://github.com/richfitz/storr"><code>storr</code></a> package. It&#39;s a general key-value storr with an expanding variety of backends (&quot;drivers&quot;), including <code>storr_rds()</code> and <code>storr_dbi()</code>. Maybe a remote <code>storr</code> driver would help here? Related: <a href="http://richfitz.github.io/storr/articles/external.html">http://richfitz.github.io/storr/articles/external.html</a>.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

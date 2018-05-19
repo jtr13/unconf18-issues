@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Lesson/Examples of how to clean &#x27;field&#x27; data</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#41</span>
+        </p>
+        <h1>Lesson/Examples of how to clean &#x27;field&#x27; data</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/aurielfournier">aurielfournier</a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body">
+            <p>This might be too field ecology specific, but I think it could be useful more broadly. </p>
+<p>This is a situation I ran into in my grad school work, and I know many others who are doing field work where they are collecting data hard copy, and then entering it every few days over several months of work run into. </p>
+<p>There are data entry errors, spellings, issues, etc, plus you also end up with dozens of files that have been entered, probably my different people, etc. </p>
+<p>I dealt with this in my own field work by creating a script I ran over all the files, checked them for the correct spelling of different things, and then printed out the things that were wrong. </p>
+<p>This code is not my finest, but it got me through my phd. </p>
+<p>Maybe something that does this better already exists, and I just need to learn what it is so I can point others with this issue towards it. </p>
+<p>But if it doesn&#39;t, this would be something I&#39;d love to work on building. </p>
+<p>I realize this functionality already exists in open refine, but I personally don&#39;t care for open refine, so I did it this way. </p>
+<p><code>`</code>file_names &lt;- list.files(pattern=&quot;.csv&quot;)</p>
+<h1 id="these-are-the-vectors-of-values-that-i-am-ok-with-with-the-correct-spellings">these are the vectors of values that I am ok with, with the correct spellings</h1>
+<h1 id="areas-are-my-study-areas">areas are my study areas</h1>
+<p>areas &lt;- c(&quot;nvca&quot;,&quot;scnwr&quot;,&quot;fgca&quot;,&quot;slnwr&quot;,&quot;tsca&quot;,&quot;bkca&quot;,&quot;ccnwr&quot;,&quot;dcca&quot;,&quot;osca&quot;,&quot;tmpca&quot;)</p>
+<h1 id="impound-is-my-wetland-impoundments">impound is my wetland impoundments</h1>
+<p>impound &lt;- c(&quot;rail&quot;,&quot;sanctuary&quot;,&quot;ash&quot;,&quot;scmsu2&quot;,&quot;scmsu3&quot;,&quot;sgd&quot;,&quot;sgb&quot;,&quot;pool2&quot;,&quot;pool2w&quot;,&quot;pool3w&quot;,&quot;m11&quot;,&quot;m10&quot;,&quot;m13&quot;,&quot;ts2a&quot;,&quot;ts4a&quot;,&quot;ts6a&quot;,&quot;ts8a&quot;,&quot;kt9&quot;,&quot;kt2&quot;,&quot;kt5&quot;,&quot;kt6&quot;,&quot;ccmsu1&quot;,&quot;ccmsu2&quot;,&quot;ccmsu12&quot;,&quot;dc14&quot;,&quot;dc18&quot;,&quot;dc20&quot;,&quot;dc22&quot;,&quot;os21&quot;,&quot;os23&quot;,&quot;pooli&quot;,&quot;poole&quot;,&quot;poolc&quot;)</p>
+<h1 id="regions-are-the-four-regions">regions are the four regions</h1>
+<p>regions &lt;- c(&quot;nw&quot;,&quot;nc&quot;,&quot;ne&quot;,&quot;se&quot;)</p>
+<h1 id="plant-spellings-that-are-correct">plant spellings that are correct</h1>
+<p>plant &lt;- c(&quot;reed canary grass&quot;,&quot;primrose&quot;,&quot;millet&quot;,&quot;bulrush&quot;,&quot;partridge pea&quot;,&quot;spikerush&quot;,&quot;a smartweed&quot;,&quot;p smartweed&quot;,&quot;willow&quot;,&quot;tree&quot;,&quot;buttonbush&quot;,&quot;arrowhead&quot;,&quot;river bulrush&quot;,&quot;biden&quot;,&quot;upland&quot;,&quot;cocklebur&quot;,&quot;lotus&quot;,&quot;grass&quot;,&quot;cattail&quot;,&quot;prairie cord grass&quot;,&quot;plantain&quot;,&quot;sedge&quot;,&quot;sesbania&quot;,&quot;typha&quot;,&quot;corn&quot;,&quot;sumpweed&quot;,&quot;toothcup&quot;,&quot;frogfruit&quot;,&quot;canola&quot;,&quot;sedge&quot;,&quot;crop&quot;,&quot;rush&quot;,&quot;goldenrod&quot;,NA)</p>
+<p>for(i in 1:length(file_names)){
+  int &lt;-  read.csv(file_names[i])</p>
+<h1 id="so-this-prints-out-instances-where-three-are-things-that-are-not-part-of-the-lists-above-and-includes-the-file-name-so-i-can-go-and-find-the-issue-">so this prints out instances where three are things that are not part of the lists above and includes the file name so I can go and find the issue.</h1>
+<p>  print(paste0(int[(int$region %in% regions==FALSE),]$region,&quot; &quot;,file_names[i],&quot; region&quot;))
+  print(paste0(int[(int$area %in% areas==FALSE),]$area,&quot; &quot;,file_names[i],&quot; area&quot;))
+  print(paste0(int[(int$impound %in% impound==FALSE),]$impound,&quot; &quot;,file_names[i],&quot; impound&quot;))
+  print(paste0(int[(int$plant1 %in% plant==FALSE),]$plant1,&quot; &quot;,file_names[i],&quot; plant1&quot;))
+  print(paste0(int[(int$plant2 %in% plant==FALSE),]$plant2,&quot; &quot;,file_names[i],&quot; plant2&quot;))
+  print(paste0(int[(int$plant3 %in% plant==FALSE),]$plant3,&quot; &quot;,file_names[i],&quot; plant3&quot;))
+}</p>
+<h2 id="once-i-resolve-all-of-the-issues-identified-from-above-i-then-read-in-all-the-files-put-them-in-a-list-and-i-can-stitch-them-together-into-one-master-file-">once I resolve all of the issues identified from above I then read in all the files, put them in a list and I can stitch them together into one master file.</h2>
+<p>vegsheets &lt;- list()</p>
+<p>for(i in 1:length(file_names)){
+  vegsheets[[i]] &lt;- read.csv(file_names[i])
+}</p>
+<h2 id="this-takes-the-list-and-combines-it-all-together-into-one-data-frame">this takes the list and combines it all together into one data frame</h2>
+<p>masterdat &lt;- do.call(rbind, vegsheets)</p>
+<h1 id="write-it-out-into-a-master-file">write it out into a master file</h1>
+<p>write.csv(masterdat, &quot;~/Github/data/2015_veg_master.csv&quot;, row.names=FALSE)<code>`</code></p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>I have many of these, and they all require something a little different, but the tool I use most is <a href="https://github.com/ropensci/assertr"><strong>assertr</strong></a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jzelner">
+              jzelner
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>I think this is actually a pretty broad problem, at least in epidemiology. For example, if you&#39;re using data from a hospital-based reporting system, the fields in the raw data may change over time, or based on the person doing the query for you,and there are ample opportunities for this to wreak havoc.</p>
+<p>Not sure if existing tools are adequate to cover these issues or not, although I think a broader problem is getting people responsible for these kinds of data to 1) pay attention to these issues and 2) take the time to use the tools!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>I like the idea of structuring &quot;Lessons&quot; @aurielfournier  </p>
+<p>Reg. <code>assertr</code> is there a way to automatically write the commands based on a table with allowed values? Or based on say EML metadata?</p>
+<p>The list of tips could also feature <a href="https://github.com/ChrisMuir/refinr">https://github.com/ChrisMuir/refinr</a> </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">
+              mpadge
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>I concur with @jzelner on the broadness of the issue. It confronts me constantly via the <a href="https://github.com/ropensci/bikedata"><code>bikedata</code> package</a>, where different cities generally use their own data formats, and often inconsistently. I&#39;ve recently adapted the whole thing to a dictionary-style lookup table of possible column names, but this is just at a first-cut stage. It is nevertheless pure C/C++, so I&#39;d be keen to converse, listen, input on nice ways of interfacing R and C++ in this regard.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>4/26/2018</time>
+          </div>
+          <div class="body"><p>I think this is great topic, and a tricky one.  I think the current situation involves both shortcomings of tooling and shortcomings of outreach, and I agree that one-size-fits-all solutions like OpenRefine only go so far -- like many tools in this space, it can feel both overbearing and not smart enough at the same time.</p>
+<p>I definitely believe that &quot;Standards&quot; are a key part of finding happiness here, but they can also be a part of the problem.  Dates are a good trivial example: sure, python and ruby have libraries that can reliably parse &quot;Tuesday after Christmas 2012&quot; into a date, but I think we can all agree that dates are suddenly much easier to work with if <a href="https://xkcd.com/1179/">we all just use ISO-8601</a>.  </p>
+<p>In ecology/evolution, we have similar solution for the whole problem of working with species name issues, (spelling, formatting, different higher taxonomy definitions, etc) by using taxonomic identifiers, but afik these have had very little penetration among anyone who actually sees their critters in the field, and very much suffers from <a href="https://xkcd.com/927/">problem #927</a>. </p>
+<p>Ideally, good tooling would pay us immediate dividends for using standards.  e.g. I think that&#39;s the case with dates, there&#39;s an immediate benefit in being able to date-time math etc this way (instead of, say, having separate columns for day, month, and year; which is still too common).  but for others like taxon ids, there&#39;s no obvious benefit.  Spatial descriptions are somewhat in-between -- if you already do spatial analysis you already use spatial standards, but for the rest of us it&#39;s easy to feel like you need a master&#39;s in GIS before that would be useful, so we just name our regions and sites with convenient labels and get on with it.  Tooling that made it easier rather than harder to describe our somewhat standard data in a standard way could, IMHO, make a big difference.  But I think we still have too few examples of these tools that are easy enough and modular enough to quickly integrate into field-data-collection workflow.  Would love to join a brainstorm on this and bounce some of my no doubt hopelessly idealistic ideas off others!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/magpiedin">
+              magpiedin
+            </a>
+            <time>5/6/2018</time>
+          </div>
+          <div class="body"><p>Keen to hear more on this, too!  Ditto the need for more examples of tools &amp; standards &quot;outreach&quot; -- at the overall dataset-structure/schema-level, too.</p>
+<p>Maelle, were you picturing something like being able to point <code>assertr</code> at an EML schema &amp;/or other standards/vocabs, e.g.:</p>
+<ul>
+<li><a href="https://github.com/ropensci/EML/tree/master/inst/xsd/eml-2.1.1">EML 2.1.1</a> (...in the handy <a href="https://github.com/ropensci/EML">ropensci/EML</a> package)</li>
+<li><a href="https://github.com/tdwg/dwc/blob/master/standard/documents/xml/tdwg_dwcterms.xsd">Darwin Core</a></li>
+</ul>
+<p><a href="http://rd-alliance.github.io/metadata-directory/standards/">RDA&#39;s list</a> of data standards defined in XML/RDF could be another resource to include if it helps generalize this example to other fields/domains that have their own formally-defined/under-used data standards--if that&#39;s not wandering out of scope here.  (&amp; either way, ra for hopeless idealism! :)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>@magpiedin yes I was imagining a wrapper that&#39;d take your raw-ish data and an EML as arguments and output the discrepancies. I don&#39;t know other metadata standards well enough 😉 Btw for EML creation there&#39;s also the WIP <a href="https://github.com/cboettig/eml2">https://github.com/cboettig/eml2</a> by @cboettig </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/magpiedin">
+              magpiedin
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>There&#39;s a version 2 in the works, you say?  This makes my day :)</p>
+<p>I threw in Darwin Core here on the off-chance that the field scenario @aurielfournier has in mind includes any species observation/occurrence data (e.g., inventorying wildlife in a particular area?).  If it&#39;s a more experimental/other scenario, though, all ears, too.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/aurielfournier">
+              aurielfournier
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>Sorry for dropping out for a bit. Just finally had time to look over the resources everyone tagged in here. </p>
+<p><code>assertr</code> is fantastic, thank you for pointing thatout @noamross </p>
+<p>I am not super familiar with EML, but I need to get up to speed on it for some work related things, and from what i know of EML, having some kind of wrapper like @maelle described that takes raw data and EML and tells you what doesn&#39;t match could be really exciting, especially since it could help more people actually keep meta data (a big issue in ecology). My &#39;concern&#39; there would be that EML might not be the best one to choose if we thought the problem was broader then &#39;just&#39; ecology. </p>
+<p>@magpiedin for the example I gave originally, I was talking about species occurrence data, in my dissertation, though I think in ecology the issue is certainly present beyond species occurrence data and would also apply to experimental and other data types. </p>
+<p>I&#39;d be really interested in pursuing this as either an idea about developing lessons around an already exisiting tool, like <code>assertr</code>, or building something new on top that would bring in meta data. Both would be hugely helpful for the problem I had in grad school, and I think to many folks more broadly </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>5/9/2018</time>
+          </div>
+          <div class="body"><p>@aurielfournier I&#39;ve used (and learnt about) EML for an epidemiology research project, and could document everything that had to be documented, no term was missing in EML standard. But I guess other fields that have other metadata standards (epidemiology doesn&#39;t), could be more problematic? But a minimal tool EML+ <code>EML</code>/<code>eml2</code>+<code>assertr</code> could be useful as a starting point (and could be developed further for other metadata standards)?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>5/9/2018</time>
+          </div>
+          <div class="body"><p>Maybe useful for testing such an EML+<code>assertr</code> tool
+<a href="https://github.com/DeclareDesign/fabricatr">https://github.com/DeclareDesign/fabricatr</a>
+<a href="https://github.com/ropensci/charlatan">https://github.com/ropensci/charlatan</a></p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

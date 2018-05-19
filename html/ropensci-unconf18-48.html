@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Package usage &quot;in the wild&quot;</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#48</span>
+        </p>
+        <h1>Package usage &quot;in the wild&quot;</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">batpigandme</a>
+            <time>5/2/2018</time>
+          </div>
+          <div class="body">
+            <p>Related to #25 (see <a href="https://github.com/ropensci/unconf18/issues/25#issuecomment-384220571)">https://github.com/ropensci/unconf18/issues/25#issuecomment-384220571)</a>, but I think it&#39;s a sufficiently distinct approach to merit its own thread.</p>
+<h3 id="overall-idea">Overall idea</h3>
+<p>As a user, I often find it&#39;s helpful to see use-cases for packages and/or functions &quot;in the wild&quot; (i.e. in the context of some workflow or task). Some packages have great vignettes that cover this, but (limited to just a few people) there&#39;s simply no way for maintainers/developers to think of all the possible ways a package might come in handy. It can also be extremely helpful to read explanations from people who <em>didn&#39;t</em> write the package, since they have a sort of &quot;beginner&#39;s mind.&quot; (I&#39;ve done a few &quot;roundups&quot; of tweets, often of blog posts using various packages, e.g. for <a href="https://maraaverick.rbind.io/2017/09/-purrr-ty-posts/">purrr here</a> for this reason).</p>
+<p>I imagine (and have anecdotal twitter evidence 😏) that maintainers <em>also</em> like seeing how their packages are being used, but don&#39;t always get that feedback, even when it exists, since the avenues are somewhat limited.</p>
+<h4 id="a-very-roughshod-diagram-of-relationships-among-packages-feedback-that-exists-formally">A very roughshod diagram of relationships among packages/feedback that exists &quot;formally&quot;</h4>
+<p><img src="https://user-images.githubusercontent.com/831732/39514200-8a5fff60-4dc4-11e8-929e-8eeefa696de4.png" alt="package_relationships"></p>
+<p>Here&#39;s where it gets fuzzy implementation-wise, but I&#39;ve been wondering if there would be a good way to highlight package usage in blog posts or case studies (e.g. with blogdown), in such a way that users and maintainers would be able to easily find relevant content.</p>
+<p>Carl Goodwin&#39;s been doing something to this effect by including tables of packages and functions used in his blogposts (see example from <a href="https://thinkr.biz/2017/12/20/geospatial/">Surprising stories hide in seemingly mundane data</a> below), but this is (to my knowledge) done by hand, and isn&#39;t something one would be necessarily be able to find from any docs related to, say, <a href="https://github.com/Ironholds/rgeolocate">rgeolocate</a>.
+&lt;img width=&quot;554&quot; alt=&quot;thinkr_biz_r_toolkit&quot; src=&quot;https://user-images.githubusercontent.com/831732/39514941-9b29d454-4dc6-11e8-8122-69c12f4d90da.png&quot;&gt;</p>
+<h3 id="stumbling-blocks">Stumbling blocks</h3>
+<ul>
+<li>Implementation (want to make it useful, without being platform-specific).</li>
+<li>Would want it to be opt-in for package maintainers(?)</li>
+<li>Possibly just a human communication issue that could be encouraged by, say, talking to other humans.</li>
+<li>Breaking changes — blog posts might be an ephemeral format for this very reason.</li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">
+              mpadge
+            </a>
+            <time>5/2/2018</time>
+          </div>
+          <div class="body"><p>Not related to feedback, but certainly to the broader &quot;usage in the wild&quot; issue is the option of trawling <code>.Rhistory</code> files for those who have/use them. This is an option we are pondering for the <a href="https://github.com/ropenscilabs/flipper"><code>flipper</code></a> package-discovery package. Users opt-in to allow trawling, with  relevant data extracted and uploaded for our analytic needs. Insight would be very crude, but better than nothing, and it would readily allow auto-extraction and analysis of a local code context in which package functions are used.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>5/2/2018</time>
+          </div>
+          <div class="body"><p>Often when I want to see how a function or package is used <em>in other packages</em> I&#39;ll do a GitHub search of CRAN packages using <a href="https://github.com/cran">the METACRAN org</a>. One could probably design some search patterns to identify R bookdown and blogdown sites on GitHub and crawl them to look at package or function usage. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">
+              batpigandme
+            </a>
+            <time>5/2/2018</time>
+          </div>
+          <div class="body"><p>@noamross precisely! That&#39;s the piece I that has no loop, currently.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/apreshill">
+              apreshill
+            </a>
+            <time>5/7/2018</time>
+          </div>
+          <div class="body"><p>I ❤️ this idea. I think about this a lot when teaching, because all the formal documentation (by design and by necessity) shows functions typically in isolation, or only in combination with other functions within a package. Some good examples are usage of <code>dplyr</code> functions like <code>between</code> or <code>na_if</code> which in practice will typically go inside a <code>mutate</code>, but in the docs those examples aren&#39;t shown. _(A counter-example is for <code>case_when</code> where it is clearly shown how to use within a <code>mutate</code> 👍)_ These are just examples I&#39;ve run into recently, but it is always a struggle when I teach.</p>
+<p>&quot;In the Wild&quot; though, most people use functions across several different packages. A stumbling block I recently ran into learning <code>purrr</code> turned out to be that I failed to realize a function from <code>dplyr</code> was actually what I needed in my workflow (<code>bind_rows</code>!). So, I&#39;m excited about the idea to help users better discover how functions are used in context, and perhaps which co-occur frequently (sort of like on Amazon, other users who used this package/function used it along with these other ones). </p>
+<p>I also like the idea of building off of and aggregating all the awesome &quot;real world&quot; code examples on blogs, like the R weekly <a href="https://rweekly.org/#RintheRealWorld">&quot;R in the Real World&quot;</a> features and <a href="https://twitter.com/search?q=from%3Adataandme%20code-through&amp;src=typd">&quot;code throughs&quot;</a> as @batpigandme labels on twitter. </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">
+              batpigandme
+            </a>
+            <time>5/10/2018</time>
+          </div>
+          <div class="body"><p>@apreshill yeah, I feel like there is so much great material out there, but it can be really hard to find — especially when you&#39;re in the throes of getting something done, <em>but</em> the bite-sized, real-world examples are often exactly what you need for that click 💡 !</p>
+<p>As you (obviously) know, this is certainly true with blogdown (see the thread Alison started on the rstudio community site <a href="https://community.rstudio.com/t/what-is-hard-about-blogdown/8108">here</a>), and I think one of the difficulties is that people end up submitting questions as GitHub issues, making it hard on the maintainer(s) (again, thinking of blogdown here).</p>
+<p>Anyway, just spitballing at this point, but I have been thinking about this as I&#39;ve been following the thread you started!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>5/13/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>Carl Goodwin&#39;s been doing something to this effect by including tables of packages and functions used in his blogposts</p>
+</blockquote>
+<p>I like the idea of gathering all functions across multiple packages in a single searchable table. I would like to see/help-build such a thing for rOpenSci and the tidyverse. Using a <code>DT::datatable()</code>  this seems like a short unconf project (<a href="https://forestgeo.github.io/fgeo/articles/fgeo.html#functions">example</a>, <a href="https://forestgeo.github.io/fgeo/reference/fgeo_index.html">doc</a>). </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">
+              batpigandme
+            </a>
+            <time>5/14/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>I like the idea of gathering all functions across multiple packages in a single searchable table.</p>
+</blockquote>
+<p>They&#39;re by no means mutually-exclusive, but I think these ideas differ in that the one is about navigating the <em>existing</em> documentation.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>5/14/2018</time>
+          </div>
+          <div class="body"><p>I also believe that it would be nice to have better ways to navigate the existing documentation. And in fact, you can think of  the table I suggest as a central interface to do precisely that -- a tool to navigate all the existing documentation of the packages in an onganization. I should clarify that my suggestion is not to generate a table manually but automaticaly. </p>
+<p>Here are some implementation details:</p>
+<ul>
+<li>For any list of installed packages (e.g. <code>pkgs &lt;- c(&quot;fgeo.base&quot;, &quot;fgeo.map&quot;, &quot;fgeo.tool&quot;)</code>) it is easy to table all functions by package (also of datasets by package).</li>
+<li>If those packages belong to a single github organization, the links to their corresponding pkgdown websites have a consistent structure (e.g. <a href="https://forestgeo.github.io/fgeo.base/">https://forestgeo.github.io/fgeo.base/</a>, <a href="https://forestgeo.github.io/fgeo.map/">https://forestgeo.github.io/fgeo.map/</a>, <a href="https://forestgeo.github.io/fgeo.tool/)">https://forestgeo.github.io/fgeo.tool/)</a>. It is then easy to create the links programatically for an organization with lots of packages such as rOpenSci.</li>
+<li>By using the <code>DT::datatable()</code> widget, the table can be searchable and clickable.</li>
+</ul>
+<p>You can maintain this table with almost no extra effort. You can include the table in a vignette of a meta-package (e.g. <strong>tidyverse</strong> and <a href="https://forestgeo.github.io/fgeo/articles/fgeo.html"><strong>fgeo</strong></a>). Because the meta-package tracks package versions, updating the vignette of the meta-package updates the table of functions by package.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">
+              batpigandme
+            </a>
+            <time>5/14/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>I also believe that it would be nice to have better ways to navigate the existing documentation. </p>
+</blockquote>
+<p>I agree, I&#39;m wondering if it might be worth making this into its own thread, especially since you seem to have so much of the code in place, and it&#39;s possible this could be accomplished pretty quickly (IIRC, there were a few indivs/groups who did more than one &quot;project&quot;/tackled more than one issue at last year&#39;s unconf).</p>
+<p>So, I think it&#39;s worthwhile to be clear and disambiguate two potential projects</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/batpigandme">
+              batpigandme
+            </a>
+            <time>5/14/2018</time>
+          </div>
+          <div class="body"><p><strong>Summary</strong>: [Design patterns to] identify, and aggregate applied usage of packages and constituent functions as they&#39;re used in practice/conjunction with other packages). Implement some sort of option for package developers to easily point to package function use in &quot;R in the Real World&quot;/&quot;code-through&quot; examples.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Collaboration workflow for users who are willing to use RStudio</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#75</span>
+        </p>
+        <h1>Collaboration workflow for users who are willing to use RStudio</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/lauracion">lauracion</a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body">
+            <h2 id="summary-for-another-of-the-projects-that-came-up-while-discussing-42">Summary for another of the projects that came up while discussing #42</h2>
+<p>@jzelner&#39;s wrote: &quot;package approach for users who are willing to collaborate using RStudio:</p>
+<ol>
+<li><p>Compile to a zipfile or other archive, with a) an RDS file containing all of the R objects needed in the course of generating the final PDF/HTML/MD document, b) a directory of binary or text files (e.g. figures, csv files), c) a requirements.txt style manifest listing both what is in the archive and any R dependencies. </p>
+</li>
+<li><p>At document-generation time, the archive is mounted and accessed without expanding it into the filesystem, and executed like a normal RMD.&quot;</p>
+</li>
+</ol>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

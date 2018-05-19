@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Promote data-packages to facilitate project-oriented workflows</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#28</span>
+        </p>
+        <h1>Promote data-packages to facilitate project-oriented workflows</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">maurolepore</a>
+            <time>4/17/2018</time>
+          </div>
+          <div class="body">
+            <p>Can we facilitate project-oriented workflows by promoting data-packages?</p>
+<p>Although researchers would benefit from using self-contained projects, they rarely do. This workflow seems more common:</p>
+<ul>
+<li>Store the data locally in one directory.</li>
+<li>Import the data from multple R sessions and run analyses.</li>
+</ul>
+<p>This approach is problematic becaue each R session is not self-contained.</p>
+<p>A neat solution is to build a data-package. While its source may live in a single local directory, the data can be accessed by loading the data from any project, keeping it self-contained. </p>
+<p>But many reasearchers don&#39;t know this approach or believe that building a package is too difficult. Indeed, building a basic data-package requires relatively few tools. The process can largely be handeled with the <strong>usethis</strong> package (by Hadley Wickham, @jennybc and RStudio). Can we describe the steps required to build a data-package via a series of <strong>usethis</strong> functions?</p>
+<p>(As a starting point here is a <a href="https://fgeo.netlify.com/2018/04/04/2018-04-04-building-infrastructure-for-a-data-package/">checklist</a> I use to build data-packages.)</p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/ldecicco-USGS">
+              ldecicco-USGS
+            </a>
+            <time>4/18/2018</time>
+          </div>
+          <div class="body"><p>I&#39;ve had good luck with using a data-package for some projects. It became rougher though to rely on a package as my data got bigger and I got more collaborators (both with updating the data package and version controlling the data on github). My group has put a pretty good deal of effort into creating a robust internal repository that allows us to do this, but it&#39;s not trivial with bigger data. We could use Git Large File Storage (LFS)...but we had some issues getting all our collaborators to use that. Certainly data quickly becomes to big for CRAN, their package size requirements are pretty limiting.</p>
+<p>Another option we can consider is focus on easy data caching...where we can use google drive, aws, other data storage options....(theme of the day....see #29 #30 )</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>4/18/2018</time>
+          </div>
+          <div class="body"><p>Interesting ideas!  </p>
+<p>I think another thing we want to think carefully about here is how to keep in mind data archiving and publishing best practices as part of this workflow.  For instance, while I love the whole <code>data-raw</code> thing with storing scripts that go from raw data to tidy data, I get nervous about encouraging R packages as an ideal way to document, distribute and manage data.  </p>
+<p>It is probably better to store data in a plain-text format, along with some basic metadata, that is agnostic to software details.  </p>
+<p>I think this highlights the relatively large divide between how we go about preparing data for archiving / publishing vs how we use data day-to-day.  I think it would be a big win to to narrow that gap a little with tools that make it easier to do both.  For instance, several data repositories (figshare, DataONE) allow for data to be archived &#39;privately&#39; with access granted to only explicit collaborators.  This means users can benefit from having a secure, redundant, versioned copy of data sets that can be accessed by remote collaborators and scripted into their workflows.  Then publishing becomes just a matter of flipping a switch from private to public and not one of uploading data to the repo from scratch....</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/karthik">
+              karthik
+            </a>
+            <time>4/18/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p> I get nervous about encouraging R packages as an ideal way to document, distribute and manage data.</p>
+</blockquote>
+<p>Exactly! This is something that @njtierney and I have been talking about a lot lately as we are documenting all of this. We are developing a set of best practices around sharing different types of data (more on that in a bit) but the general recommendation is not to share data inside R packages unless it&#39;s explicitly for teaching/training or for supporting small examples. CRAN limits packages to 5mb, so that also imposes additional challenges (binary data is even less accessible outside the package ecosystem). </p>
+<p>You might also have also seen this paper: <a href="https://journal.r-project.org/archive/2017/RJ-2017-026/index.html">Hosting Data Packages via drat: A Case Study with Hurricane Exposure Data </a>. This is also somewhat fragile and does not address the divide that Carl talks about above.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>4/21/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>It became rougher though to rely on a package as my data got bigger ... Certainly data quickly becomes to big for CRAN</p>
+</blockquote>
+<p>-- @ldecicco-USGS </p>
+<p>Thanks for noting this. That&#39;s great point I hadn&#39;t considered. I was thinking of packages not stored on CRAN but on GitHub or even locally. My suggestion for datapackages as a way to facilitate a project oriented workflow targets a problem that I find most commonly. </p>
+<p>It seems the researchers you have in mind are fluent in R enough to build and publish packages to CRAN. In contrast, most of the researchers I work with (ForestGEO, a network of 65 research groups around the world) don&#39;t build packages nor use project oriented workflows. These are amazingly brilliant researchers doing amazing science. And I&#39;m trying to help them become even more productive by providing them with tools and sytems that reduce the friction in taking more reproducible workflows.</p>
+<p>Considering your point, I would love to brainstorm how else (other than via data-packages) the workflow I described above -- which I find most commonly  -- could be made project-oriented. It seems that hosting the data on a remote, versionable, repository is realatively easier and safer. (More on that in the next comment).</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>4/21/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>[There is a] large divide between how we go about preparing data for archiving / publishing vs how we use data day-to-day. I think it would be a big win to to narrow that gap a little with tools that make it easier to do both. </p>
+</blockquote>
+<p>-- @cboettig </p>
+<p>I agree. I have experimented with <a href="https://guides.github.com/activities/citable-code/">GitHub and Zenodo</a> and I liked it. You may already know this but let me summarize here what the win is:</p>
+<p>After a not-too-hard setup, every GitHub release of a repo -- which can be created by adding a new tag with Git and pushing it to GitHub -- is automatically published to Zenodo. Zenodo is a data repository similar to Figshare -- it generates a DOI for each version of a project. </p>
+<p>In my opinion the workflow is already acceptably simple: From a local repo, pushing a new tag to GitHub generates both a new GitHub release and a new DOI. If the repo is a data-package, you&#39;d be both releasing a new version of the package and publishing it to a service citable via a DOI.</p>
+<p>What ideas do you have to improve even further the build-publish integration?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>4/21/2018</time>
+          </div>
+          <div class="body"><blockquote>
+<p>We are developing a set of best practices around sharing different types of data (more on that in a bit) </p>
+</blockquote>
+<p>-- @karthik </p>
+<p>Great! I&#39;ll love to learn what you produce.</p>
+<p>And thanks for pointing to that paper.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/noamross">
+              noamross
+            </a>
+            <time>4/24/2018</time>
+          </div>
+          <div class="body"><p>I gave a talk on this subject at NYR last week, slides here: <a href="https://github.com/noamross/2018-04-18-rstats-nyc/blob/master/Noam_Ross_ModernDataPkg_rstatsnyc_2018-04-20.pdf">https://github.com/noamross/2018-04-18-rstats-nyc/blob/master/Noam_Ross_ModernDataPkg_rstatsnyc_2018-04-20.pdf</a> .  They&#39;re not that self-explanatory, but my point was largely about how there&#39;s a real trade-off between scientific best archival practices and the conveniences available from wrapping data in a package, but they can be minimized with some design approaches.</p>
+<p>I think a good solution here is in-reach, but we need to devote some time and resources to it.  A good path is having a fully functional API packages for Zenodo and other repositories, and having these as back-ends to @richfitz&#39;s <strong>datastorr</strong> package which does such great data versioning, distribution and caching (and getting <strong>datastorr</strong> to CRAN). Maybe we could make a push on these things at the unconf.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maurolepore">
+              maurolepore
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Summary: A lot of thought has already been invested in this. For example, @karthik and @njtierney are documenting best practices; and @noamross has slides and ideas to implement a solution involving @richfitz&#39;s <strong>datastorr</strong> package. Relates to #29, #30.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Synthetic Dataset Generation</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#69</span>
+        </p>
+        <h1>Synthetic Dataset Generation</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/laderast">laderast</a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body">
+            <p>I know that @sckott has done the <code>charlatan</code> package, which does some basic generation of patient variables. When we teach learning with biomedical data, we often need to use synthetic datasets because we can&#39;t use datasets with protected health information (PHI). Hence, I&#39;ve had to generate patient datasets, but they need to have realistic dependencies, such as patients who don&#39;t have hypertension are not being treated for hypertension.</p>
+<p>I have been generating synthetic data with Bayesian networks, which allow you to encode dependencies and structural zeroes in the data by specifying the conditional probability tables (CPTs), which is how you control the degree of association between variables. I have found that tuning these CPTs is a bit of an art.</p>
+<p>The strength of this approach is that you can encode the degree of association of variables with outcome.</p>
+<p>Would generalizing this be of interest to people? </p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/laderast">
+              laderast
+            </a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body"><p>You can see the general approach here: <a href="https://laderast.github.io/cvdRiskData/">https://laderast.github.io/cvdRiskData/</a></p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body"><p>Could <a href="https://github.com/kkholst/lava">https://github.com/kkholst/lava</a> help?</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/laderast">
+              laderast
+            </a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body"><p>@maelle interesting...I don&#39;t know much about structural equation modeling, but it seems like a nice approach, especially the graphing</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body"><p>I haven&#39;t used it, but I heard a talk about it and remembered thinking I&#39;d like to try it next time I needed to simulate a dataset for sample size calculation (in epidemiology). So not much experience with it 😁 </p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

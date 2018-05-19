@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Screenshot tools in R</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#11</span>
+        </p>
+        <h1>Screenshot tools in R</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">maelle</a>
+            <time>3/8/2018</time>
+          </div>
+          <div class="body">
+            <p>I&#39;ve recently discovered that <a href="https://github.com/ropensci/RSelenium"><code>RSelenium</code></a> and <a href="https://github.com/johndharrison/seleniumPipes"><code>seleniumPipes</code></a> offer screenshot capabilities, including the use of CSS selectors. Their syntax might be easier to use than <a href="https://cran.r-project.org/web/packages/webshot"><code>webshot</code></a> when one needs to perform an action on the webpage before taking the screenshot. 📸 </p>
+<p>I think it could be useful to </p>
+<ul>
+<li><p>assess and compare the screenshot functionalities of these three packages 📄 </p>
+</li>
+<li><p>design a new function or package using them that&#39;d make screenshots even easier. 🔧 </p>
+</li>
+</ul>
+<p>A good tool for screenshots would:</p>
+<ul>
+<li><p>be well documented</p>
+</li>
+<li><p>have all arguments <code>webshot</code> has (CSS selection, cliprect, expand, etc.)</p>
+</li>
+<li><p>but would support not using JavaScript but instead the more &quot;intuitive&quot; commands one use in e.g. seleniumPipes</p>
+</li>
+<li><p>would support different browsers</p>
+</li>
+<li><p>cover both websites and Shiny apps like these three packages do</p>
+</li>
+<li><p>would use <code>magick</code> for image processing and would return a <code>magick</code> object instead of writing the screenshot to disk (or would at least offer this possibility).</p>
+</li>
+</ul>
+<p>A bonus would be to also cover screencasts, cf <a href="http://johndharrison.github.io/rDVR/"><code>rDVR</code></a>. 🎥 </p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jimhester">
+              jimhester
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>I don&#39;t have a ton of experience in this space, but the impression I have is Selenium is being phased out in favor of webdriver, which works across multiple browsers.</p>
+<p>There is a long standing open issue <a href="https://github.com/wch/webshot/issues/2">https://github.com/wch/webshot/issues/2</a> about improving the interaction, maybe this project could work on a PR to provide a similar interface from seleniumPipes in webshot.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>4/25/2018</time>
+          </div>
+          <div class="body"><p>Ah cool, and I like that issue text 😀 </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>5/14/2018</time>
+          </div>
+          <div class="body"><p>@wch before I summarize or close this, in theory would you be interested in a PR for the issue mentioned above? And could it be done independently of <a href="https://github.com/wch/webshot/issues/62#issuecomment-387785132">https://github.com/wch/webshot/issues/62#issuecomment-387785132</a> ? Probably not? </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wch">
+              wch
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>@maelle I would consider a PR, but I personally don&#39;t think that it&#39;s a good place to put time and effort.</p>
+<p>Webshot uses CasperJS, and any interaction code would likely be built on CasperJS. CasperJS is a library specifically for PhantomJS, which in turn is no longer being developed.</p>
+<p>As @jimhester mentioned, the <a href="https://github.com/rstudio/webdriver">webdriver</a> package is a better way to do interaction. (The reason that webshot doesn&#39;t use webdriver is that webdriver has several dependencies, and there are some applications where webshot is used it&#39;s important to have few dependencies.)</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>5/15/2018</time>
+          </div>
+          <div class="body"><p>Thanks!</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/maelle">
+              maelle
+            </a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body"><p>Summary: build a package based on webdriver to produce screenshots of websites and Shiny apps for documentation/presentation purposes.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

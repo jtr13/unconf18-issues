@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Summarize change of packages since previous versions</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#31</span>
+        </p>
+        <h1>Summarize change of packages since previous versions</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/czeildi">czeildi</a>
+            <time>4/19/2018</time>
+          </div>
+          <div class="body">
+            <p>In a bigger project or if you take up a project after some period you may want to update your packages and after such an update you may need to make several changes to your code. This can happen without any package management system or with packrat / checkpoint / docker etc. Even if you use packrat / checkpoint / docker in order to ensure reproducibility you would like to update dependencies from time to time: either you need somehing specific from a newer version or you just know that sooner or later you have to update and the longer you wait the more difficult it will be. However, you should be able to assess beforehand the amount of work needed after an update.</p>
+<p>I propose a package which could generate a digestible summary of all the changes in the dependencies of your project between current state and newest versions. It would ideally work with or without an existing depedency manager.</p>
+<ul>
+<li>identify current versions of dependencies and their newest versions</li>
+<li>collect news from cran (+github) (+ any other repository)</li>
+<li>create an html / web page from these, ideally organized by breaking changes / new features / fixes</li>
+</ul>
+<p>Improvement possibilities:</p>
+<ul>
+<li>work for subset of packages</li>
+<li>work for cran newest and dev versions as well</li>
+<li>idetify usages in your code</li>
+<li>propose how to change your code: copy pastable code / functions to reformat if possible (ie only rename)</li>
+<li>parse changes from code instead of news.md: would be more accurate</li>
+</ul>
+<p>related:</p>
+<ul>
+<li>generate news.md skeleton based on code changes since last package version</li>
+</ul>
+<p>I believe we could build on several existing packages: possibly containerit to identify dependencies, gh to pull news from github</p>
+<p>related:
+<a href="https://twitter.com/noamross/status/989904927093936128">https://twitter.com/noamross/status/989904927093936128</a></p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

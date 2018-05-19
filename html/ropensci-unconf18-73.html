@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>Input text through Google Doc and display compiled Rmd</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#73</span>
+        </p>
+        <h1>Input text through Google Doc and display compiled Rmd</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/lauracion">lauracion</a>
+            <time>5/18/2018</time>
+          </div>
+          <div class="body">
+            <h2 id="summary-for-one-of-the-projects-that-came-up-while-discussing-42">Summary for one of the projects that came up while discussing #42</h2>
+<p>The objective is to write body text (as well as captions, etc.), in the google doc with very easy, flexible, and robust markup, and then import that information into a compiled document and mix it with code-generated outputs. <a href="https://github.com/ropensci/rchie">rchie</a> parses <a href="http://archieml.org/">ArchieML</a> for the purpose of pulling text written in Google Docs into R and uses it to build R markdown docs where the text came from Google Docs. The project consists on further advancing this - more details <a href="https://github.com/noamross/rmd-rant#strategy-2-having-collaborators-provide-input-text-only">here</a>.</p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>

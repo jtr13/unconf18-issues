@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.emoji.js"></script>
+    <title>color palette aggregator/modifier tool</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <p>
+          <span class="badge open">open</span>
+          <span class="url">ropensci/unconf18#50</span>
+        </p>
+        <h1>color palette aggregator/modifier tool</h1>
+      </header>
+      <div class="comments">
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cstawitz">cstawitz</a>
+            <time>5/7/2018</time>
+          </div>
+          <div class="body">
+            <p>There are loads of packages/ways to choose color palettes for R graphics, but I still end up doing a lot of iterations through many packages until I find a suitable color palette. </p>
+<p><strong>Existing packages (please add):</strong>
+<code>colorspace</code> has a GUI that makes choosing colors easy with a preview function for different types of plots and a slider for Hue, Chroma, Luminance, and Power, but doesn&#39;t integrate seamlessly with other color packages. &#39;RColorBrewer&#39; <a href="http://colorbrewer2.org/#type=sequential&amp;scheme=YlGn&amp;n=9">(here)</a> has many palettes but you have to use the <code>colorRampPalette()</code> function to get more than 9 or 11 colors. <code>hues</code> allows you to pick palettes with many colors, but requires numeric HCL inputs for colors. There are many great palettes out there (i.e. <a href="http://beyoncepalettes.tumblr.com/">Beyonce</a> or <code>wesanderson</code> ) in addition, but checking how your graph looks across palettes from different packages requires loading and knowing the different syntax of each.</p>
+<p><strong>Idea:</strong>
+A one-stop-shop for colors in R that combines the best of existing tools.  The goal would be to change the workflow from iterating across multiple packages to find a suitable palette to using one tool that:</p>
+<ol>
+<li>Aggregates and displays color palettes across packages</li>
+<li>Allows users to increase/decrease the number of colors in these palettes</li>
+<li>Pick and choose colors from predefined palettes to create your own custom palette</li>
+<li>Adds transparency or ensure colorblind-friendly schemes</li>
+<li>Get immediate previews of what a/your graph would look like when you change any of these options</li>
+</ol>
+<p>my colleague Margaret Siple inspired this idea  </p>
+
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mpadge">
+              mpadge
+            </a>
+            <time>5/7/2018</time>
+          </div>
+          <div class="body"><p>Great idea! My go-to comprehensive list is <a href="https://github.com/EmilHvitfeldt/r-color-palettes"><code>r-color-palettes</code></a>, but it&#39;s neither interactive, nor does it quantify how many colours are available. A more interactive tool would be fantastic.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jtr13">
+              jtr13
+            </a>
+            <time>5/7/2018</time>
+          </div>
+          <div class="body"><p>Love the focus on color vision deficiency (CVD) friendliness</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/OmaymaS">
+              OmaymaS
+            </a>
+            <time>5/8/2018</time>
+          </div>
+          <div class="body"><p>The options and interactivity reminds me of <a href="http://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3">colorbrewer2.org</a>. It helps picking a palette taking in consideration the given criteria.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cstawitz">
+              cstawitz
+            </a>
+            <time>5/16/2018</time>
+          </div>
+          <div class="body"><p><strong>Summary:</strong> an interactive application that aggregates color palettes, allows users to choose and combine palette colors, preview and iterate easily, and makes transparency and CVD friendliness a one-click step. Doesn&#39;t require manually loading or learning syntax of existing palette solutions.</p>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.comment').each(function(i, d){
+          $(d).emoji()
+        })
+      })
+    </script>
+
+  </body>
+</html>
