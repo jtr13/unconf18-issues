@@ -362,6 +362,46 @@ x[[dfs_idx(x, function(x) { x$goodstuff == &quot;here&quot; })]]$name
 <p>Created on 2018-05-19 by the <a href="http://reprex.tidyverse.org">reprex package</a> (v0.2.0).</p>
 </div>
         </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/cboettig">
+              cboettig
+            </a>
+            <time>5/19/2018</time>
+          </div>
+          <div class="body"><p>@jimhester 🎉  yup, a native R solution sounds much more sensible, really like this example.   A library of such functions sound like it could be super useful.  Obviously we have <code>purrr</code>, but I almost seems surprising that we don&#39;t have any built-in recursive tree/search algorithms like this, isn&#39;t it?  Would it make sense to have a C implementations of these?  (I never really learned how to do recursive searches properly and hate writing my own versions of these; usually try to just steal from stuff @jimhester already has in <code>xml2</code>, e.g. <code>as_list</code>).  </p>
+<p>I think this would still leave open the issue of an expressive syntax to go from ugly list to nice data.frame.  In particular, one thing I still struggle with is being able to assemble data from different &#39;depths&#39; in the tree, e.g. go back up from where the good stuff is to get an identifier.  e.g. </p>
+<pre><code>obj &lt;- x[[dfs_idx(x, function(x) { x$goodstuff == &quot;here&quot; })]
+
+
+## works:
+obj$name 
+obj$secret_power
+
+## but what if we could also &#39;bump up the stack&#39;
+##
+obj$$alsodeep
+</code></pre><p>(imagine <code>$$</code> is to <code>..</code> as <code>$</code> is to <code>.</code>)  Or for another metaphor, like the way we can refer to a parent node as well as a child node in XPATH, or the graph-based query in SPARQL (or maybe <code>graphql</code> etc).   </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jimhester">
+              jimhester
+            </a>
+            <time>5/19/2018</time>
+          </div>
+          <div class="body"><p>So one nice thing is the index is actually a vector of indices, so to access the parents you just remove the last one from the index, e.g.</p>
+<pre><code class="lang-r">idxs &lt;- dfs_idx(x, function(x) { x$goodstuff == &quot;here&quot; })
+idxs
+#&gt; [1] 1 1 1 1
+parent_idx &lt;- tail(idxs, n = -1)
+
+x[[parent_idx]]
+</code></pre>
+<p>I agree it would be nice to have these functions in purrr ideally with a C implementation. If we do want to go down this route we can discuss a nice API / helper functions to make everything smoother, I think in combination with <code>purrr::map_dfr()</code> and friends we could make something pretty nice that would reuse a lot of the existing idioms we already have.</p>
+</div>
+        </div>
       </div>
     </div>
 

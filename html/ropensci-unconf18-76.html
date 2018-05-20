@@ -94,6 +94,46 @@ HTML might be trickier.</p>
           <div class="body"><p>I talk to myself in GitHub issues quite a lot.</p>
 </div>
         </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/mmulvahill">
+              mmulvahill
+            </a>
+            <time>5/19/2018</time>
+          </div>
+          <div class="body"><p>So I started about here:</p>
+<blockquote>
+<p>This is a whim and not something I&#39;ve thought much about.</p>
+</blockquote>
+<p>But this sounds convincing the more I think about it:</p>
+<blockquote>
+<p>I&#39;m thinking you could just grep() for text matching that which changed in the original document, grabbing some sentences on either side to disambiguate multiple matches.</p>
+</blockquote>
+<p>Questions I&#39;m thinking about: Would an accept/reject prompt in the REPL for changed text simplify the process enough to be beneficial?  How do we handle inline chunks? How would this fit into most folks overall workflow?  </p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/19/2018</time>
+          </div>
+          <div class="body"><p>Yeah exactly, I was imagining we could detect all the changes first, let the user know how many there were, and give the option to step through them all, show a nice diff for each and prompt the user to accept or reject. Providing an &#39;accept all&#39; option would be useful too. </p>
+<p>Yeah inline code chunks could be tricky, and I imagine there will be plenty of other gotchas too!</p>
+<p>We might be able to spot inline chunks in the original document and handle them separately. We could spot them either by searching for <code>`r*`</code>, or based on differences between the <code>.Rmd</code> and <code>.md</code> files (in a similar way as for tracked changes). The internals of knitr may have some some of the tools mapped out; I&#39;ve not looked inside it before.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/goldingn">
+              goldingn
+            </a>
+            <time>5/19/2018</time>
+          </div>
+          <div class="body"><p>This is a really nice example of a non-REPL prompt: <a href="https://github.com/dreamRs/prefixer">https://github.com/dreamRs/prefixer</a> !</p>
+</div>
+        </div>
       </div>
     </div>
 
