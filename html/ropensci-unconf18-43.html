@@ -58,7 +58,7 @@ R.</p>
 <p>I could be wrong about some of the steps as I haven&#39;t had a chance to
 actually test the rPython version yet, so maybe it&#39;s not as complicated as
 it sounds.</p>
-<p>On May 14, 2018 10:56 AM, &quot;Malisa&quot; <a href="mailto:&#x6e;&#111;&#x74;&#105;&#x66;&#105;&#99;&#x61;&#116;&#x69;&#111;&#110;&#x73;&#x40;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;">&#x6e;&#111;&#x74;&#105;&#x66;&#105;&#99;&#x61;&#116;&#x69;&#111;&#110;&#x73;&#x40;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;</a> wrote:</p>
+<p>On May 14, 2018 10:56 AM, &quot;Malisa&quot; <a href="mailto:&#x6e;&#111;&#116;&#x69;&#x66;&#x69;&#99;&#97;&#116;&#105;&#111;&#110;&#x73;&#64;&#103;&#x69;&#116;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#x6d;">&#x6e;&#111;&#116;&#x69;&#x66;&#x69;&#99;&#97;&#116;&#105;&#111;&#110;&#x73;&#64;&#103;&#x69;&#116;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#x6d;</a> wrote:</p>
 <p>Hi @seaaan <a href="https://github.com/seaaan">https://github.com/seaaan</a> , I use t-SNE at work all the time
 to analyze flow data and would potentially be interested in something like
 UMAP (especially when I have more than 100,000 data points and the t-SNE
@@ -245,6 +245,18 @@ or mute the thread
 <li>Plan functions (arguments, output, etc)</li>
 <li>Implement functions</li>
 </ul>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/LTLA">
+              LTLA
+            </a>
+            <time>5/20/2018</time>
+          </div>
+          <div class="body"><p>If you&#39;re going to translate it anyway, you&#39;ll probably want to write it in C++. Not only will this interface with R via <em>Rcpp</em>, it may also be useful more generally, as a good implementation will plug in directly to all languages that support C++ bindings... or for anyone who wants to make an executable.</p>
+<p>It seems that the trick is to break up the Python implementation into chunks that can be easily written and tested in isolation. I&#39;ve had a look at their code and it seems pretty tidy. Not entirely straightforward, but not the most complicated either. After that, it&#39;s just a case of bashing out a word-for-word C++ implementation.</p>
+<p>I won&#39;t be going to unconf but I might be able to spare some weekends to help with the last (and easiest) bit, provided we have a list of test inputs and outputs for each section (and the pseudo-code to do it). </p>
 </div>
         </div>
       </div>

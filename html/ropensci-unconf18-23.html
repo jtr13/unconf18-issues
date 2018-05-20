@@ -111,6 +111,57 @@ future_replicate(4, foo(30))
           <div class="body"><p>Also, we could think about supporting progress bars for jobs running on remote machines (e.g. using <code>future</code>&#39;s <code>plan(remote)</code>) with the awesome looking rOpenSci <a href="https://github.com/ropensci/ssh"><code>ssh</code> package</a></p>
 </div>
         </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/jcheng5">
+              jcheng5
+            </a>
+            <time>5/20/2018</time>
+          </div>
+          <div class="body"><p>For same machine scenarios, the file dump works and may make the most sense for the prototyping phase. But in case you&#39;re not aware of these, here are the usual suspects for message passing between different threads/processes: </p>
+<p>Threads: queue + mutex + condition variable (need to get the latter two from a cross platform threading library, or require C++11). This would work well for RcppParallel and shouldn&#39;t be much work.
+Process on POSIX: pipe()
+Process on Windows: anonymous pipe</p>
+<p>If you&#39;re not familiar with these and want to learn more I&#39;m happy to elaborate in person next week. This project would really help Shiny&#39;s new integration with future/promises (though for Shiny we&#39;d want callbacks in the main process instead of console messages, so we can send the progress to the browser). As would communicating cancellation requests from the master to the workees.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/HenrikBengtsson">
+              HenrikBengtsson
+            </a>
+            <time>5/20/2018</time>
+          </div>
+          <div class="body"><p>This is an excellent and important proposal.  Here are some of my thoughts:</p>
+<p>I think of progress bars as a special type of <em>non-critical</em> information that is communicated between workers and master.  When implementing a framework for this, it is important to <a href="https://github.com/HenrikBengtsson/future/issues/141#issuecomment-292659432">consider</a> a few things. For instance,</p>
+<ul>
+<li><p>some workers run on the (i) same machine, on (ii) machines on the local network, and some on (iii) external remote machines.  It could even be that we run on a mix of these.</p>
+</li>
+<li><p>communication may be done directly via pipes/connections, shared file systems, via databases, distributed message-passing frameworks (e.g. ZeroMQ), third-party services (e.g. Pushbullet, ...), etc.  <em>Zero, one, or more</em> of these communication strategies may be supported on the end user&#39;s system - <em>as developers we should never make hard assumptions on which ones are supported</em>.</p>
+</li>
+<li><p>for some workers, we may not be able to retrieve any information until they terminate.</p>
+</li>
+<li><p>communication may time out / fail, which is ok and should be accounted for. It is important that such failures do neither block nor break the parallel processing.</p>
+</li>
+<li><p>file updates on shared file systems are often delayed, e.g. it can take 5-30 seconds for a file update to be seen by other machines.</p>
+</li>
+<li><p>the software may run in multi-user, multi-process environments, which may result in port clashes (a port is already be occupied by another process).</p>
+</li>
+</ul>
+<p>Since progress information is non-critical, it should also be optional, which the progress API should reflect/support.  In all cases, we have information about when a &quot;task&quot; begins (= 0% progress) and when it finished (= 100% progress).  Any additional updates on progress in-between 0% and 100% are optional and receiving them should be considered a &quot;bonus&quot;.  I think this helps to have in mind when designing a progress framework.  If we require that progress information to be available everywhere, or to always be querible, we will also limit what type of parallel/distributed backends we can use.</p>
+<p>I believe that a progress API should be defined in a standalone package.  This package could implement some basic/common communication strategies, whereas other strategies may be implemented on top of this in other packages/backends.</p>
+</div>
+        </div>
+        <div class="comment">
+          <div class="meta">
+            <a class="person" href="https://github.com/wlandau">
+              wlandau
+            </a>
+            <time>5/20/2018</time>
+          </div>
+          <div class="body"><p>I am interested in the message queue piece specifically, so I am eager to see how this project turns out. <a href="https://github.com/r-lib/liteq">https://github.com/r-lib/liteq</a> seems like a portable solution, and <a href="https://github.com/eddelbuettel/prrd">https://github.com/eddelbuettel/prrd</a> already uses it, but I am having trouble applying it (ref: <a href="https://github.com/r-lib/liteq/issues/17)">https://github.com/r-lib/liteq/issues/17)</a>. Maybe something like <a href="https://github.com/ropensci/rzmq">rzmq</a> will turn out to be more thread safe.</p>
+</div>
+        </div>
       </div>
     </div>
 
